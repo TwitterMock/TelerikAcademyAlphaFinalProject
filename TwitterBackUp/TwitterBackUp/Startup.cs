@@ -12,6 +12,9 @@ using TwitterBackUp.Data;
 using TwitterBackUp.Models;
 using TwitterBackUp.Services;
 using TwitterBackUp.Data.Identity;
+using TwitterBackUp.Data.Identity.ExternalServices;
+using TwitterBackUp.Services.Services.Contracts;
+using TwitterBackUp.Services.Utils.Contracts;
 
 namespace TwitterBackUp
 {
@@ -32,9 +35,10 @@ namespace TwitterBackUp
 
             this.RegisterAuthentication(services);
          
-
-        
             services.AddTransient<IEmailSender, EmailSender>();
+
+            services.AddTransient<IAppCredentials>();
+            services.AddTransient<ITwitterApiProvider>();
 
             services.AddMvc();
         }
