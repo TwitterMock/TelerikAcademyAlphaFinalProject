@@ -8,8 +8,7 @@ using TwitterBackUp.Services.Services.Contracts;
 
 namespace TwitterBackUp.Controllers
 {
- 
-    
+    [Authorize]
     public class TweetController : Controller
     {
         private readonly ITwitterApiProvider twitterProvider;
@@ -19,12 +18,10 @@ namespace TwitterBackUp.Controllers
             this.twitterProvider = twitterProvider;
         }
 
-
         [HttpPost]
         [AutoValidateAntiforgeryToken]       
         public async Task<IActionResult> Search(string text)
         {
-
             var l = await twitterProvider.SearchTweetsAsync(text);
 
             return View(l);

@@ -15,53 +15,68 @@ namespace TwitterBackUp.Services.Services.Contracts
     public class TwitterApiProvider : ITwitterApiProvider
     {
         private readonly IAppCredentials appCredentials;
-
-        public TwitterApiProvider(IAppCredentials appCredentials)
+        private readonly IJsonProvider jsonProvider;
+        private readonly HttpMessageHandler messageHandler;
+        
+        public TwitterApiProvider(IAppCredentials appCredentials, IJsonProvider jsonProvider)
         {
             this.appCredentials = appCredentials;
+            this.jsonProvider = jsonProvider;
+            this.messageHandler = new HttpClientHandler();
+        }
+
+        public TwitterApiProvider(IAppCredentials appCredentials, IJsonProvider jsonProvider, HttpMessageHandler messageHandler)
+        {
+            this.appCredentials = appCredentials;
+            this.jsonProvider = jsonProvider;
+            this.messageHandler = messageHandler;
         }
 
         public async Task<ICollection<TweetDto>> SearchTweetsAsync(string searchString)
         {
-            var bearer = this.appCredentials.BearerToken ??
-                (this.appCredentials.BearerToken = await this.GetBearerTokenAsync());
+            var tweets = new List<TweetDto>();
 
-            using (var client = new HttpClient())
+            var bearer = this.appCredentials.BearerToken;
+
+            var uriString = 
+                $"https://api.twitter.com/1.1/search/tweets.json?q={searchString}&result_type=popular";
+
+            using (var client = new HttpClient(this.messageHandler))
             {
-                var uri = new Uri(
-                    $"https://api.twitter.com/1.1/search/tweets.json?q={searchString}&result_type=popular");
+                var uri = new Uri(uriString);
 
                 client.DefaultRequestHeaders
                     .Add("Authorization", "Bearer " + bearer);
 
                 var response = await client.GetAsync(uri);
-                var text = await response.Content.ReadAsStringAsync();
+
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
-                    var json = JObject.Parse(await response.Content.ReadAsStringAsync());
-                    var jsonDes = JsonConvert.DeserializeObject<ICollection<TweetDto>>(json["statuses"].ToString());
-                    return jsonDes;
+                    var json = this.jsonProvider.ParseToJObject(await response.Content.ReadAsStringAsync());
+                    tweets = this.jsonProvider.DeserializeObject<List<TweetDto>>(json["statuses"].ToString());
                 }
-                return new List<TweetDto>();
-         
             }
+
+            return tweets;
         }
 
-        private async Task<string> GetBearerTokenAsync()
+        public async Task<string> GetBearerTokenAsync(string consumerKey, string consumerSecret)
         {
+            var bearerResponseString = string.Empty;
+
             var uriString = "https://api.twitter.com/oauth2/token";
 
-            var strBearerRequest = HttpUtility.UrlEncode(appCredentials.ConsumerKey)
-                                   + ":" + HttpUtility.UrlEncode(appCredentials.ConsumerSecret);
+            var credentialsString = HttpUtility.UrlEncode(consumerKey)
+                                   + ":" + HttpUtility.UrlEncode(consumerSecret);
 
-            strBearerRequest = Convert.ToBase64String(Encoding.UTF8.GetBytes(strBearerRequest));
+            var bearerRequestString = Convert.ToBase64String(Encoding.UTF8.GetBytes(credentialsString));
 
-            using (var client = new HttpClient())
+            using (var client = new HttpClient(this.messageHandler))
             {
                 var uri = new Uri(uriString);
 
                 client.DefaultRequestHeaders
-                    .Add("Authorization", "Basic " + strBearerRequest);
+                    .Add("Authorization", "Basic " + bearerRequestString);
 
                 var content = new FormUrlEncodedContent(new[]
                 {
@@ -73,13 +88,13 @@ namespace TwitterBackUp.Services.Services.Contracts
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
                     var jsonString = await response.Content.ReadAsStringAsync();
-                    var json = JObject.Parse(jsonString);
+                    var json = this.jsonProvider.ParseToJObject(jsonString);
 
-                    return json["access_token"].ToString();
+                    bearerResponseString = json["access_token"].ToString();
                 }
-
-                return string.Empty;
             }
+
+            return bearerResponseString;
         }
     }
 }

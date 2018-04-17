@@ -33,13 +33,13 @@ namespace TwitterBackUp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             this.RegisterAuthentication(services);
-         
+
             services.AddTransient<IEmailSender, EmailSender>();
 
             services.AddTransient<IAppCredentials, AppCredentials>();
             services.AddScoped<ITwitterApiProvider, TwitterApiProvider>();
+            services.AddScoped<IJsonProvider, JsonProvider>();
 
             services.AddMvc();
         }
@@ -78,7 +78,6 @@ namespace TwitterBackUp
                 app.UseDeveloperExceptionPage();
                 app.UseBrowserLink();
                 app.UseDatabaseErrorPage();
-
             }
             else
             {
