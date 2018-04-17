@@ -5,7 +5,7 @@ using System.Text;
 
 namespace TwitterBackUp.DTO
 {
-    public class SingleTweetDTO
+    public class TweetDto
     {
         [JsonProperty("created_at")]
         public string CreatedOn { get; set; }
@@ -13,12 +13,9 @@ namespace TwitterBackUp.DTO
         public string TweetId { get; set; }
         [JsonProperty("text")]
         public string TweetContent { get; set; }
-        [JsonProperty("entities//hashtags")]
-        public string[] TweetHashTags { get; set; }
-        [JsonProperty("user//id_str")]
-        public string UserId { get; set; }
-        [JsonProperty("user//screen_name")]
-        public string Username { get; set; }
-     
+        [JsonProperty("entities")]
+        public TweetEntitiesDto Entities { get; set; }
+        [JsonProperty("user")]
+        public TweetUserDto User { get; set; }
     }
 }

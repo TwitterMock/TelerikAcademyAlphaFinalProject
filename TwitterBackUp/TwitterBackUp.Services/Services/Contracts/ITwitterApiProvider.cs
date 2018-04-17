@@ -6,6 +6,6 @@ namespace TwitterBackUp.Services.Services.Contracts
 {
     public interface ITwitterApiProvider
     {
-        Task<ICollection<SingleTweetDTO>> SearchTweetsAsync(string searchString);
+        Task<ICollection<TweetDto>> SearchTweetsAsync(string searchString);
     }
 }

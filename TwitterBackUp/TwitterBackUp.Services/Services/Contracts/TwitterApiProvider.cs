@@ -21,7 +21,7 @@ namespace TwitterBackUp.Services.Services.Contracts
             this.appCredentials = appCredentials;
         }
 
-        public async Task<ICollection<SingleTweetDTO>> SearchTweetsAsync(string searchString)
+        public async Task<ICollection<TweetDto>> SearchTweetsAsync(string searchString)
         {
             var bearer = this.appCredentials.BearerToken ??
                 (this.appCredentials.BearerToken = await this.GetBearerTokenAsync());
@@ -35,14 +35,14 @@ namespace TwitterBackUp.Services.Services.Contracts
                     .Add("Authorization", "Bearer " + bearer);
 
                 var response = await client.GetAsync(uri);
-
+                var text = await response.Content.ReadAsStringAsync();
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
                     var json = JObject.Parse(await response.Content.ReadAsStringAsync());
-                    var jsonDes = JsonConvert.DeserializeObject<ICollection<SingleTweetDTO>>(json["statuses"].ToString());
+                    var jsonDes = JsonConvert.DeserializeObject<ICollection<TweetDto>>(json["statuses"].ToString());
                     return jsonDes;
                 }
-                return new List<SingleTweetDTO>();
+                return new List<TweetDto>();
          
             }
         }
