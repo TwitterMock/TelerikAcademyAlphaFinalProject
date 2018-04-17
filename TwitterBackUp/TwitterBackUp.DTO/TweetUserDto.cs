@@ -11,5 +11,7 @@ namespace TwitterBackUp.DTO
         public string UserId { get; set; }
         [JsonProperty("screen_name")]
         public string Username { get; set; }
+        [JsonProperty("profile_image_url")]
+        public string ProfileImage { get; set; }
     }
 }

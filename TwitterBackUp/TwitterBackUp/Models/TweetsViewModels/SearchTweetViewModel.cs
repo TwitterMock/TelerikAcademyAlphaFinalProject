@@ -18,9 +18,14 @@ namespace TwitterBackUp.Models.TweetsViewModels
 
         public ICollection<string> HashTags { get; set; }
 
+        public ICollection<string> Urls { get; set; }
+
+        public TweetURLsDto tweetUrl { get;set; }
 
         public string UserId { get; set; }
 
         public string Username { get; set; }
+
+        public string ProfileImage { get; set; }
     }
 }
