@@ -1,2 +1,7 @@
-﻿
-<p>@ViewData["text"]</p>
+﻿@using TwitterBackUp.DTO;
+@model ICollection<SingleTweetDTO>
+<p>@Model.FirstOrDefault().CreatedOn</p>
+<p>@Model.FirstOrDefault().TweetId</p>
+<p>@Model.FirstOrDefault().TweetContent</p>
+<p>@Model.FirstOrDefault().UserId</p>
+<p>@Model.FirstOrDefault().Username</p>

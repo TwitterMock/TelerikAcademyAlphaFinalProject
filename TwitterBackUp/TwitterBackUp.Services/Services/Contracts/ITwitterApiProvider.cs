@@ -1,9 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using TwitterBackUp.DTO;
 
 namespace TwitterBackUp.Services.Services.Contracts
 {
     public interface ITwitterApiProvider
     {
-        Task<string> SearchTweetsAsync(string searchString);
+        Task<ICollection<SingleTweetDTO>> SearchTweetsAsync(string searchString);
     }
 }

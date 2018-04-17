@@ -15,6 +15,7 @@ using TwitterBackUp.Data.Identity;
 using TwitterBackUp.Data.Identity.ExternalServices;
 using TwitterBackUp.Services.Services.Contracts;
 using TwitterBackUp.Services.Utils.Contracts;
+using TwitterBackUp.Services.Utils;
 
 namespace TwitterBackUp
 {
@@ -37,8 +38,8 @@ namespace TwitterBackUp
          
             services.AddTransient<IEmailSender, EmailSender>();
 
-            services.AddTransient<IAppCredentials>();
-            services.AddTransient<ITwitterApiProvider>();
+            services.AddTransient<IAppCredentials, AppCredentials>();
+            services.AddScoped<ITwitterApiProvider, TwitterApiProvider>();
 
             services.AddMvc();
         }

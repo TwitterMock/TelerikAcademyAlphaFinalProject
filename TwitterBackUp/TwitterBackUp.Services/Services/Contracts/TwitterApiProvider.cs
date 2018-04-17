@@ -8,6 +8,7 @@ using System.Web;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using TwitterBackUp.Services.Utils.Contracts;
+using TwitterBackUp.DTO;
 
 namespace TwitterBackUp.Services.Services.Contracts
 {
@@ -20,7 +21,7 @@ namespace TwitterBackUp.Services.Services.Contracts
             this.appCredentials = appCredentials;
         }
 
-        public async Task<string> SearchTweetsAsync(string searchString)
+        public async Task<ICollection<SingleTweetDTO>> SearchTweetsAsync(string searchString)
         {
             var bearer = this.appCredentials.BearerToken ??
                 (this.appCredentials.BearerToken = await this.GetBearerTokenAsync());
@@ -38,10 +39,11 @@ namespace TwitterBackUp.Services.Services.Contracts
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
                     var json = JObject.Parse(await response.Content.ReadAsStringAsync());
-                    return json["status"].ToString();
+                    var jsonDes = JsonConvert.DeserializeObject<ICollection<SingleTweetDTO>>(json["statuses"].ToString());
+                    return jsonDes;
                 }
-
-                return string.Empty;
+                return new List<SingleTweetDTO>();
+         
             }
         }
 
