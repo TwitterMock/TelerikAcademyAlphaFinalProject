@@ -14,6 +14,6 @@ namespace TwitterBackUp.Services.Utils
 
         public string ConsumerKey => configuration.GetSection("AppCredentials")["ConsumerKey"];
         public string ConsumerSecret => configuration.GetSection("AppCredentials")["ConsumerSecret"];
-        public string BearerToken { get; set; }
+        public string BearerToken => configuration.GetSection("AppCredentials")["BearerToken"];
     }
 }

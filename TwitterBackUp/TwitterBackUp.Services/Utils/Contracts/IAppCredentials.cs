@@ -6,6 +6,6 @@ namespace TwitterBackUp.Services.Utils.Contracts
     {
         string ConsumerKey { get; }
         string ConsumerSecret { get; }
-        string BearerToken { get; set; }
+        string BearerToken { get; }
     }
 }
