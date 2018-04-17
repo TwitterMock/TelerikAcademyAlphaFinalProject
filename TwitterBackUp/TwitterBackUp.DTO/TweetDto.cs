@@ -13,8 +13,8 @@ namespace TwitterBackUp.DTO
         public string TweetId { get; set; }
         [JsonProperty("text")]
         public string TweetContent { get; set; }
-        [JsonProperty("entities")]
-        public TweetEntitiesDto Entities { get; set; }
+        //[JsonProperty("entities")]
+        //public TweetEntitiesDto Entities { get; set; }
         [JsonProperty("user")]
         public TweetUserDto User { get; set; }
     }

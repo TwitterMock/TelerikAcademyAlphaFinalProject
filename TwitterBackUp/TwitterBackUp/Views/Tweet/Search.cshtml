@@ -2,17 +2,29 @@
 @model ICollection<TweetDto>
 @if (Model.Count != 0)
 {
+    foreach (var item in Model)
+    {
+        <hr>
 
-    <p>@Model.FirstOrDefault().Entities.Urls.FirstOrDefault()</p>
+        <div class="row">
+        <div class="media-body" >
+            <h4 class="media-heading">@item.User.Username</h4>
+            <p>@item.TweetContent</p>
+            <ul class="nav nav-pills nav-pills-custom">
+                <li><a href="#"><span class="glyphicon glyphicon-share-alt"></span></a></li>
+                <li><a href="#"><span class="glyphicon glyphicon-retweet"></span></a></li>
+                <li><a href="#"><span class="glyphicon glyphicon-star"></span></a></li>
+                <li><a href="#"><span class="glyphicon glyphicon-option-horizontal"></span></a></li>
+            </ul>
+            <p>@item.CreatedOn</p>
+        </div>
+            </div>
+           
+    }
 
-    <p>@Model.FirstOrDefault().CreatedOn</p>
-    <p>@Model.FirstOrDefault().TweetId</p>
-    <p>@Model.FirstOrDefault().TweetContent</p>
-    <p>@Model.FirstOrDefault().User.UserId</p>
-    <p>@Model.FirstOrDefault().User.Username</p>
 
 }
 else
 {
 	       <h2>No Results</h2>  
-	}
+}
