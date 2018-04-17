@@ -1,0 +1,15 @@
+﻿@if (User.Identity.IsAuthenticated)
+{
+    <li class="[ visible-xs ]">
+        <form asp-controller="Tweet" asp-action="Search" role="search">
+            <div class="[ input-group ]">
+                <input type="text" class="[ form-control ]" name="text" placeholder="Search for snippets">
+                <span class="[ input-group-btn ]">
+                    <button class="[ btn btn-primary ]" type="submit"><span class="[ glyphicon glyphicon-search ]"></span></button>
+                    <button class="[ btn btn-danger ]" type="reset"><span class="[ glyphicon glyphicon-remove ]"></span></button>
+                </span>
+            </div>
+        </form>
+    </li>
+}
+
