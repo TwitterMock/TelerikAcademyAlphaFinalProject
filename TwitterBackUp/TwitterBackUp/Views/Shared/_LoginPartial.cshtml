@@ -5,6 +5,17 @@
 
 @if (SignInManager.IsSignedIn(User))
 {
+    <ul class="nav navbar-nav navbar-right">
+        <li><button class="btn btn-danger" id="OpenBtn">Search</button></li>
+    </ul>
+    <div id="search">
+        <button type="button" class="close">×</button>
+        <form asp-area="" asp-controller="Tweet" asp-action="Search" class="navbar-form" role="search">
+            <input type="search" value="" placeholder="type keyword(s) here" />
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+    </div>
+
     <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="navbar-right">
         <ul class="nav navbar-nav navbar-right">
             <li>
@@ -16,7 +27,7 @@
         </ul>
 
     </form>
-    <div class="col-sm-3 col-md-3">
+    @*<div class="col-sm-3 col-md-3">
         <form asp-area="" asp-controller="Tweet" asp-action="Search" class="navbar-form" role="search">
             <div class="input-group">
                 <input type="text" class="form-control" id="txtSearch" placeholder="Search" name="text">
@@ -25,7 +36,8 @@
                 </div>
             </div>
         </form>
-    </div>
+    </div>*@
+  
 }
 else
 {

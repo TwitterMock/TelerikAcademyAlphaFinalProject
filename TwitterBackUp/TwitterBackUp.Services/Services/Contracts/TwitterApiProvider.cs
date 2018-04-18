@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using TwitterBackUp.Services.Utils.Contracts;
 using TwitterBackUp.DTO;
+using TwitterBackUp.DTO.SingleUser;
 
 namespace TwitterBackUp.Services.Services.Contracts
 {
@@ -17,7 +18,7 @@ namespace TwitterBackUp.Services.Services.Contracts
         private readonly IAppCredentials appCredentials;
         private readonly IJsonProvider jsonProvider;
         private readonly HttpMessageHandler messageHandler;
-        
+
         public TwitterApiProvider(IAppCredentials appCredentials, IJsonProvider jsonProvider)
         {
             this.appCredentials = appCredentials;
@@ -38,7 +39,7 @@ namespace TwitterBackUp.Services.Services.Contracts
 
             var bearer = this.appCredentials.BearerToken;
 
-            var uriString = 
+            var uriString =
                 $"https://api.twitter.com/1.1/search/tweets.json?q={searchString}&result_type=popular";
 
             using (var client = new HttpClient(this.messageHandler))
@@ -58,6 +59,27 @@ namespace TwitterBackUp.Services.Services.Contracts
             }
 
             return tweets;
+        }
+        public async Task <SingleUserDto> SearchExactUser(string searchString)
+        {
+            var user = new SingleUserDto();
+            var bearer = this.appCredentials.BearerToken;
+
+            var uriString = $"https://api.twitter.com/1.1/statuses/show.json?screen_name={searchString}";
+            using (var client = new HttpClient(this.messageHandler))
+            {
+                var uri = new Uri(uriString);
+
+                client.DefaultRequestHeaders.Add("Authorization", "Bearer" + bearer);
+                var response = await client.GetAsync(uri);
+                if (response.StatusCode==HttpStatusCode.OK)
+                {
+
+                    var json = this.jsonProvider.ParseToJObject(await response.Content.ReadAsStringAsync());
+                    user = this.jsonProvider.DeserializeObject<SingleUserDto>(json["statuses"].ToString()); 
+                }
+            }
+            return user;
         }
 
         public async Task<string> GetBearerTokenAsync(string consumerKey, string consumerSecret)
