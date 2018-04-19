@@ -1,31 +1,55 @@
 ﻿@using TwitterBackUp.DTO
 @model SearchUserDto
 
-<div class="row">
-    <div class="col-sm-3">
-        <img src="@Model.ProfileImageUrl">
-    </div>
-    <div class="col-md-3">
-        <div class="row">
-            <h4>@Model.Username</h4>
+<br/>
+<hr/>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-1">
+            <img src="@Model.ProfileImageUrl">
         </div>
-        <div class="row">
-            <button class="btn-link"><a href="@Model.Url">@@@Model.ScreenName</a></button>
+        <div class="col-md-6">
+            <div class="row">
+                <h4 class="h4">@Model.Username</h4>
+            </div>
+            <div class="row">
+                <button class="btn-link"><a href="@Model.Url">@@@Model.ScreenName</a></button>
+            </div>
         </div>
     </div>
-    <div>
-        <label asp-for="Description"></label>
-        <span>@Model.Description</span>
-    </div>
-    <div>
-        <div class="col-md-3">
-            <label asp-for="FollowersCount"></label>
-            <span>@Model.FollowersCount</span>
+
+    <div class="row">
+        <div class="col-md-12">
+            <label asp-for="Description"></label>
+            <span>@Model.Description</span>
+            <div class="row">
+                <div class="col-md-2">
+                    <label asp-for="FollowersCount"></label>
+                    <span>@Model.FollowersCount</span>
+                </div>
+                <div class="col-md-2">
+                    <label asp-for="FriendsCount"></label>
+                    <span>@Model.FriendsCount</span>
+
+                </div>
+            </div>
         </div>
-        <div class="col-md-3">
-            <label asp-for="FriendsCount"></label>
-            <span>@Model.FriendsCount</span>
-           
+    </div>
+    
+    <div class="row">
+        <div class="col-md-11 text-right">
+            <form asp-controller="Twitter" asp-action="">
+                <input asp-for="UserId" type="hidden" />
+                <button type="submit" class="btn-link">Save @@@Model.ScreenName</button>
+            </form>
+        </div>
+        <div class="col-md-1 text-right">
+            <form asp-controller="Twitter" asp-action="">
+                <input asp-for="UserId" type="hidden" />
+                <button type="submit" class="btn-link">Timeline</button>
+            </form>
         </div>
     </div>
 </div>
+
+<div class="container" id="user-timeline"></div>
