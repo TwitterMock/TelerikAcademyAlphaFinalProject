@@ -18,6 +18,11 @@ namespace TwitterBackUp.Controllers
             this.twitterProvider = twitterProvider;
         }
 
-   
+        [HttpPost]
+        [AutoValidateAntiforgeryToken]
+        public IActionResult GetUserTimeline(string id)
+        {
+            return View();
+        }
     }
 }

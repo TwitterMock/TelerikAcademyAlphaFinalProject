@@ -1,0 +1,30 @@
+﻿@model TwitterSearchViewModel
+
+<div class="row">
+    <div class="col-sm-3">
+        <img src="@Model.ProfileImageUrl">
+    </div>
+    <div class="col-md-3">
+        <div class="row">
+            <h4>@Model.Username</h4>
+        </div>
+        <div class="row">
+            <button class="btn-link"><a href="@Model.Url">@@@Model.ScreenName</a></button>
+        </div>
+    </div>
+    <div>
+        <label asp-for="Description"></label>
+        <span>@Model.Description</span>
+    </div>
+    <div>
+        <div class="col-md-3">
+            <label asp-for="FollowersCount"></label>
+            <span>@Model.FollowersCount</span>
+        </div>
+        <div class="col-md-3">
+            <label asp-for="FriendsCount"></label>
+            <span>@Model.FriendsCount</span>
+            @Model.
+        </div>
+    </div>
+</div>
