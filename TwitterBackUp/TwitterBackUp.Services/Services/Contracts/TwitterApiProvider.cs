@@ -54,12 +54,10 @@ namespace TwitterBackUp.Services.Services.Contracts
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
                     var json = this.jsonProvider.ParseToJArray(await response.Content.ReadAsStringAsync());
-              
+
                     tweets = this.jsonProvider.DeserializeObject<List<TweetDto>>(json.ToString());
-                    foreach (var item in tweets)
-                    {
-                        item.Url = this.jsonProvider.DeserializeObject<string>(json["urls"]["url"].ToString());
-                    }
+
+
                 }
             }
 

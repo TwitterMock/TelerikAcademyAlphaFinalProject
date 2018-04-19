@@ -14,7 +14,7 @@ namespace TwitterBackUp.DTO.TweetsTimeline
         [JsonProperty("text")]
         public string Content { get; set; }
 
-        
-        public string Url { get; set; }
+        [JsonProperty("urls")]
+        public TweetUrl Url { get; set; }
     }
 }
