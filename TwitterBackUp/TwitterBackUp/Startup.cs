@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -41,6 +42,12 @@ namespace TwitterBackUp
             services.AddScoped<ITwitterApiProvider, TwitterApiProvider>();
             services.AddScoped<IJsonProvider, JsonProvider>();
 
+            RegisterInfrastructure(services);
+        }
+
+        private void RegisterInfrastructure(IServiceCollection services)
+        {
+            services.AddAutoMapper();
             services.AddMvc();
         }
 

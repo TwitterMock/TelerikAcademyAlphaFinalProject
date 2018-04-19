@@ -5,11 +5,9 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using TwitterBackUp.Services.Utils.Contracts;
 using TwitterBackUp.DTO;
-using TwitterBackUp.DTO.TweetsTimeline;
+using TwitterBackUp.DTO.TweetDtos;
 
 namespace TwitterBackUp.Services.Services.Contracts
 {
@@ -53,19 +51,21 @@ namespace TwitterBackUp.Services.Services.Contracts
 
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
-                    var json = this.jsonProvider.ParseToJArray(await response.Content.ReadAsStringAsync());
-
+                    var json = this.jsonProvider.ParseToJArray(await response.Content.ReadAsStringAsync());            
                     tweets = this.jsonProvider.DeserializeObject<List<TweetDto>>(json.ToString());
-
-
+                    foreach (var item in tweets)
+                    {
+                        item.Url = this.jsonProvider.DeserializeObject<string>(json["urls"]["url"].ToString());
+                    }
                 }
             }
 
             return tweets;
         }
-        public async Task<SearchUserDto> SearchUser(string screenName)
+
+        public async Task<TwitterSearchDto> SearchUser(string screenName)
         {
-            var user = new SearchUserDto();
+            var user = new TwitterSearchDto();
             var bearer = this.appCredentials.BearerToken;
 
             var uriString = $"https://api.twitter.com/1.1/users/show.json?screen_name={screenName}";
@@ -79,7 +79,7 @@ namespace TwitterBackUp.Services.Services.Contracts
                 {
 
                     var json = this.jsonProvider.ParseToJObject(await response.Content.ReadAsStringAsync());
-                    user = this.jsonProvider.DeserializeObject<SearchUserDto>(json.ToString());
+                    user = this.jsonProvider.DeserializeObject<TwitterSearchDto>(json.ToString());
                 }
             }
             return user;

@@ -1,7 +1,4 @@
-﻿@using TwitterBackUp.DTO
-@using TwitterBackUp.DTO.TweetsTimeline
-
-@model SearchUserDto
+﻿@model TwitterSearchViewModel
 
 <br/>
 <hr/>
@@ -15,7 +12,7 @@
                 <h4 class="h4">@Model.Username</h4>
             </div>
             <div class="row">
-                <button class="btn-link"><a href="@Model.Url">@@@Model.ScreenName</a></button>
+                <a  href="@Model.Url">@@@Model.ScreenName</a>
             </div>
         </div>
     </div>
