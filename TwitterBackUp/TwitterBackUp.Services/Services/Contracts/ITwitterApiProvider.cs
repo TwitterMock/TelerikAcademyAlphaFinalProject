@@ -8,6 +8,6 @@ namespace TwitterBackUp.Services.Services.Contracts
     public interface ITwitterApiProvider
     {
         Task<SearchUserDto> SearchUser(string searchString);
-        Task<ICollection<TweetDto>> GetUserTimeLine(string userId);
+        Task<ICollection<TweetDto>> GetUserTimeLine(string userId, int count);
     }
 }

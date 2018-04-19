@@ -1,7 +1,11 @@
-﻿
-@{
-    ViewData["Title"] = "GetUserTimeline";
+﻿@using TwitterBackUp.DTO.TweetsTimeline
+@model IList<TwitterBackUp.DTO.TweetsTimeline.TweetDto>
+
+<h2>@Model.Count</h2>
+
+@foreach (var item in Model)
+{
+    <p>@item.CreatedOn</p>
+    <p>@item.Content</p>
+    <p>@item.TweetId</p>
 }
-
-<h2>GetUserTimeline</h2>
-

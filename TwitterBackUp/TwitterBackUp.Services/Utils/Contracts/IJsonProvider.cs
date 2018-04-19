@@ -6,5 +6,6 @@ namespace TwitterBackUp.Services.Utils.Contracts
     {
         T DeserializeObject<T>(string jsonAsString);
         JObject ParseToJObject(string jsonAsString);
+        JArray ParseToJArray(string jsonAsString);
     }
 }

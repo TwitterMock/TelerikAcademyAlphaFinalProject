@@ -1,7 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace TwitterBackUp.DTO.TweetsTimeline
 {
@@ -9,10 +6,10 @@ namespace TwitterBackUp.DTO.TweetsTimeline
     {
 
         [JsonProperty("id")]
-        public string tweetId { get; set; }
+        public string TweetId { get; set; }
 
         [JsonProperty("created_at")]
-        public string DateOfCreation { get; set; }
+        public string CreatedOn { get; set; }
 
         [JsonProperty("text")]
         public string Content { get; set; }

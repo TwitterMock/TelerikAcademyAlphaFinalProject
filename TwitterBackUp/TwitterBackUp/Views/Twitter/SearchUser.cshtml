@@ -46,8 +46,8 @@
             </form>
         </div>
         <div class="col-md-1 text-right">
-            <form asp-controller="Twitter" asp-action="">
-                <input asp-for="UserId" type="hidden" />
+            <form asp-controller="Tweet" asp-action="GetUserTimeline">
+                <input name="id" value="@Model.UserId" type="hidden" />
                 <button type="submit" class="btn-link">Timeline</button>
             </form>
         </div>

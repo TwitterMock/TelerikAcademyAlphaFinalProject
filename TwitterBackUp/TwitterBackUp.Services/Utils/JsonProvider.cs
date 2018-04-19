@@ -16,5 +16,10 @@ namespace TwitterBackUp.Services.Utils
         {
             return JObject.Parse(jsonAsString);
         }
+
+        public JArray ParseToJArray(string jsonAsString)
+        {
+            return JArray.Parse(jsonAsString);
+        }
     }
 }

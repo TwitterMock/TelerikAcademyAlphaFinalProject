@@ -33,14 +33,14 @@ namespace TwitterBackUp.Services.Services.Contracts
             this.messageHandler = messageHandler;
         }
 
-        public async Task<ICollection<TweetDto>> GetUserTimeLine(string userId)
+        public async Task<ICollection<TweetDto>> GetUserTimeLine(string userId, int tweetsCount)
         {
             var tweets = new List<TweetDto>();
 
             var bearer = this.appCredentials.BearerToken;
 
             var uriString =
-                $"https://api.twitter.com/1.1/statuses/user_timeline.json?user_id={userId}&count=30";
+                $"https://api.twitter.com/1.1/statuses/user_timeline.json?user_id={userId}&count={tweetsCount}";
 
             using (var client = new HttpClient(this.messageHandler))
             {
@@ -53,9 +53,9 @@ namespace TwitterBackUp.Services.Services.Contracts
 
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
-                    var json = this.jsonProvider.ParseToJObject(await response.Content.ReadAsStringAsync());
+                    var json = this.jsonProvider.ParseToJArray(await response.Content.ReadAsStringAsync());
               
-                    tweets= this.jsonProvider.DeserializeObject<List<TweetDto>>(json.ToString());
+                    tweets = this.jsonProvider.DeserializeObject<List<TweetDto>>(json.ToString());
                 }
             }
 
