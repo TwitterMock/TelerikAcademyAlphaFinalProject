@@ -18,5 +18,7 @@ namespace TwitterBackUp.DTO.TweetDtos
 
         [JsonProperty("retweet_count")]
         public int RetweetCount { get; set; }       
+
+        public string Url { get; set; }
     }
 }
