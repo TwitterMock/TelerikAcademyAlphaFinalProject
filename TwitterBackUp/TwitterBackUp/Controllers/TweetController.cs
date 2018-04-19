@@ -18,13 +18,6 @@ namespace TwitterBackUp.Controllers
             this.twitterProvider = twitterProvider;
         }
 
-        [HttpPost]
-        [AutoValidateAntiforgeryToken]       
-        public async Task<IActionResult> Search(string text)
-        {
-            var l = await twitterProvider.SearchTweetsAsync(text);
-
-            return View(l);
-        }
+   
     }
 }

@@ -6,7 +6,7 @@
         $('a[href="#toggle-search"]').closest('li').toggleClass('active');
 
         if ($('.navbar-bootsnipp .bootsnipp-search').hasClass('open')) {
-      
+
             setTimeout(function () {
                 $('.navbar-bootsnipp .bootsnipp-search .form-control').focus();
             }, 100);
@@ -18,4 +18,7 @@
             $('a[href="#toggle-search"]').trigger('click');
         }
     });
+ 
+
+
 })

@@ -24,4 +24,9 @@
     <ProjectReference Include="..\TwitterBackUp.Services\TwitterBackUp.Services.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\TweetsViewModels\" />
+    <Folder Include="Views\Tweet\" />
+  </ItemGroup>
+
 </Project>

@@ -8,8 +8,7 @@ using System.Web;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using TwitterBackUp.Services.Utils.Contracts;
-using TwitterBackUp.DTO;
-using TwitterBackUp.DTO.SingleUser;
+
 
 namespace TwitterBackUp.Services.Services.Contracts
 {
@@ -33,54 +32,54 @@ namespace TwitterBackUp.Services.Services.Contracts
             this.messageHandler = messageHandler;
         }
 
-        public async Task<ICollection<TweetDto>> SearchTweetsAsync(string searchString)
-        {
-            var tweets = new List<TweetDto>();
+        //public async Task<ICollection<TweetDto>> SearchTweetsAsync(string searchString)
+        //{
+        //    var tweets = new List<TweetDto>();
 
-            var bearer = this.appCredentials.BearerToken;
+        //    var bearer = this.appCredentials.BearerToken;
 
-            var uriString =
-                $"https://api.twitter.com/1.1/search/tweets.json?q={searchString}&result_type=popular";
+        //    var uriString =
+        //        $"https://api.twitter.com/1.1/search/tweets.json?q={searchString}&result_type=popular";
 
-            using (var client = new HttpClient(this.messageHandler))
-            {
-                var uri = new Uri(uriString);
+        //    using (var client = new HttpClient(this.messageHandler))
+        //    {
+        //        var uri = new Uri(uriString);
 
-                client.DefaultRequestHeaders
-                    .Add("Authorization", "Bearer " + bearer);
+        //        client.DefaultRequestHeaders
+        //            .Add("Authorization", "Bearer " + bearer);
 
-                var response = await client.GetAsync(uri);
+        //        var response = await client.GetAsync(uri);
 
-                if (response.StatusCode == HttpStatusCode.OK)
-                {
-                    var json = this.jsonProvider.ParseToJObject(await response.Content.ReadAsStringAsync());
-                    tweets = this.jsonProvider.DeserializeObject<List<TweetDto>>(json["statuses"].ToString());
-                }
-            }
+        //        if (response.StatusCode == HttpStatusCode.OK)
+        //        {
+        //            var json = this.jsonProvider.ParseToJObject(await response.Content.ReadAsStringAsync());
+        //            tweets = this.jsonProvider.DeserializeObject<List<TweetDto>>(json["statuses"].ToString());
+        //        }
+        //    }
 
-            return tweets;
-        }
-        public async Task <SingleUserDto> SearchExactUser(string searchString)
-        {
-            var user = new SingleUserDto();
-            var bearer = this.appCredentials.BearerToken;
+        //    return tweets;
+        //}
+        //public async Task <SingleUserDto> SearchExactUser(string searchString)
+        //{
+        //    var user = new SingleUserDto();
+        //    var bearer = this.appCredentials.BearerToken;
 
-            var uriString = $"https://api.twitter.com/1.1/statuses/show.json?screen_name={searchString}";
-            using (var client = new HttpClient(this.messageHandler))
-            {
-                var uri = new Uri(uriString);
+        //    var uriString = $"https://api.twitter.com/1.1/statuses/show.json?screen_name={searchString}";
+        //    using (var client = new HttpClient(this.messageHandler))
+        //    {
+        //        var uri = new Uri(uriString);
 
-                client.DefaultRequestHeaders.Add("Authorization", "Bearer" + bearer);
-                var response = await client.GetAsync(uri);
-                if (response.StatusCode==HttpStatusCode.OK)
-                {
+        //        client.DefaultRequestHeaders.Add("Authorization", "Bearer" + bearer);
+        //        var response = await client.GetAsync(uri);
+        //        if (response.StatusCode==HttpStatusCode.OK)
+        //        {
 
-                    var json = this.jsonProvider.ParseToJObject(await response.Content.ReadAsStringAsync());
-                    user = this.jsonProvider.DeserializeObject<SingleUserDto>(json["statuses"].ToString()); 
-                }
-            }
-            return user;
-        }
+        //            var json = this.jsonProvider.ParseToJObject(await response.Content.ReadAsStringAsync());
+        //            user = this.jsonProvider.DeserializeObject<SingleUserDto>(json["statuses"].ToString()); 
+        //        }
+        //    }
+        //    return user;
+        //}
 
         public async Task<string> GetBearerTokenAsync(string consumerKey, string consumerSecret)
         {
