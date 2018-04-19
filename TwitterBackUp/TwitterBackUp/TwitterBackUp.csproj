@@ -35,4 +35,8 @@
     <ProjectReference Include="..\TwitterBackUp.Services\TwitterBackUp.Services.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="Views\Tweet\GetUserTimeline.cshtml" />
+  </ItemGroup>
+
 </Project>
