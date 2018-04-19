@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 using TwitterBackUp.Services.Services.Contracts;
+
 
 namespace TwitterBackUp.Controllers
 {
@@ -14,9 +16,10 @@ namespace TwitterBackUp.Controllers
             this.twitterProvider = twitterProvider;
         }
 
-        public IActionResult SearchUser(string screenName)
+        public async Task<IActionResult> SearchUser(string screenName)
         {
-            return View();
+            var search = await twitterProvider.SearchUser(screenName);
+            return View(search);
         }
     }
 }

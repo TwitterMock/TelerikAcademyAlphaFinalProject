@@ -8,7 +8,7 @@ using System.Web;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using TwitterBackUp.Services.Utils.Contracts;
-
+using TwitterBackUp.DTO;
 
 namespace TwitterBackUp.Services.Services.Contracts
 {
@@ -59,27 +59,27 @@ namespace TwitterBackUp.Services.Services.Contracts
 
         //    return tweets;
         //}
-        //public async Task <SingleUserDto> SearchExactUser(string searchString)
-        //{
-        //    var user = new SingleUserDto();
-        //    var bearer = this.appCredentials.BearerToken;
+        public async Task<SearchUserDto> SearchUser(string screenName)
+        {
+            var user = new SearchUserDto();
+            var bearer = this.appCredentials.BearerToken;
 
-        //    var uriString = $"https://api.twitter.com/1.1/statuses/show.json?screen_name={searchString}";
-        //    using (var client = new HttpClient(this.messageHandler))
-        //    {
-        //        var uri = new Uri(uriString);
+            var uriString = $"https://api.twitter.com/1.1/users/show.json?screen_name={screenName}";
+            using (var client = new HttpClient(this.messageHandler))
+            {
+                var uri = new Uri(uriString);
 
-        //        client.DefaultRequestHeaders.Add("Authorization", "Bearer" + bearer);
-        //        var response = await client.GetAsync(uri);
-        //        if (response.StatusCode==HttpStatusCode.OK)
-        //        {
+                client.DefaultRequestHeaders.Add("Authorization", "Bearer " + bearer);
+                var response = await client.GetAsync(uri);
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
 
-        //            var json = this.jsonProvider.ParseToJObject(await response.Content.ReadAsStringAsync());
-        //            user = this.jsonProvider.DeserializeObject<SingleUserDto>(json["statuses"].ToString()); 
-        //        }
-        //    }
-        //    return user;
-        //}
+                    var json = this.jsonProvider.ParseToJObject(await response.Content.ReadAsStringAsync());
+                    user = this.jsonProvider.DeserializeObject<SearchUserDto>(json.ToString());
+                }
+            }
+            return user;
+        }
 
         public async Task<string> GetBearerTokenAsync(string consumerKey, string consumerSecret)
         {
