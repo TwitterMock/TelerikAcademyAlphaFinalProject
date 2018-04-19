@@ -20,9 +20,10 @@ namespace TwitterBackUp.Controllers
 
         [HttpPost]
         [AutoValidateAntiforgeryToken]
-        public IActionResult GetUserTimeline(string id)
+        public async Task<IActionResult> GetUserTimeline(string id)
         {
-            return View();
+            var timeline = await this.twitterProvider.GetUserTimeLine(id);
+            return View(timeline);
         }
     }
 }
