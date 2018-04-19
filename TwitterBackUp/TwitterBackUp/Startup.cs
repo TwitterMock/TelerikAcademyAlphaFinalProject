@@ -47,8 +47,8 @@ namespace TwitterBackUp
 
         private void RegisterInfrastructure(IServiceCollection services)
         {
-            services.AddMvc();
             services.AddAutoMapper();
+            services.AddMvc();
         }
 
         private void RegisterAuthentication(IServiceCollection services)
