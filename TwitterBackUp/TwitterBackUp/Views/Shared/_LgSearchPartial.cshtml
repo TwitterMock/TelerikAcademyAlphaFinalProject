@@ -1,50 +1,14 @@
-﻿@*@if (User.Identity.IsAuthenticated)
-    {
-        <div class="[ bootsnipp-search animate ]">
-
-            <div class="[ container ]">
-                <div class="dropdown show">
-                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Dropdown link
-                    </a>
-
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-
-                    </div>
-                </div>
-                <form asp-controller="Tweet" asp-action="Search" role="search">
-                    <div class="[ input-group ]">
-                        <input type="text" class="[ form-control ]" name="text" placeholder="Search Tweets">
-                        <span class="[ input-group-btn ]">
-
-                        </span>
-
-                    </div>
-                </form>
-
-            </div>
-        </div>
-    }*@
-
-@if (User.Identity.IsAuthenticated)
+﻿@if (User.Identity.IsAuthenticated)
 {
     <div class="bootsnipp-search animate">
-
         <div class="container">
             <div class="row">
-           
                 <div class="col-md-6">
                     <form asp-controller="Twitter" asp-action="SearchTwitter" role="search">
                             <input type="text" class="form-control" name="screenName" placeholder="Search Tweets">
-                            <span class="input-group-btn">
-
-                            </span>
+                            <span class="input-group-btn"></span>
                     </form>
                 </div>
-            
-          
             </div>
         </div>
     </div>

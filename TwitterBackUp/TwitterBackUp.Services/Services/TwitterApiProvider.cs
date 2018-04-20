@@ -117,5 +117,37 @@ namespace TwitterBackUp.Services.Services.Contracts
 
             return bearerResponseString;
         }
+
+        //public async Task<string> InvalidateBearer(string bearer)
+        //{
+        //    var bearerResponseString = string.Empty;
+
+        //    var uriString = "https://api.twitter.com/oauth2/invalidate_token";
+
+        //    using (var client = new HttpClient(this.messageHandler))
+        //    {
+        //        var uri = new Uri(uriString);
+
+        //        client.DefaultRequestHeaders
+        //            .Add("Authorization", "Basic " + bearerRequestString);
+
+        //        var content = new FormUrlEncodedContent(new[]
+        //        {
+        //            new KeyValuePair<string, string>("grant_type", "client_credentials")
+        //        });
+
+        //        var response = await client.PostAsync(uri, content);
+
+        //        if (response.StatusCode == HttpStatusCode.OK)
+        //        {
+        //            var jsonString = await response.Content.ReadAsStringAsync();
+        //            var json = this.jsonProvider.ParseToJObject(jsonString);
+
+        //            bearerResponseString = json["access_token"].ToString();
+        //        }
+        //    }
+
+        //    return bearerResponseString;
+        //}
     }
 }
