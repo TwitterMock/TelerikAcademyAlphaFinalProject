@@ -4,6 +4,7 @@
     border-radius: 6px;
     height: 200px;
     max-width: 340px;
+    display:contents;
     // orginal twitter width: 290px;
 }
 
@@ -106,3 +107,18 @@ ul.twPc-Arrange {
     text-transform: uppercase;
     transition: color 0.15s ease-in-out 0s;
 }
+.profileDetails {
+    display:flex;
+}
+#profileBox {
+    margin-top: 1%;
+    border-style: groove;
+    border-radius: 7px;
+    border-left-width: 5px;
+    border-right-width: 5px;
+}
+#insidecontent {
+    width:100%;
+}
+
+
