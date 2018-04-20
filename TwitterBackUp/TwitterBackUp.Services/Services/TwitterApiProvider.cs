@@ -8,6 +8,7 @@ using System.Web;
 using TwitterBackUp.Services.Utils.Contracts;
 using TwitterBackUp.DTO;
 using TwitterBackUp.DTO.TweetDtos;
+using Newtonsoft.Json.Linq;
 
 namespace TwitterBackUp.Services.Services.Contracts
 {
@@ -58,6 +59,38 @@ namespace TwitterBackUp.Services.Services.Contracts
 
             return tweets;
         }
+        public async Task<string> GetSearchSuggestions(string input)
+        {
+            string result = null;
+            var userSuggestions = new TwitterSuggestionsDto();
+
+            var bearer = this.appCredentials.BearerToken;
+
+            var uriString =
+                $"https://api.twitter.com/1.1/users/suggestions/{input}/members.json";
+
+            using (var client = new HttpClient(this.messageHandler))
+            {
+                var uri = new Uri(uriString);
+
+                client.DefaultRequestHeaders
+                    .Add("Authorization", "Bearer " + bearer);
+
+                var response = await client.GetAsync(uri);
+
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    var json = this.jsonProvider.ParseToJArray(await response.Content.ReadAsStringAsync());
+                    userSuggestions = this.jsonProvider.DeserializeObject<TwitterSuggestionsDto>(json.ToString());
+                    result = this.jsonProvider.SerializeObject(userSuggestions);
+                   
+                }
+                
+            }
+
+            return result;
+        }
+
 
         public async Task<TwitterSearchDto> SearchUser(string screenName)
         {
