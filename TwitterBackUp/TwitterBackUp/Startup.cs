@@ -43,6 +43,9 @@ namespace TwitterBackUp
             services.AddScoped<ITwitterApiProvider, TwitterApiProvider>();
             services.AddScoped<IJsonProvider, JsonProvider>();
 
+            //services.AddDbContext<TwitterContext>(options =>
+            //    options.UseSqlServer(Configuration.GetConnectionString("Identity")));
+
             RegisterInfrastructure(services);
         }
 
