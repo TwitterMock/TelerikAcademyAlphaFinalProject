@@ -9,7 +9,7 @@ namespace TwitterBackUp.DataModels.Configurations
         public void Register(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Twitter>()
-                .HasMany(x => x.TwitteTweets)
+                .HasMany(x => x.Tweets)
                 .WithOne(x => x.Twitter)
                 .HasForeignKey(x => x.TwitterId);
 

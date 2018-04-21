@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
@@ -9,11 +6,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using TwitterBackUp.Data;
-using TwitterBackUp.Models;
-using TwitterBackUp.Services;
 using TwitterBackUp.Data.Identity;
 using TwitterBackUp.Data.Identity.ExternalServices;
+using TwitterBackUp.DataModels.Models;
 using TwitterBackUp.Services.Services;
 using TwitterBackUp.Services.Services.Contracts;
 using TwitterBackUp.Services.Utils.Contracts;
@@ -37,16 +32,24 @@ namespace TwitterBackUp
         {
             this.RegisterAuthentication(services);
 
+            this.RegisterServices(services);
+            this.RegisterDataModels(services);
+            this.RegisterInfrastructure(services);
+        }
+
+        private void RegisterServices(IServiceCollection services)
+        {
             services.AddTransient<IEmailSender, EmailSender>();
 
             services.AddTransient<IAppCredentials, AppCredentials>();
             services.AddScoped<ITwitterApiProvider, TwitterApiProvider>();
             services.AddScoped<IJsonProvider, JsonProvider>();
+        }
 
-            //services.AddDbContext<TwitterContext>(options =>
-            //    options.UseSqlServer(Configuration.GetConnectionString("Identity")));
-
-            RegisterInfrastructure(services);
+        private void RegisterDataModels(IServiceCollection services)
+        {
+            services.AddDbContext<TwitterContext>(options =>
+                            options.UseSqlServer(Configuration.GetConnectionString("TwitterBackUp")));
         }
 
         private void RegisterInfrastructure(IServiceCollection services)

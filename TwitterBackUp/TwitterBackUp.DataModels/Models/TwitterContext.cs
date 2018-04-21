@@ -17,7 +17,6 @@ namespace TwitterBackUp.DataModels.Models
 
         public virtual DbSet<Tweet> Tweets { get; set; }
         public virtual DbSet<Twitter> Twitters { get; set; }
-        public virtual DbSet<TwitterTweet> TwitterTweets { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

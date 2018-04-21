@@ -6,11 +6,6 @@ namespace TwitterBackUp.DomainModels
 {
     public class Tweet
     {
-        public Tweet()
-        {
-            this.TwitteTweets = new HashSet<TwitterTweet>();
-        }
-
         [Key, Required]
         public string TweetId { get; set; }
 
@@ -20,6 +15,9 @@ namespace TwitterBackUp.DomainModels
         public string Content { get; set; }
 
         public int TwitterAccountId { get; set; }
+
+        [Required]
+        public string TwitterId { get; set; }
         
         public Twitter Twitter { get; set; }
 
@@ -27,6 +25,5 @@ namespace TwitterBackUp.DomainModels
 
         public string Url { get; set; }
 
-        public ICollection<TwitterTweet> TwitteTweets { get; set; }
     }
 }
