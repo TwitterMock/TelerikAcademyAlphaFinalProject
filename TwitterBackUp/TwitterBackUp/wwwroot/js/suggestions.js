@@ -6,18 +6,19 @@
             dataType: 'json',
             url: "/SearchSuggestions/GetSuggestions?input=" + selectedCategory,
             type: "GET",
+            
        
             success: function (response) {
-                console.log(response);
+                var resultTwits = [];
+                response.forEach(r => resultTwits.push(r.screen_name));
+                
                 $("#suggestions").autocomplete({
-                    source: response
+                    source: resultTwits
                 });
             }
             
         });
     })
-
-   
 });
 $(document).ready(function () {
     $('#dropdownMenuButton').on('click', function () {

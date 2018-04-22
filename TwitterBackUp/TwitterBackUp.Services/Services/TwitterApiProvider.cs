@@ -62,7 +62,7 @@ namespace TwitterBackUp.Services.Services.Contracts
         public async Task<string> GetSearchSuggestions(string input)
         {
             string result = null;
-            var userSuggestions = new TwitterSuggestionsDto();
+            var userSuggestions = new List<TwitterSuggestionsDto>();
 
             var bearer = this.appCredentials.BearerToken;
 
@@ -81,7 +81,7 @@ namespace TwitterBackUp.Services.Services.Contracts
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
                     var json = this.jsonProvider.ParseToJArray(await response.Content.ReadAsStringAsync());
-                    userSuggestions = this.jsonProvider.DeserializeObject<TwitterSuggestionsDto>(json.ToString());
+                    userSuggestions = this.jsonProvider.DeserializeObject<List<TwitterSuggestionsDto>>(json.ToString());
                     result = this.jsonProvider.SerializeObject(userSuggestions);
                    
                 }
