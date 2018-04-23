@@ -5,12 +5,13 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using TwitterBackUp.Services.Utils.Contracts;
 using TwitterBackUp.DTO;
 using TwitterBackUp.DTO.TweetDtos;
 using TwitterBackUp.Services.Services.Contracts;
 using TwitterBackUp.Services.Utils.Contracts;
 
-namespace TwitterBackUp.Services.Services
+namespace TwitterBackUp.Services.Services.Contracts
 {
     public class TwitterApiProvider : ITwitterApiProvider
     {
