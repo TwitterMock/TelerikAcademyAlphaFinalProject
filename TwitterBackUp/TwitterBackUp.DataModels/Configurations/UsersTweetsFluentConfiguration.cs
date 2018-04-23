@@ -14,7 +14,8 @@ namespace TwitterBackUp.DataModels.Configurations
             modelBuilder.Entity<UsersTweets>()
                 .HasOne(x => x.Tweet)
                 .WithMany(x => x.UsersTweets)
-                .HasForeignKey(x => x.TweetId);
+                .HasForeignKey(x => x.TweetId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<UsersTweets>()
                 .HasIndex(x => x.TweetId);
