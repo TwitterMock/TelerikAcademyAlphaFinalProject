@@ -22,11 +22,14 @@ namespace TwitterBackUp.Services.Utils
         public async Task<HttpResponseMessage> GetResponseAsync(Uri uri)
         {
             var result = await this.httpClient.GetAsync(uri);
+            this.httpClient.DefaultRequestHeaders.Clear();
+
             return result;
         }
         public async Task<HttpResponseMessage> PostResponseAsync(Uri uri, HttpContent content)
         {
             var result = await this.httpClient.PostAsync(uri, content);
+            this.httpClient.DefaultRequestHeaders.Clear();
             return result;
         }
         public void addHeaders(string name, string value)
