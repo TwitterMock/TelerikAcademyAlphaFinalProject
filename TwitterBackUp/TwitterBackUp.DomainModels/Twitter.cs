@@ -8,7 +8,6 @@ namespace TwitterBackUp.DomainModels
     {
         public Twitter()
         {
-            this.Tweets = new HashSet<Tweet>();
             this.UsersTwitters = new HashSet<UsersTwitters>();
         }
 
@@ -33,8 +32,6 @@ namespace TwitterBackUp.DomainModels
         public string ProfileImageUrl { get; set; }
 
         public string ProfileBackgroundImageUrl { get; set; }
-
-        public ICollection<Tweet> Tweets { get; set; }
 
         public ICollection<UsersTwitters> UsersTwitters { get; set; }
     }

@@ -21,11 +21,6 @@ namespace TwitterBackUp.DomainModels
 
         public int TwitterAccountId { get; set; }
 
-        [Required]
-        public string TwitterId { get; set; }
-        
-        public Twitter Twitter { get; set; }
-
         public int? RetweetCount { get; set; }
 
         public string Url { get; set; }

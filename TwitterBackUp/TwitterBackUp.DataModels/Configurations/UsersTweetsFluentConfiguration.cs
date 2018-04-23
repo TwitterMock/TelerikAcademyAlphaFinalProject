@@ -12,11 +12,6 @@ namespace TwitterBackUp.DataModels.Configurations
                 .HasKey(x => new { x.UserId, x.TweetId });
 
             modelBuilder.Entity<UsersTweets>()
-                .HasOne(x => x.User)
-                .WithMany(x => x.UsersTweets)
-                .HasForeignKey(x => x.UserId);
-
-            modelBuilder.Entity<UsersTweets>()
                 .HasOne(x => x.Tweet)
                 .WithMany(x => x.UsersTweets)
                 .HasForeignKey(x => x.TweetId);

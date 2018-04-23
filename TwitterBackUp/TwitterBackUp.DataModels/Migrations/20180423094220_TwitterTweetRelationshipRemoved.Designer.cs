@@ -11,9 +11,10 @@ using TwitterBackUp.DataModels.Models;
 namespace TwitterBackUp.DataModels.Migrations
 {
     [DbContext(typeof(TwitterContext))]
-    partial class TwitterContextModelSnapshot : ModelSnapshot
+    [Migration("20180423094220_TwitterTweetRelationshipRemoved")]
+    partial class TwitterTweetRelationshipRemoved
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -71,6 +72,15 @@ namespace TwitterBackUp.DataModels.Migrations
                     b.ToTable("Twitters");
                 });
 
+            modelBuilder.Entity("TwitterBackUp.DomainModels.User", b =>
+                {
+                    b.Property<string>("Id");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("User");
+                });
+
             modelBuilder.Entity("TwitterBackUp.DomainModels.UsersTweets", b =>
                 {
                     b.Property<string>("UserId");
@@ -103,6 +113,11 @@ namespace TwitterBackUp.DataModels.Migrations
                         .WithMany("UsersTweets")
                         .HasForeignKey("TweetId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("TwitterBackUp.DomainModels.User", "User")
+                        .WithMany("UsersTweets")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("TwitterBackUp.DomainModels.UsersTwitters", b =>
@@ -110,6 +125,11 @@ namespace TwitterBackUp.DataModels.Migrations
                     b.HasOne("TwitterBackUp.DomainModels.Twitter", "Twitter")
                         .WithMany("UsersTwitters")
                         .HasForeignKey("TwitterId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("TwitterBackUp.DomainModels.User", "User")
+                        .WithMany("UsersTwitters")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
