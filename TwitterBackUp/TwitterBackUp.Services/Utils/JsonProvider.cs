@@ -1,5 +1,6 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 using TwitterBackUp.Services.Services.Contracts;
 using TwitterBackUp.Services.Utils.Contracts;
 
@@ -20,6 +21,9 @@ namespace TwitterBackUp.Services.Utils
         public JArray ParseToJArray(string jsonAsString)
         {
             return JArray.Parse(jsonAsString);
+        }
+        public string SerializeObject(object someClass) {
+            return JsonConvert.SerializeObject(someClass);
         }
     }
 }
