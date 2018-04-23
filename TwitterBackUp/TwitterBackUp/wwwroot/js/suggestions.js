@@ -10,10 +10,12 @@
                 success: function (response) {
                     var resultTwits = [];
                     response.forEach(r => resultTwits.push(r.screen_name));
-
+                                     
                     $("#suggestions").autocomplete({
                         source: resultTwits
                     });
+
+                    $('.ui-menu.ui-widgetui-widget-content.ui-autocomplete.ui-front').addClass('')
                 }
             });
         });
