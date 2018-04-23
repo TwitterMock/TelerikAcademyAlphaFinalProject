@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using TwitterBackUp.DomainModels.Contracts;
 
 namespace TwitterBackUp.DomainModels
 {
-    public class Twitter
+    public class Twitter : IDomainModel
     {
         public Twitter()
         {
