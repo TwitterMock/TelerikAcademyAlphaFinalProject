@@ -23,9 +23,9 @@ namespace TwitterBackUp.Controllers
         public async Task<IActionResult> SearchTwitter(string screenName)
         {
             var userResult = await twitterProvider.SearchUser(screenName);
-            var viewModel = this.mapper.Map<TwitterSearchDto, TwitterSearchViewModel>(userResult);
+            var model = mapper.Map<TwitterSearchDto, TwitterSearchViewModel>(userResult);
 
-            return View(viewModel);
+            return View(model);
         }
     }
 }
