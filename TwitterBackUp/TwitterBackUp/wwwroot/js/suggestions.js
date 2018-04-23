@@ -24,5 +24,23 @@
 $(document).ready(function () {
     $('#dropdownMenuButton').on('click', function () {
         $('.dropdown-menu').show();
+        $('.dropdown-menu').closest('li').toggleClass('active');
+
     });
-})
+
+});
+
+
+$(document).ready(function(){
+    ('#dropdownMenuButton').on('click', function () {
+
+    $('.dropdown-menu').hide().delay(1000);
+
+    });
+});
+       
+
+
+
+
+
