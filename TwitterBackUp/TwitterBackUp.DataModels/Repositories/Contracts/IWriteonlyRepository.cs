@@ -6,7 +6,6 @@ namespace TwitterBackUp.DataModels.Repositories.Contracts
     {
         void Insert(TEntity entity);
         void Delete(TEntity entity);
-        void Delete(object id);
         void Attach(TEntity entity);
         void Update(TEntity entity);
     }

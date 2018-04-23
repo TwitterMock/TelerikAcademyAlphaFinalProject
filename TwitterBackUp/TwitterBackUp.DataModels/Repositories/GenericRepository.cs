@@ -25,24 +25,14 @@ namespace TwitterBackUp.DataModels.Repositories
                 this.Context.Entry(entity).State = EntityState.Deleted;
             }
 
-            public void Delete(object id)
-            {
-                var entity = this.GetById(id);
-
-                if (entity != null)
-                {
-                    this.Delete(entity);
-                }
-            }
-
             public void Attach(TEntity entity)
             {
                 this.Context.Entry(entity).State = EntityState.Unchanged;
             }
 
-            public TEntity GetById(object id)
+            public TEntity GetById(params object[] keyValues)
             {
-                return this.DbSet.Find(id);
+                return this.DbSet.Find(keyValues);
             }
 
             public IEnumerable<TEntity> All
