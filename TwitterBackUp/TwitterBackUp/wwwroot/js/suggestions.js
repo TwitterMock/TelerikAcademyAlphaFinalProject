@@ -1,7 +1,7 @@
 ﻿$(document).ready(function () {
     $('.category').on('click', function () {
       var selectedCategory=this.getAttribute('data-name');
-        console.log(selectedCategory);
+
         $.ajax({
             dataType: 'json',
             url: "/SearchSuggestions/GetSuggestions?input=" + selectedCategory,
