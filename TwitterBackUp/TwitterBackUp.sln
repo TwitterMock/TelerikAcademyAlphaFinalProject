@@ -17,6 +17,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwitterBackUp.Services", "T
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwitterBackUp.DTO", "TwitterBackUp.DTO\TwitterBackUp.DTO.csproj", "{3F945356-5C55-4AAA-A12D-A2EC3BA4FB95}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitterBackUp.DomainModels", "TwitterBackUp.DomainModels\TwitterBackUp.DomainModels.csproj", "{17D61B91-74AF-467F-BF7F-913E886D3CD0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitterBackUp.DataModels", "TwitterBackUp.DataModels\TwitterBackUp.DataModels.csproj", "{7E5E0838-BC1E-4A57-BAC2-51CAD96E9BB6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{3F945356-5C55-4AAA-A12D-A2EC3BA4FB95}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3F945356-5C55-4AAA-A12D-A2EC3BA4FB95}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3F945356-5C55-4AAA-A12D-A2EC3BA4FB95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17D61B91-74AF-467F-BF7F-913E886D3CD0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17D61B91-74AF-467F-BF7F-913E886D3CD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17D61B91-74AF-467F-BF7F-913E886D3CD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17D61B91-74AF-467F-BF7F-913E886D3CD0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E5E0838-BC1E-4A57-BAC2-51CAD96E9BB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E5E0838-BC1E-4A57-BAC2-51CAD96E9BB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E5E0838-BC1E-4A57-BAC2-51CAD96E9BB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E5E0838-BC1E-4A57-BAC2-51CAD96E9BB6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,6 +60,8 @@ Global
 		{42AC7046-B6EB-4839-993B-357E852716BB} = {A11F5F56-A312-4BE8-BCE8-603ABF0DE950}
 		{40BA781E-6D21-468B-9853-D2BC13B3D316} = {9F20D3F3-85FF-40D1-A2FA-53634F4E5281}
 		{3F945356-5C55-4AAA-A12D-A2EC3BA4FB95} = {9F20D3F3-85FF-40D1-A2FA-53634F4E5281}
+		{17D61B91-74AF-467F-BF7F-913E886D3CD0} = {A11F5F56-A312-4BE8-BCE8-603ABF0DE950}
+		{7E5E0838-BC1E-4A57-BAC2-51CAD96E9BB6} = {A11F5F56-A312-4BE8-BCE8-603ABF0DE950}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {98AC65EC-2DC4-477F-BA3F-7C33B14DDC65}

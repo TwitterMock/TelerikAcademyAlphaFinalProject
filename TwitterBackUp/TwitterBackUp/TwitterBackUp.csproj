@@ -34,6 +34,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TwitterBackUp.Data.Identity\TwitterBackUp.Data.Identity.csproj" />
+    <ProjectReference Include="..\TwitterBackUp.DataModels\TwitterBackUp.DataModels.csproj" />
     <ProjectReference Include="..\TwitterBackUp.Services\TwitterBackUp.Services.csproj" />
   </ItemGroup>
 
