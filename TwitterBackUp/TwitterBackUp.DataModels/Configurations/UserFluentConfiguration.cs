@@ -4,19 +4,14 @@ using TwitterBackUp.DomainModels;
 
 namespace TwitterBackUp.DataModels.Configurations
 {
-    public class TwitterFluentConfiguration : IFluentConfiguration
+    public class UserFluentConfiguration : IFluentConfiguration
     {
         public void Register(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Twitter>()
-                .HasMany(x => x.Tweets)
-                .WithOne(x => x.Twitter)
-                .HasForeignKey(x => x.TwitterId);
-
-            modelBuilder.Entity<Twitter>()
+            modelBuilder.Entity<User>()
                 .HasKey(x => x.Id);
 
-            modelBuilder.Entity<Twitter>()
+            modelBuilder.Entity<User>()
                 .Property(x => x.Id)
                 .ValueGeneratedNever();
         }

@@ -6,8 +6,13 @@ namespace TwitterBackUp.DomainModels
 {
     public class Tweet
     {
+        public Tweet()
+        {
+            this.UsersTweets = new HashSet<UsersTweets>();
+        }
+
         [Key, Required]
-        public string TweetId { get; set; }
+        public string Id { get; set; }
 
         public DateTime CreatedOn { get; set; }
 
@@ -24,6 +29,7 @@ namespace TwitterBackUp.DomainModels
         public int? RetweetCount { get; set; }
 
         public string Url { get; set; }
-
+        
+        public ICollection<UsersTweets> UsersTweets { get; set; }
     }
 }

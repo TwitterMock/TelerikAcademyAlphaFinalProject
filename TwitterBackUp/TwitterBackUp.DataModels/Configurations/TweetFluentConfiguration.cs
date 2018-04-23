@@ -9,10 +9,10 @@ namespace TwitterBackUp.DataModels.Configurations
         public void Register(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Tweet>()
-                .HasKey(x => x.TweetId);
+                .HasKey(x => x.Id);
 
             modelBuilder.Entity<Tweet>()
-                .Property(x => x.TweetId)
+                .Property(x => x.Id)
                 .ValueGeneratedNever();
         }
     }

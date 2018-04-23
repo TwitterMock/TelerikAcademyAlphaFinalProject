@@ -9,12 +9,15 @@ namespace TwitterBackUp.DomainModels
         public Twitter()
         {
             this.Tweets = new HashSet<Tweet>();
+            this.UsersTwitters = new HashSet<UsersTwitters>();
         }
 
         [Key, Required]
-        public string UserId { get; set; }
+        public string Id { get; set; }
+
         [Required, MinLength(4), MaxLength(125)]
         public string Username { get; set; }
+
         [Required, MinLength(4), MaxLength(125)]
         public string ScreenName { get; set; }
 
@@ -32,5 +35,7 @@ namespace TwitterBackUp.DomainModels
         public string ProfileBackgroundImageUrl { get; set; }
 
         public ICollection<Tweet> Tweets { get; set; }
+
+        public ICollection<UsersTwitters> UsersTwitters { get; set; }
     }
 }
