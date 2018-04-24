@@ -5,13 +5,12 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
-using TwitterBackUp.Services.Utils.Contracts;
 using TwitterBackUp.DTO;
 using TwitterBackUp.DTO.TweetDtos;
 using TwitterBackUp.Services.Services.Contracts;
+using TwitterBackUp.Services.Utils.Contracts;
 
-
-namespace TwitterBackUp.Services.Services.Contracts
+namespace TwitterBackUp.Services.Services
 {
     public class TwitterApiProvider : ITwitterApiProvider
     {
@@ -19,14 +18,12 @@ namespace TwitterBackUp.Services.Services.Contracts
         private readonly IJsonProvider jsonProvider;
         private readonly IHttpClientWrapper httpClient;
 
-        public TwitterApiProvider(IAppCredentials appCredentials, IJsonProvider jsonProvider,IHttpClientWrapper httpClient)
+        public TwitterApiProvider(IAppCredentials appCredentials, IJsonProvider jsonProvider, IHttpClientWrapper httpClient)
         {
             this.appCredentials = appCredentials;
             this.jsonProvider = jsonProvider;
             this.httpClient = httpClient;
-          
         }
-
 
         public async Task<ICollection<TweetDto>> GetUserTimeLine(string userId, int tweetsCount)
         {
@@ -37,52 +34,53 @@ namespace TwitterBackUp.Services.Services.Contracts
             var uriString =
                 $"https://api.twitter.com/1.1/statuses/user_timeline.json?user_id={userId}&count={tweetsCount}";
 
-          
-                var uri = new Uri(uriString);
+            var httpMessage = new HttpRequestMessage
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri(uriString)
+            };
 
-                this.httpClient.addHeaders("Authorization", "Bearer " + bearer);
+            httpMessage.Headers.Add("Authorization", "Bearer " + bearer);
 
-                var response = await this.httpClient.GetResponseAsync(uri);
+            var response = await this.httpClient.SendAsync(httpMessage);
 
-                if (response.StatusCode == HttpStatusCode.OK)
-                {
-                    var json = this.jsonProvider.ParseToJArray(await response.Content.ReadAsStringAsync());            
-                    tweets = this.jsonProvider.DeserializeObject<List<TweetDto>>(json.ToString());
-                }
-       
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                var json = this.jsonProvider.ParseToJArray(await response.Content.ReadAsStringAsync());
+                tweets = this.jsonProvider.DeserializeObject<List<TweetDto>>(json.ToString());
+            }
 
             return tweets;
         }
-        public async Task<string> GetSearchSuggestions(string input)
+
+        public async Task<string> GetSearchSuggestionsByCategory(string category)
         {
             string result = null;
-            var userSuggestions = new List<TwitterSuggestionsDto>();
 
             var bearer = this.appCredentials.BearerToken;
 
             var uriString =
-                $"https://api.twitter.com/1.1/users/suggestions/{input}/members.json";
+                $"https://api.twitter.com/1.1/users/suggestions/{category}/members.json";
 
-           
-                var uri = new Uri(uriString);
+            var httpMessage = new HttpRequestMessage
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri(uriString)
+            };
 
-                this.httpClient.addHeaders("Authorization", "Bearer " + bearer);
+            httpMessage.Headers.Add("Authorization", "Bearer " + bearer);
 
-                var response = await this.httpClient.GetResponseAsync(uri);
+            var response = await this.httpClient.SendAsync(httpMessage);
 
-                if (response.StatusCode == HttpStatusCode.OK)
-                {
-                    var json = this.jsonProvider.ParseToJArray(await response.Content.ReadAsStringAsync());
-                    userSuggestions = this.jsonProvider.DeserializeObject<List<TwitterSuggestionsDto>>(json.ToString());
-                    result = this.jsonProvider.SerializeObject(userSuggestions);
-                   
-                }
-                
-      
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                var json = this.jsonProvider.ParseToJArray(await response.Content.ReadAsStringAsync());
+                var userSuggestions = this.jsonProvider.DeserializeObject<List<TwitterSuggestionsDto>>(json.ToString());
+                result = this.jsonProvider.SerializeObject(userSuggestions);
+            }
 
             return result;
         }
-
 
         public async Task<TwitterSearchDto> SearchUser(string screenName)
         {
@@ -90,20 +88,23 @@ namespace TwitterBackUp.Services.Services.Contracts
             var bearer = this.appCredentials.BearerToken;
 
             var uriString = $"https://api.twitter.com/1.1/users/show.json?screen_name={screenName}";
-         
-                var uri = new Uri(uriString);
 
-              this.httpClient.addHeaders("Authorization", "Bearer " + bearer);
+            var httpMessage = new HttpRequestMessage
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri(uriString)
+            };
 
-                var response = await this.httpClient.GetResponseAsync(uri);
+            httpMessage.Headers.Add("Authorization", "Bearer " + bearer);
 
-                if (response.StatusCode == HttpStatusCode.OK)
-                {
+            var response = await this.httpClient.SendAsync(httpMessage);
 
-                    var json = this.jsonProvider.ParseToJObject(await response.Content.ReadAsStringAsync());
-                    user = this.jsonProvider.DeserializeObject<TwitterSearchDto>(json.ToString());
-                }
-            
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                var json = this.jsonProvider.ParseToJObject(await response.Content.ReadAsStringAsync());
+                user = this.jsonProvider.DeserializeObject<TwitterSearchDto>(json.ToString());
+            }
+
             return user;
         }
 
@@ -118,26 +119,28 @@ namespace TwitterBackUp.Services.Services.Contracts
 
             var bearerRequestString = Convert.ToBase64String(Encoding.UTF8.GetBytes(credentialsString));
 
-          
-                var uri = new Uri(uriString);
-
-            this.httpClient.addHeaders("Authorization", "Basic " + bearerRequestString);
-
-                var content = new FormUrlEncodedContent(new[]
+            var httpMessage = new HttpRequestMessage
+            {
+                Method = HttpMethod.Post,
+                RequestUri = new Uri(uriString),
+                Content = new FormUrlEncodedContent(new[]
                 {
                     new KeyValuePair<string, string>("grant_type", "client_credentials")
-                });
+                })
+            };
 
-                var response = await this.httpClient.PostResponseAsync(uri, content);
+            httpMessage.Headers.Add("Authorization", "Basic " + bearerRequestString);
 
-                if (response.StatusCode == HttpStatusCode.OK)
-                {
-                    var jsonString = await response.Content.ReadAsStringAsync();
-                    var json = this.jsonProvider.ParseToJObject(jsonString);
+            var response = await this.httpClient.SendAsync(httpMessage);
 
-                    bearerResponseString = json["access_token"].ToString();
-                }
-            
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                var jsonString = await response.Content.ReadAsStringAsync();
+                var json = this.jsonProvider.ParseToJObject(jsonString);
+
+                bearerResponseString = json["access_token"].ToString();
+            }
+
 
             return bearerResponseString;
         }

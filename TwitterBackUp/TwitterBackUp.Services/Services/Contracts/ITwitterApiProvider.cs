@@ -9,6 +9,6 @@ namespace TwitterBackUp.Services.Services.Contracts
     {
         Task<TwitterSearchDto> SearchUser(string searchString);
         Task<ICollection<TweetDto>> GetUserTimeLine(string userId, int count);
-        Task<string> GetSearchSuggestions(string input);
+        Task<string> GetSearchSuggestionsByCategory(string category);
     }
 }

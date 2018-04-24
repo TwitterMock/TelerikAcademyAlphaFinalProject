@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 
 namespace TwitterBackUp.DTO.TweetDtos
 {
@@ -8,7 +9,7 @@ namespace TwitterBackUp.DTO.TweetDtos
         public string TweetId { get; set; }
 
         [JsonProperty("created_at")]
-        public string CreatedOn { get; set; }
+        public DateTime CreatedOn { get; set; }
 
         [JsonProperty("text")]
         public string Content { get; set; }

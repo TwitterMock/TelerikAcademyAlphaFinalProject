@@ -20,7 +20,7 @@ namespace TwitterBackUp.Controllers
         [HttpGet]
         public async Task<string> GetSuggestions([FromQuery]string input) {
 
-            var result =await this.twitterProvider.GetSearchSuggestions(input);
+            var result =await this.twitterProvider.GetSearchSuggestionsByCategory(input);
 
            return result;
          
