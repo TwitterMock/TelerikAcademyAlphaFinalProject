@@ -39,7 +39,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Views\Tweet\GetUserTimeline.cshtml" />
+    <None Include="Views\Tweet\GetTwitterTimeline.cshtml" />
+    <None Include="wwwroot\lib\bootstrap-select\dist\css\bootstrap-select.css.map" />
+    <None Include="wwwroot\lib\bootstrap-select\dist\js\bootstrap-select.js" />
+    <None Include="wwwroot\lib\bootstrap-select\dist\js\bootstrap-select.js.map" />
+    <None Include="wwwroot\lib\bootstrap-select\dist\js\bootstrap-select.min.js" />
   </ItemGroup>
 
 </Project>

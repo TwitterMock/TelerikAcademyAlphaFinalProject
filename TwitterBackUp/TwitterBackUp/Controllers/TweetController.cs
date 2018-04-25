@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using TwitterBackUp.DTO.TweetDtos;
+using TwitterBackUp.Models;
 using TwitterBackUp.Services.Services.Contracts;
 
 namespace TwitterBackUp.Controllers
@@ -21,11 +21,24 @@ namespace TwitterBackUp.Controllers
 
         [HttpPost]
         [AutoValidateAntiforgeryToken]
-        public async Task<IActionResult> GetUserTimeline(string id)
+        public async Task<IActionResult> GetTwitterTimeline(string id)
         {
-            int count = 800;
+            int count = 20;
             var timeline = await this.twitterProvider.GetUserTimeLine(id, count);
-            return View(timeline);
+
+            var model = new TwitterTimelineViewModel
+            {
+                Twitter = timeline.Twitter,
+                Tweets = timeline.Tweets
+            };
+
+            return View(model);
+        }
+
+        [HttpGet]
+        public Task<string> GetTweetHtml([FromQuery]string twitterScreenName, [FromQuery]string tweetId)
+        {
+            return this.twitterProvider.GetTweetHtml(twitterScreenName, tweetId);
         }
     }
 }

@@ -5,50 +5,22 @@
         <div class="container">
             <form asp-controller="Twitter" asp-action="SearchTwitter" role="search">
                 <div class="input-group">
-                    <input type="text" id="suggestions" class="form-control" name="screenName" placeholder="Search Tweets">
-                    <div id="categoriesDown" class="input-group-btn dropdown">
-                        <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Categories
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <div class="category"data-name="sports">
-                            <a class="btn btn-link dropdown-item"  href="#">Funny</a>
-                             </div>
-                            <div class="category" data-name="television">
-                                <a class="btn btn-link dropdown-item" href="#">Actors</a>
-                            </div>
-                            <div class="category" data-name="music">
-                                <a class="btn btn-link dropdown-item" href="#">Music</a>
-                            </div>
-                            <div class="category" data-name="fashion">
-                                <a class="btn btn-link dropdown-item" href="#">Fashion</a>
-                            </div>
-                            <div class="category" data-name="entertainment">
-                                <a class="btn btn-link dropdown-item" href="#">Entertainment</a>
-                            </div>
-                            <div class="category" data-name="books">
-                                <a class="btn btn-link dropdown-item" href="#">Books</a>
-                            </div>
-                            <div class="category" data-name="family">
-                                <a class="btn btn-link dropdown-item" href="#">Family</a>
-                            </div>
-                            <div class="category" data-name="food-drink">
-                                <a class="btn btn-link dropdown-item" href="#">Food&Drink</a>
-                            </div>
-                            <div class="category" data-name="funny">
-                                <a class="btn btn-link dropdown-item" href="#">Funny</a>
-                            </div>
-                            <div class="category" data-name="business">
-                                <a class="btn btn-link dropdown-item" href="#">Business</a>
-                            </div>
-                            <div class="category" data-name="government">
-                                <a class="btn btn-link dropdown-item" href="#">Government</a>
-                            </div>
-                            <div class="category" data-name="news">
-                                <a class="btn btn-link dropdown-item" href="#">News</a>
-                            </div>
-                        </div>
-                    </div>
+                    <input id="search-input" type="text" class="form-control" name="screenName" placeholder="Search Tweets">
+
+                    <select class="selectpicker" id="categories-options">
+                        <option>Funny</option>
+                        <option>Actors</option>
+                        <option>Music</option>
+                        <option>Fashion</option>
+                        <option>Entertainment</option>
+                        <option>Books</option>
+                        <option>Family</option>
+                        <option>Food&Drink</option>
+                        <option>Business</option>
+                        <option>Government</option>
+                        <option>News</option>
+                    </select>
+
                 </div>
             </form>
         </div>

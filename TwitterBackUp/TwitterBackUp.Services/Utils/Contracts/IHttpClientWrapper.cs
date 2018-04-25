@@ -1,19 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
+﻿using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace TwitterBackUp.Services.Utils.Contracts
 {
-    public interface IHttpClientWrapper:IDisposable
+    public interface IHttpClientWrapper
     {
-
-        Task<HttpResponseMessage> GetResponseAsync(Uri uri);
-
-        Task<HttpResponseMessage> PostResponseAsync(Uri uri, HttpContent content);
-
-        void addHeaders(string name, string value);
+        Task<HttpResponseMessage> SendAsync(HttpRequestMessage requestMessage);
     }
 }
