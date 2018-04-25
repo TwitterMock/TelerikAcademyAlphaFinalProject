@@ -1,63 +1,19 @@
 ﻿@model TwitterSearchViewModel
 
-    <div class="container" id="user-timeline"></div>
-
-    <div id="profileBox"class="container">
-        <div id="insidecontent"class="col-lg-10">
-
-            <div class="twPc-div">
-                <img class="twPc-bg twPc-block" src="@Model.ProfileBackgroundImageUrl" />
-
-                <div class="profileDetails">
-
-                    <a title="Name" href="@Model.Url" class="twPc-avatarLink">
-                        <img alt="Pic" src="@Model.ProfileImageUrl" class="twPc-avatarImg">
-                    </a>
-                    <div class="twPc-divUser">
-                        <div class="twPc-divName">
-                            <a target="_blank" href="@Model.Url">@Model.Username</a>
-                        </div>
-                        <span>
-                            <a target="_blank" href="@Model.Url"><span>@Model.Username</span></a>
-                        </span>
-                        <div>
-
-                            <p>@Model.Description</p>
-                        </div>
-                    </div>
-                    <div class="twPc-divStats">
-
-                        <div>
-                            <span class="twPc-StatLabel twPc-block">Followers</span>
-                            <span class="twPc-StatValue"> @Model.FollowersCount </span>
-                        </div>
+@{
+    var url = $"https://twitter.com/{Model.ScreenName}";
+}
 
 
-                        <div>
-
-                            <span class="twPc-StatLabel twPc-block">Friends</span>
-                            <span class="twPc-StatValue">@Model.FriendsCount</span>
-
-                        </div>
-
-
-
-                    </div>
-                </div>
-            </div>
-
-        </div>
+<div class="container">
+    <br />
+    <div class="row text-right">
+        <form asp-controller="Tweet" asp-action="GetTwitterTimeline" method="post">
+            <input hidden name="id", value="@Model.UserId"/>
+            <button class="btn btn-link" type="submit">Timeline list view</button>
+        </form>
     </div>
-<hr/>
-<div class="col-lg-11 text-center">
-    <form asp-controller="Twitter" asp-action="">
-        <input asp-for="UserId" type="hidden" />
-        <button type="submit" class="btn btn-success">Save @@@Model.ScreenName</button>
-    </form>
-</div>
-<div class="col-lg-11 text-center">
-    <form asp-controller="Tweet" asp-action="GetUserTimeline">
-        <input name="id" value="@Model.UserId" type="hidden" />
-        <button type="submit" class="btn btn-default">Timeline</button>
-    </form>
+
+    <a class="twitter-timeline" href="@url" data-tweet-limit="20">Tweets by @Model.Username</a>
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 </div>

@@ -3,7 +3,7 @@
 
     $.ajax({
         dataType: 'json',
-        url: "/SearchSuggestions/GetSuggestions?input=" + selectedCategory,
+        url: "/Twitter/GetSuggestions?category=" + selectedCategory,
         type: "GET",
         success: function (response) {
             var suggestions = [];

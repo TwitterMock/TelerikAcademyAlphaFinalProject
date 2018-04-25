@@ -27,5 +27,11 @@ namespace TwitterBackUp.Controllers
 
             return View(model);
         }
+
+        [HttpGet]
+        public Task<string> GetSuggestions([FromQuery]string category)
+        {
+            return this.twitterProvider.GetSearchSuggestionsByCategory(category);
+        }
     }
 }

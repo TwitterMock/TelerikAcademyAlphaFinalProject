@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using TwitterBackUp.DTO;
-using TwitterBackUp.DTO.TweetDtos;
+using TwitterBackUp.DTO.TwitterTimelineDtos;
 using TwitterBackUp.Services.Services.Contracts;
 using TwitterBackUp.Services.Utils.Contracts;
 
@@ -25,9 +25,9 @@ namespace TwitterBackUp.Services.Services
             this.httpClient = httpClient;
         }
 
-        public async Task<ICollection<TweetDto>> GetUserTimeLine(string userId, int tweetsCount)
+        public async Task<TwitterTimelineDto> GetUserTimeLine(string userId, int tweetsCount)
         {
-            var tweets = new List<TweetDto>();
+            var timeline = new TwitterTimelineDto();
 
             var bearer = this.appCredentials.BearerToken;
 
@@ -47,10 +47,14 @@ namespace TwitterBackUp.Services.Services
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 var json = this.jsonProvider.ParseToJArray(await response.Content.ReadAsStringAsync());
-                tweets = this.jsonProvider.DeserializeObject<List<TweetDto>>(json.ToString());
+                var tweets = this.jsonProvider.DeserializeObject<List<TweetDto>>(json.ToString());
+                var twitter = this.jsonProvider.DeserializeObject<TwitterDto>(json.First["user"].ToString());
+
+                timeline.Twitter = twitter;
+                timeline.Tweets = tweets;
             }
 
-            return tweets;
+            return timeline;
         }
 
         public async Task<string> GetSearchSuggestionsByCategory(string category)
@@ -74,9 +78,7 @@ namespace TwitterBackUp.Services.Services
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                var json = this.jsonProvider.ParseToJArray(await response.Content.ReadAsStringAsync());
-                var userSuggestions = this.jsonProvider.DeserializeObject<List<TwitterSuggestionsDto>>(json.ToString());
-                result = this.jsonProvider.SerializeObject(userSuggestions);
+                result = await response.Content.ReadAsStringAsync();
             }
 
             return result;
@@ -143,6 +145,27 @@ namespace TwitterBackUp.Services.Services
 
 
             return bearerResponseString;
+        }
+
+        public async Task<string> GetTweetHtml(string userScreenName, string tweetId)
+        {
+            var uriString =
+                $"https://publish.twitter.com/oembed?url=https://twitter.com/{userScreenName}/status/{tweetId}";
+
+            var httpMessage = new HttpRequestMessage
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri(uriString)
+            };
+
+            var response = await this.httpClient.SendAsync(httpMessage);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadAsStringAsync();
+            }
+
+            return string.Empty;
         }
     }
 }
