@@ -13,10 +13,9 @@
                                      
                     $("#suggestions").autocomplete({
                         source: resultTwits
-                    });
-
-                    $('.ui-menu.ui-widgetui-widget-content.ui-autocomplete.ui-front').addClass('')
+                    });          
                 }
+                
             });
         });
 });
