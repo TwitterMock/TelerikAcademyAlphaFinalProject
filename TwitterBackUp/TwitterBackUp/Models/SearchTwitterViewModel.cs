@@ -1,8 +1,8 @@
 ﻿namespace TwitterBackUp.Models
 {
-    public class TwitterSearchViewModel
+    public class TwitterViewModel
     {
-        public string UserId { get; set; }
+        public string TwitterId { get; set; }
 
         public string Username { get; set; }
 

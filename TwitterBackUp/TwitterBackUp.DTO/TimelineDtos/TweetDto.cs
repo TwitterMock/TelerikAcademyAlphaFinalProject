@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace TwitterBackUp.DTO.TwitterTimelineDtos
+namespace TwitterBackUp.DTO.TimelineDtos
 {
     public class TweetDto
     {

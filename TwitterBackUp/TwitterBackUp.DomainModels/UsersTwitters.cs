@@ -1,6 +1,8 @@
-﻿namespace TwitterBackUp.DomainModels
+﻿using TwitterBackUp.DomainModels.Contracts;
+
+namespace TwitterBackUp.DomainModels
 {
-    public class UsersTwitters
+    public class UsersTwitters : IDomainModel
     {
         public string UserId { get; set; }
         public string TwitterId { get; set; }

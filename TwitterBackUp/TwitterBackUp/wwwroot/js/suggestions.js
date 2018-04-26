@@ -1,9 +1,11 @@
 ﻿$(document).on('change', '#categories-options', function () {
-    var selectedCategory = $(this).find(":selected").text();
+    var selector = $(this);
+    var selectedCategory = selector.find(":selected").text();
+    selector.attr("disabled", true);
 
     $.ajax({
         dataType: 'json',
-        url: "/Twitter/GetSuggestions?category=" + selectedCategory,
+        url: "/Twitter/Suggestions?category=" + selectedCategory,
         type: "GET",
         success: function (response) {
             var suggestions = [];
@@ -13,7 +15,7 @@
                 source: suggestions
             });
 
-            $('.ui-menu.ui-widgetui-widget-content.ui-autocomplete.ui-front').addClass('');
+            selector.attr("disabled", false);
         }
     });
 });

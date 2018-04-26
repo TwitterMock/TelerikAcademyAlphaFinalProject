@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using TwitterBackUp.DTO.TwitterTimelineDtos;
+using TwitterBackUp.DTO.TimelineDtos;
 
 namespace TwitterBackUp.Models
 {
-    public class TwitterTimelineViewModel
+    public class TimelineViewModel
     {
         public TwitterDto Twitter { get; set; }
 

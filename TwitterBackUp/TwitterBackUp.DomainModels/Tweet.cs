@@ -20,12 +20,12 @@ namespace TwitterBackUp.DomainModels
         [Required, MinLength(5), MaxLength(512)]
         public string Content { get; set; }
 
-        public int TwitterAccountId { get; set; }
+        public string TwitterId { get; set; }
 
-        public int? RetweetCount { get; set; }
+        public string TwitterScreenName { get; set; }
 
-        public string Url { get; set; }
-        
+        public int? RetweetsCount { get; set; }
+
         public ICollection<UsersTweets> UsersTweets { get; set; }
     }
 }

@@ -20,18 +20,20 @@ namespace TwitterBackUp.Controllers
             this.mapper = mapper;
         }
 
-        public async Task<IActionResult> SearchTwitter(string screenName)
+        [HttpPost]
+        [AutoValidateAntiforgeryToken]
+        public async Task<IActionResult> Search(string screenName)
         {
-            var userResult = await twitterProvider.SearchUser(screenName);
-            var model = mapper.Map<TwitterSearchDto, TwitterSearchViewModel>(userResult);
+            var userResult = await twitterProvider.GetTwitterByScreenNameAsync(screenName);
+            var model = mapper.Map<ExtendedTwitterDto, TwitterViewModel>(userResult);
 
             return View(model);
         }
 
         [HttpGet]
-        public Task<string> GetSuggestions([FromQuery]string category)
+        public Task<string> Suggestions(string category)
         {
-            return this.twitterProvider.GetSearchSuggestionsByCategory(category);
+            return this.twitterProvider.GetSearchSuggestionsByCategoryAsync(category);
         }
     }
 }

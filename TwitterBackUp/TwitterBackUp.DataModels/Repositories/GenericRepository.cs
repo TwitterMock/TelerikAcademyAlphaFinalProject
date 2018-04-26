@@ -48,11 +48,10 @@ namespace TwitterBackUp.DataModels.Repositories
 
             protected DbSet<TEntity> DbSet { get; }
 
-            public IEnumerable<TEntity> GetMany(Expression<Func<TEntity, bool>> predicate)
+            public IEnumerable<TEntity> SearchFor(Expression<Func<TEntity, bool>> predicate)
             {
                 return this.DbSet
-                    .Where(predicate)
-                    .AsEnumerable();
+                    .Where(predicate);
             }
 
             public void Insert(TEntity entity)
@@ -64,14 +63,6 @@ namespace TwitterBackUp.DataModels.Repositories
             {
                 this.Context.Entry(entity).State = EntityState.Modified;
             }
-
-            public IEnumerable<TEntity> SearchFor(Expression<Func<TEntity, bool>> predicate)
-            {
-                return this.DbSet
-                    .Where(predicate)
-                    .AsEnumerable();
-            }
-
         }
     }
 }

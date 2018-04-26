@@ -1,11 +1,11 @@
 ﻿using Newtonsoft.Json;
 
-namespace TwitterBackUp.DTO.TwitterTimelineDtos
+namespace TwitterBackUp.DTO.TimelineDtos
 {
     public class TwitterDto
     {
         [JsonProperty("id_str")]
-        public string UserId { get; set; }
+        public string TwitterId { get; set; }
         [JsonProperty("name")]
         public string Username { get; set; }
         [JsonProperty("screen_name")]

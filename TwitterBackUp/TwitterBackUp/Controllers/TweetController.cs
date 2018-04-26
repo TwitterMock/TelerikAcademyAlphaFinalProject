@@ -21,12 +21,12 @@ namespace TwitterBackUp.Controllers
 
         [HttpPost]
         [AutoValidateAntiforgeryToken]
-        public async Task<IActionResult> GetTwitterTimeline(string id)
+        public async Task<IActionResult> Timeline(string twitterId)
         {
             int count = 20;
-            var timeline = await this.twitterProvider.GetUserTimeLine(id, count);
+            var timeline = await this.twitterProvider.GetTwitterTimelineAsync(twitterId, count);
 
-            var model = new TwitterTimelineViewModel
+            var model = new TimelineViewModel
             {
                 Twitter = timeline.Twitter,
                 Tweets = timeline.Tweets
@@ -36,9 +36,9 @@ namespace TwitterBackUp.Controllers
         }
 
         [HttpGet]
-        public Task<string> GetTweetHtml([FromQuery]string twitterScreenName, [FromQuery]string tweetId)
+        public Task<string> Html(string twitterScreenName, string tweetId)
         {
-            return this.twitterProvider.GetTweetHtml(twitterScreenName, tweetId);
+            return this.twitterProvider.GetTweetHtmlAsync(twitterScreenName, tweetId);
         }
     }
 }

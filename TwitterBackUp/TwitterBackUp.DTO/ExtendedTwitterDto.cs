@@ -2,10 +2,10 @@
 
 namespace TwitterBackUp.DTO
 {
-    public class TwitterSearchDto
+    public class ExtendedTwitterDto
     {
         [JsonProperty("id_str")]
-        public string UserId { get; set; }
+        public string TwitterId { get; set; }
         [JsonProperty("name")]
         public string Username { get; set; }
         [JsonProperty("screen_name")]

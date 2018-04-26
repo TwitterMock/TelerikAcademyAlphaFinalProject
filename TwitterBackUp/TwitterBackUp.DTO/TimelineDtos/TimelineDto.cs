@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace TwitterBackUp.DTO.TwitterTimelineDtos
+namespace TwitterBackUp.DTO.TimelineDtos
 {
-    public class TwitterTimelineDto
+    public class TimelineDto
     {
         public TwitterDto Twitter { get; set; }
         public ICollection<TweetDto> Tweets { get; set; }

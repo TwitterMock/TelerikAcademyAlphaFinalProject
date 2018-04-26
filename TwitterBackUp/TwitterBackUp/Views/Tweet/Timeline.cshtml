@@ -1,4 +1,4 @@
-﻿@model TwitterTimelineViewModel
+﻿@model TimelineViewModel
 
 @{
     var twitterUrl = $"https://twitter.com/{Model.Twitter.ScreenName}";
@@ -8,30 +8,30 @@
 
 <table class="table">
     <thead>
-    <tr>
-        <th scope="col">TweetId</th>
-        <th scope="col">CreatedOn</th>
-        <th scope="col">RetweetsCount</th>
-        <th scope="col">TweetUrl</th>
-        <th scope="col">Options</th>
-    </tr>
+        <tr>
+            <th scope="col">TweetId</th>
+            <th scope="col">CreatedOn</th>
+            <th scope="col">RetweetsCount</th>
+            <th scope="col">TweetUrl</th>
+            <th scope="col">Options</th>
+        </tr>
     </thead>
     <tbody>
-    @foreach (var tweet in Model.Tweets)
-    {
-        <tr>
-            <td>#@tweet.TweetId</td>
-            <td>@tweet.CreatedOn.Substring(0, tweet.CreatedOn.Length - 11)</td>
-            <td>@tweet.RetweetCount</td>
-            <td>
-                @{
-                    var tweetUrl = twitterUrl + $"/status/{tweet.TweetId}";
-                }
-                <a href="@tweetUrl">link</a>
-            </td>
-            <td><button class="btn btn-link tweet-details" onclick="tweetDetails('@Model.Twitter.ScreenName', '@tweet.TweetId')" >Details</button></td>
-        </tr>
-    }
+        @foreach (var tweet in Model.Tweets)
+        {
+            <tr>
+                <td>#@tweet.TweetId</td>
+                <td>@tweet.CreatedOn.Substring(0, tweet.CreatedOn.Length - 11)</td>
+                <td>@tweet.RetweetCount</td>
+                <td>
+                    @{
+                        var tweetUrl = twitterUrl + $"/status/{tweet.TweetId}";
+                    }
+                    <a href="@tweetUrl">link</a>
+                </td>
+                <td><button class="btn btn-link tweet-details" onclick="tweetDetails('@Model.Twitter.ScreenName', '@tweet.TweetId')">Details</button></td>
+            </tr>
+        }
     </tbody>
 </table>
 

@@ -1,4 +1,4 @@
-﻿@model TwitterSearchViewModel
+﻿@model TwitterViewModel
 
 @{
     var url = $"https://twitter.com/{Model.ScreenName}";
@@ -8,8 +8,8 @@
 <div class="container">
     <br />
     <div class="row text-right">
-        <form asp-controller="Tweet" asp-action="GetTwitterTimeline" method="post">
-            <input hidden name="id", value="@Model.UserId"/>
+        <form asp-controller="Tweet" asp-action="Timeline" method="post">
+            <input hidden name="twitterId" , value="@Model.TwitterId" />
             <button class="btn btn-link" type="submit">Timeline list view</button>
         </form>
     </div>
