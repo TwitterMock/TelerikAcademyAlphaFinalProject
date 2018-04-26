@@ -1,11 +1,14 @@
 ﻿using Newtonsoft.Json;
+using System.Collections;
+using System.Collections.Generic;
+using TwitterBackUp.DomainModels;
 
 namespace TwitterBackUp.DTO
 {
     public class TwitterSearchDto
     {
         [JsonProperty("id_str")]
-        public string UserId { get; set; }
+        public string Id { get; set; }
         [JsonProperty("name")]
         public string Username { get; set; }
         [JsonProperty("screen_name")]
@@ -22,5 +25,7 @@ namespace TwitterBackUp.DTO
         public string ProfileImageUrl { get; set; }
         [JsonProperty("profile_background_image_url")]
         public string ProfileBackgroundImageUrl { get; set; }
+
+        public ICollection<UsersTwitters> UsersTwitters { get; set; }
     }
 }

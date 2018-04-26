@@ -1,4 +1,5 @@
 ﻿$(document).on('change', '#categories-options', function () {
+   
     var selectedCategory = $(this).find(":selected").text();
 
     $.ajax({
@@ -6,6 +7,7 @@
         url: "/Twitter/GetSuggestions?category=" + selectedCategory,
         type: "GET",
         success: function (response) {
+            console.log(response);
             var suggestions = [];
             response.forEach(r => suggestions.push(r.screen_name));
 
@@ -13,7 +15,7 @@
                 source: suggestions
             });
 
-            $('.ui-menu.ui-widgetui-widget-content.ui-autocomplete.ui-front').addClass('');
+         
         }
     });
 });

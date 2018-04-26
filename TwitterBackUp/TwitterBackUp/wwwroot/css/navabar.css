@@ -232,17 +232,27 @@
 
   
 }
-
-/*.ui-menu.ui-widget.ui-widget-content.ui-autocomplete.ui-front {
-    border-style: ridge !important;
-    background-color: white !important;
-    list-style-type: none;
+/* The alert message box */
+.alert {
+    padding: 20px;
+    background-color: #f44336; /* Red */!important
+    color: white;
+    margin-bottom: 15px;
 }
 
-.ui-menu-item {
-    font-family: 'Yanone Kaffeesatz', sans-serif !important;
-    list-style-type: none;
+/* The close button */
+.closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
 }
-.ui-helper-hidden-accessible {
-    display:none;
-}*/
+
+    /* When moving the mouse over the close button */
+    .closebtn:hover {
+        color: black;
+    }

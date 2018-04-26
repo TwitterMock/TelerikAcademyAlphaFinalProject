@@ -13,6 +13,12 @@ using TwitterBackUp.Services.Services;
 using TwitterBackUp.Services.Services.Contracts;
 using TwitterBackUp.Services.Utils.Contracts;
 using TwitterBackUp.Services.Utils;
+using TwitterBackUp.Services;
+using TwitterBackUp.DataModels.Repositories.Contracts;
+using TwitterBackUp.DataModels.Repositories;
+using TwitterBackUp.DomainModels;
+using TwitterBackUp.DataModels.Repositories.GetHired.DataModels.Repositories.Models;
+using TwitterBackUp.DataModels.Contracts;
 
 namespace TwitterBackUp
 {
@@ -45,12 +51,22 @@ namespace TwitterBackUp
             services.AddScoped<ITwitterApiProvider, TwitterApiProvider>();
             services.AddScoped<IJsonProvider, JsonProvider>();
             services.AddSingleton<IHttpClientWrapper, HttpClientWrapper>();
+            services.AddTransient<IUserTwittersServices, UserTwittersServices>();
         }
 
         private void RegisterDataModels(IServiceCollection services)
         {
             services.AddDbContext<TwitterContext>(options =>
                             options.UseSqlServer(Configuration.GetConnectionString("TwitterBackUp")));
+            services.AddTransient<ITwitterRepository, TwitterRepository>();
+            services.AddTransient<ITweetRepository, TweetRepository>();
+            services.AddTransient<IGenericRepository<UsersTweets>,GenericRepository<UsersTweets>>();
+            services.AddTransient<IGenericRepository<UsersTwitters>, GenericRepository<UsersTwitters>>();
+            services.AddTransient<IUnitOfWork,UnitOfWork>();
+
+
+
+
         }
 
         private void RegisterInfrastructure(IServiceCollection services)

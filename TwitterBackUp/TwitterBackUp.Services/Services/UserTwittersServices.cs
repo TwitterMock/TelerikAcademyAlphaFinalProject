@@ -6,7 +6,9 @@ using TwitterBackUp.Data.Identity;
 using TwitterBackUp.DataModels.Contracts;
 using TwitterBackUp.DataModels.Repositories.Contracts;
 using TwitterBackUp.DomainModels;
+using TwitterBackUp.DTO;
 using TwitterBackUp.Services.Services.Contracts;
+
 
 namespace TwitterBackUp.Services
 {
@@ -15,6 +17,7 @@ namespace TwitterBackUp.Services
         private readonly ITwitterRepository twitterRepo;
         private readonly IGenericRepository<UsersTwitters> usersTwittersRepo;
         private readonly IUnitOfWork unitOfWork;
+       
 
 
 
@@ -26,6 +29,7 @@ namespace TwitterBackUp.Services
         }
         public void StoreTwitterByUserId(string userId, Twitter twitter)
         {
+           
             if (userId==null || twitter==null)
             {
                 throw new ArgumentNullException();

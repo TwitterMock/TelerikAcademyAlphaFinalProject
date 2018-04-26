@@ -56,6 +56,7 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="Index" class="[ animate ]">Home</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="About" class="[ animate ]">About</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact" class="[ animate ]">Contact</a></li>
+                 
                     @await Html.PartialAsync("_SmSearchPartial")
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
@@ -110,7 +111,8 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
     </environment>
 
-    <script src="js/twitter-widgets.js"></script>
+    <script src="~js/twitter-widgets.js"></script>
+    <script src="~/js/save-account.js"></script>
 
 
     @RenderSection("Scripts", required: false)
