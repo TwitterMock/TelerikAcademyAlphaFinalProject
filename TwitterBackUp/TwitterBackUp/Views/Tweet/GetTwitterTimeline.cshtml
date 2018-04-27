@@ -20,16 +20,17 @@
     @foreach (var tweet in Model.Tweets)
     {
         <tr>
-            <td>#@tweet.TweetId</td>
+            <td>#@tweet.Id</td>
             <td>@tweet.CreatedOn.Substring(0, tweet.CreatedOn.Length - 11)</td>
             <td>@tweet.RetweetCount</td>
             <td>
                 @{
-                    var tweetUrl = twitterUrl + $"/status/{tweet.TweetId}";
+                    var tweetUrl = twitterUrl + $"/status/{tweet.Id}";
                 }
                 <a href="@tweetUrl">link</a>
             </td>
-            <td><button class="btn btn-link tweet-details" onclick="tweetDetails('@Model.Twitter.ScreenName', '@tweet.TweetId')" >Details</button></td>
+            <td><button class="btn btn-link tweet-details" onclick="tweetDetails('@Model.Twitter.ScreenName', '@tweet.Id')" >Details</button></td>
+          
         </tr>
     }
     </tbody>
@@ -46,7 +47,7 @@
             <div class="modal-body" id="details-modal-body"></div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <a  class="currentTweetDetails btn btn-primary" data-name="">Save Tweet</a>
             </div>
         </div>
     </div>

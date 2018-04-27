@@ -1,5 +1,6 @@
 ﻿var tweetDetails = function (screenName, tweetId) {
     var queryString = `twitterScreenName=${screenName}&tweetId=${tweetId}`;
+    $('.currentTweetDetails').attr('data-name', tweetId);
 
     $.ajax({
         dataType: "json",

@@ -11,5 +11,6 @@ namespace TwitterBackUp.Services.Services.Contracts
         Task<string> GetSearchSuggestionsByCategory(string category);
         Task<string> GetBearerTokenAsync(string consumerKey, string consumerSecret);
         Task<string> GetTweetHtml(string userScreenName, string tweetId);
+        Task<TweetDto> SearchTweetById(string tweetId);
     }
 }

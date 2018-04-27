@@ -167,5 +167,31 @@ namespace TwitterBackUp.Services.Services
 
             return string.Empty;
         }
+        public async Task<TweetDto> SearchTweetById(string tweetId)
+        {
+            var tweet = new TweetDto();
+            var bearer = this.appCredentials.BearerToken;
+
+            var uriString = $" https://api.twitter.com/1.1/statuses/show.json?id={tweetId}";
+
+            var httpMessage = new HttpRequestMessage
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri(uriString)
+            };
+
+            httpMessage.Headers.Add("Authorization", "Bearer " + bearer);
+
+            var response = await this.httpClient.SendAsync(httpMessage);
+
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                var json = this.jsonProvider.ParseToJObject(await response.Content.ReadAsStringAsync());
+                tweet = this.jsonProvider.DeserializeObject<TweetDto>(json.ToString());
+            }
+
+            return tweet;
+        }
     }
+    
 }

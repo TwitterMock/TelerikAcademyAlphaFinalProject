@@ -19,16 +19,14 @@ namespace TwitterBackUp.Controllers
         private readonly IMapper mapper;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IUserTwittersServices userTwittersServices;
-        private readonly IJsonProvider jsonProvider; 
    
 
-        public TwitterController(ITwitterApiProvider twitterProvider, IMapper mapper, UserManager<ApplicationUser> userManager, IUserTwittersServices userTwittersServices, IJsonProvider jsonProvider)
+        public TwitterController(ITwitterApiProvider twitterProvider, IMapper mapper, UserManager<ApplicationUser> userManager, IUserTwittersServices userTwittersServices)
         {
             this.twitterProvider = twitterProvider;
             this.mapper = mapper;
             this.userManager = userManager;
             this.userTwittersServices = userTwittersServices;
-            this.jsonProvider = jsonProvider;
         }
 
         public async Task<IActionResult> SearchTwitter(string screenName)
@@ -55,12 +53,12 @@ namespace TwitterBackUp.Controllers
                 var twitterUser = await this.twitterProvider.SearchUser(userScreenName);
 
                 var current = mapper.Map<TwitterSearchDto, Twitter>(twitterUser);
-                var test = current.Id;
+                
 
                 this.userTwittersServices.StoreTwitterByUserId(userId, current);
                 var model = mapper.Map<Twitter, SaveTwitterAccountViewModel>(current);
 
-                //return Json(model);
+               
                 return PartialView("_SaveTwitterAccountPartial", model);
             }
             catch (System.Exception ex)

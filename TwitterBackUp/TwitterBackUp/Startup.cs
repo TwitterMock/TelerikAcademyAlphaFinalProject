@@ -52,6 +52,8 @@ namespace TwitterBackUp
             services.AddScoped<IJsonProvider, JsonProvider>();
             services.AddSingleton<IHttpClientWrapper, HttpClientWrapper>();
             services.AddTransient<IUserTwittersServices, UserTwittersServices>();
+            services.AddTransient<IUserTweetsServices, UserTweetsServices>();
+
         }
 
         private void RegisterDataModels(IServiceCollection services)
