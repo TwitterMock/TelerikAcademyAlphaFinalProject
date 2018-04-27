@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
@@ -22,27 +23,30 @@ namespace TwitterBackUp.DataModels.Repositories
 
             public void Delete(TEntity entity)
             {
-                this.Context.Entry(entity).State = EntityState.Deleted;
+                if (entity == null)
+                {
+                    throw new ArgumentNullException();
+                }
+
+                this.DbSet.Remove(entity);
             }
 
             public void Attach(TEntity entity)
             {
-                this.Context.Entry(entity).State = EntityState.Unchanged;
-            }
-
-            public TEntity GetById(params object[] keyValues)
-            {
-                return this.DbSet.Find(keyValues);
-            }
-
-            public IEnumerable<TEntity> All
-            {
-                get
+                if (entity == null)
                 {
-                    return this.DbSet
-                        .AsEnumerable();
+                    throw new ArgumentNullException();
                 }
+
+                this.DbSet.Attach(entity);
             }
+
+            public TEntity GetById(params object[] keys)
+            {
+                return this.DbSet.Find(keys);
+            }
+
+            public IEnumerable<TEntity> All => this.DbSet;
 
             protected TwitterContext Context { get; }
 
@@ -56,12 +60,22 @@ namespace TwitterBackUp.DataModels.Repositories
 
             public void Insert(TEntity entity)
             {
-                this.Context.Entry(entity).State = EntityState.Added;
+                if (entity == null)
+                {
+                    throw new ArgumentNullException();
+                }
+
+                this.DbSet.Add(entity);
             }
 
             public void Update(TEntity entity)
             {
-                this.Context.Entry(entity).State = EntityState.Modified;
+                if (entity == null)
+                {
+                    throw new ArgumentNullException();
+                }
+
+                this.DbSet.Update(entity);
             }
         }
     }

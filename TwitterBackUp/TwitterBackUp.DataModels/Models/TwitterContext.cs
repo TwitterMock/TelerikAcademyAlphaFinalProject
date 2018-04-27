@@ -9,6 +9,11 @@ namespace TwitterBackUp.DataModels.Models
 {
     public class TwitterContext : DbContext
     {
+        public TwitterContext()
+        {
+            
+        }
+
         public TwitterContext(DbContextOptions<TwitterContext> options) 
             : base(options)
         {
