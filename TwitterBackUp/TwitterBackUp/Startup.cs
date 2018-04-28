@@ -127,9 +127,6 @@ namespace TwitterBackUp
                 routes.MapRoute(
             name: "areaRoute",
             template: "{area:exists}/{controller=Home}/{action=Index}");
-                
-                
-            
 
                 routes.MapRoute(
                     name: "default",
