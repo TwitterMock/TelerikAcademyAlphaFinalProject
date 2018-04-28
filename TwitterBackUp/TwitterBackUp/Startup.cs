@@ -61,8 +61,6 @@ namespace TwitterBackUp
 
             services.AddTransient<ITwitterRepository, TwitterRepository>();
             services.AddTransient<ITweetRepository, TweetRepository>();
-            services.AddTransient<IGenericRepository<UsersTweets>,GenericRepository<UsersTweets>>();
-            services.AddTransient<IGenericRepository<UsersTwitters>, GenericRepository<UsersTwitters>>();
             services.AddTransient<IUnitOfWork,UnitOfWork>();
         }
 

@@ -2,7 +2,7 @@
 
 namespace TwitterBackUp.DataModels.Repositories.Contracts
 {
-    public interface IWriteonlyRepository<in TEntity> where TEntity : class, IDomainModel
+    public interface IWriteonlyRepository<TEntity, TKey> where TEntity : class, IIdentifiable<TKey>
     {
         void Insert(TEntity entity);
         void Delete(TEntity entity);

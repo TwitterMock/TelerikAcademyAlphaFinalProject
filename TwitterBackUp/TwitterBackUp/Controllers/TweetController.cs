@@ -59,7 +59,7 @@ namespace TwitterBackUp.Controllers
             var tweetDto = await this.twitterApiProvider.GetTweetByIdAsync(id);
  
             var tweet = this.mapper.Map<TweetDto, Tweet>(tweetDto);
-            this.tweetServices.StoreTweetByUserId(userId, tweet);
+            this.tweetServices.SaveTweetByUserId(userId, tweet);
 
             return new OkResult();
         }

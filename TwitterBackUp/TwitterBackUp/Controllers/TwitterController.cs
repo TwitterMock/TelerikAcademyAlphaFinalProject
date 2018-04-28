@@ -51,7 +51,7 @@ namespace TwitterBackUp.Controllers
             var twitterDto = await this.twitterApiProvider.GetTwitterByScreenNameAsync(screenName);
             var userId = this.userManager.GetUserId(this.User);
             var twitter = this.mapper.Map<TwitterDto, Twitter>(twitterDto);
-            this.twittersService.StoreTwitterByUserId(userId, twitter);
+            this.twittersService.SaveTwitterByUserId(userId, twitter);
 
             return new OkResult();
         }

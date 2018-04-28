@@ -24,7 +24,7 @@ namespace TwitterBackUp.Tests.Repositories.GenericRepositoryTests
             tweetsDbSetMock.Setup(x => x.Find(It.IsAny<string>()))
                 .Verifiable();
 
-            var tweetRepository = new GenericRepository<Tweet>(contextMock.Object);
+            var tweetRepository = new GenericRepository<Tweet, string>(contextMock.Object);
             tweetRepository.GetById(tweetId);
 
             tweetsDbSetMock.Verify(s => s.Find(It.IsAny<string>()), Times.Once);

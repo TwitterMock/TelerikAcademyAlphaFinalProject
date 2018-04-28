@@ -5,7 +5,7 @@ using TwitterBackUp.DomainModels.Contracts;
 
 namespace TwitterBackUp.DomainModels
 {
-    public class Tweet : IDomainModel
+    public class Tweet : IIdentifiable<string>
     {
         public Tweet()
         {

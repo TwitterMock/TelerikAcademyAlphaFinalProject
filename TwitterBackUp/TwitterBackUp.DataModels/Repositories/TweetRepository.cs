@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
@@ -9,16 +10,26 @@ using TwitterBackUp.DomainModels;
 
 namespace TwitterBackUp.DataModels.Repositories
 {
-    public class TweetRepository : GenericRepository<Tweet>, ITweetRepository
+    public class TweetRepository : GenericRepository<Tweet, string>, ITweetRepository
     {
         public TweetRepository(TwitterContext context) : base(context)
         {
         }
 
-        public IEnumerable<Tweet> GetTweetsByUserId(string id)
+        public ICollection<Tweet> GetManyByUserId(string id)
         {
+            if (id == null) throw new ArgumentNullException(nameof(id));
+
             var param = new SqlParameter("@UserId", id);
             return this.DbSet.FromSql("GetTweetsByUserId @UserId", param).ToList();
+        }
+
+        public Tweet GetSingle(string tweetId, string userId)
+        {
+            if (tweetId == null) throw new ArgumentNullException(nameof(tweetId));
+            if (userId == null) throw new ArgumentNullException(nameof(userId));
+
+            return this.DbSet.FirstOrDefault(t => t.Id == tweetId && t.UsersTweets.Any(u => u.UserId == userId));
         }
     }
 }

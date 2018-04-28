@@ -3,8 +3,9 @@ using TwitterBackUp.DomainModels;
 
 namespace TwitterBackUp.DataModels.Repositories.Contracts
 {
-    public interface ITwitterRepository : IGenericRepository<Twitter>
+    public interface ITwitterRepository : IGenericRepository<Twitter, string>
     {
-        IEnumerable<Twitter> GetTwittersByUserId(string id);
+        ICollection<Twitter> GetManyByUserId(string id);
+        Twitter GetSingle(string twitterId, string userId);
     }
 }

@@ -80,7 +80,7 @@ namespace TwitterBackUp.Services.Services
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 suggestions = await response.Content.ReadAsStringAsync();
-                this.memoryCache.Set($"{category}", suggestions);
+                this.memoryCache.Set($"{category}", suggestions, TimeSpan.FromMinutes(20));
             }
 
             return suggestions;
