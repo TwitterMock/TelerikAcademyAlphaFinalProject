@@ -75,6 +75,11 @@ namespace TwitterBackUp
         {
             services.AddAutoMapper();
             services.AddMvc();
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("RequireAdministratorRole", policy => policy.RequireRole("Administrator"));
+                
+            });
         }
 
         private void RegisterAuthentication(IServiceCollection services)
@@ -125,12 +130,16 @@ namespace TwitterBackUp
             {
                 routes.MapRoute(
             name: "areaRoute",
-            template: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+            template: "{area:exists}/{controller=Home}/{action=Index}");
+                
+                
+            
 
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+            
         }
     }
 }
