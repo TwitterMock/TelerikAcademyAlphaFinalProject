@@ -75,11 +75,7 @@ namespace TwitterBackUp
         {
             services.AddAutoMapper();
             services.AddMvc();
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("RequireAdministratorRole", policy => policy.RequireRole("Administrator"));
-                
-            });
+       
         }
 
         private void RegisterAuthentication(IServiceCollection services)
@@ -109,7 +105,7 @@ namespace TwitterBackUp
             }
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env,IServiceProvider provider)
         {
             if (env.IsDevelopment())
             {
@@ -139,7 +135,8 @@ namespace TwitterBackUp
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-            
+
+            Seed.Initialize(provider).Wait();
         }
     }
 }

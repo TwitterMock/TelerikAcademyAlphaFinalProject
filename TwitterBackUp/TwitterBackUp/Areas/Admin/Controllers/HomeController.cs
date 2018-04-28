@@ -10,7 +10,7 @@ namespace TwitterBackUp.Areas.Admin.Controllers
     [Area("Admin")]
     public class HomeController : Controller
     {
-        [Authorize(Policy = "RequireAdministratorRole")]
+        [Authorize(Roles ="Administrator")]
         public IActionResult Index()
         {
             return View("Index");
