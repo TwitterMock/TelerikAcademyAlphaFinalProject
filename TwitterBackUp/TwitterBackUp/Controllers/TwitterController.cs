@@ -29,8 +29,7 @@ namespace TwitterBackUp.Controllers
             this.twittersService = twittersService;
         }
 
-        [HttpPost]
-        [AutoValidateAntiforgeryToken]
+        [HttpGet]
         public async Task<IActionResult> Search(string screenName)
         {
             var userResult = await this.twitterApiProvider.GetTwitterByScreenNameAsync(screenName);

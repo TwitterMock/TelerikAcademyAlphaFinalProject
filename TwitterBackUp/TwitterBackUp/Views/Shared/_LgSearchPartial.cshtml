@@ -1,13 +1,13 @@
-﻿
-@if (User.Identity.IsAuthenticated)
+﻿@if (User.Identity.IsAuthenticated)
 {
     <div class="bootsnipp-search animate">
         <div class="container">
-            <form asp-controller="Twitter" asp-action="Search" role="search">
+            <form asp-controller="Twitter" asp-action="Search" role="search" method="get">
                 <div class="input-group">
-                    <input id="search-input" type="text" class="form-control" name="screenName" placeholder="Search Tweets">
+                    <input id="search-input" type="text" class="form-control" name="screenName" placeholder="Search Twitter">
 
                     <select class="selectpicker" id="categories-options">
+                        <option value="sports">Sports</option>
                         <option value="sports">Sports</option>
                         <option value="travel">Travel</option>
                         <option value="technology">Technology</option>

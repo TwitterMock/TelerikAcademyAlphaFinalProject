@@ -30,8 +30,7 @@ namespace TwitterBackUp.Controllers
             this.mapper = mapper;
         }
 
-        [HttpPost]
-        [AutoValidateAntiforgeryToken]
+        [HttpGet]
         public async Task<IActionResult> Timeline(string twitterId)
         {
             int count = 20;

@@ -11,10 +11,9 @@
         <button id="save-twitter-btn" class="btn btn-primary" data-loading-text="<i class='fa fa-spinner fa-spin '></i> Loading" data-name="@Model.ScreenName">Save Twitter</button>
 
         <div class="col-lg-1 pull-right">
-            <form asp-controller="Tweet" asp-action="Timeline" method="post">
-                <input hidden name="twitterId" , value="@Model.TwitterId" />
-                <button class="btn btn-primary" type="submit">Table View</button>
-            </form>
+            <a asp-controller="Tweet" asp-action="Timeline" asp-route-twitterId="@Model.TwitterId" class="btn btn-primary">
+                Table View
+            </a>
         </div>
 
     </div>
