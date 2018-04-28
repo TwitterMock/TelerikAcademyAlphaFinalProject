@@ -5,8 +5,8 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using Microsoft.Extensions.Caching.Memory;
 using TwitterBackUp.DTO;
-using TwitterBackUp.DTO.TimelineDtos;
 using TwitterBackUp.Services.Services.Contracts;
 using TwitterBackUp.Services.Utils.Contracts;
 
@@ -17,15 +17,17 @@ namespace TwitterBackUp.Services.Services
         private readonly IAppCredentials appCredentials;
         private readonly IJsonProvider jsonProvider;
         private readonly IHttpClientWrapper httpClient;
+        private readonly IMemoryCache memoryCache;
 
-        public TwitterApiProvider(IAppCredentials appCredentials, IJsonProvider jsonProvider, IHttpClientWrapper httpClient)
+        public TwitterApiProvider(IAppCredentials appCredentials, IJsonProvider jsonProvider, IHttpClientWrapper httpClient, IMemoryCache memoryCache)
         {
             this.appCredentials = appCredentials;
             this.jsonProvider = jsonProvider;
             this.httpClient = httpClient;
+            this.memoryCache = memoryCache;
         }
 
-        public async Task<TimelineDto> GetTwitterTimelineAsync(string userId, int tweetsCount)
+        public async Task<ICollection<TweetDto>> GetTwitterTimelineAsync(string userId, int tweetsCount)
         {
             var bearer = this.appCredentials.BearerToken;
 
@@ -45,17 +47,21 @@ namespace TwitterBackUp.Services.Services
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 var json = this.jsonProvider.ParseToJArray(await response.Content.ReadAsStringAsync());
-                var tweets = this.jsonProvider.DeserializeObject<List<TweetDto>>(json.ToString());
-                var twitter = this.jsonProvider.DeserializeObject<TwitterDto>(json.First["user"].ToString());
-
-                return new TimelineDto {Twitter = twitter, Tweets = tweets};
+                return this.jsonProvider.DeserializeObject<List<TweetDto>>(json.ToString());
             }
 
-            return null;
+            return new List<TweetDto>();
         }
 
         public async Task<string> GetSearchSuggestionsByCategoryAsync(string category)
         {
+            string suggestions;
+
+            if (this.memoryCache.TryGetValue($"{category}", out suggestions))
+            {
+                return suggestions;
+            }
+
             var bearer = this.appCredentials.BearerToken;
 
             var uriString =
@@ -73,13 +79,14 @@ namespace TwitterBackUp.Services.Services
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                return await response.Content.ReadAsStringAsync();
+                suggestions = await response.Content.ReadAsStringAsync();
+                this.memoryCache.Set($"{category}", suggestions);
             }
 
-            return null;
+            return suggestions;
         }
 
-        public async Task<ExtendedTwitterDto> GetTwitterByScreenNameAsync(string screenName)
+        public async Task<TwitterDto> GetTwitterByScreenNameAsync(string screenName)
         {
             var bearer = this.appCredentials.BearerToken;
 
@@ -98,7 +105,7 @@ namespace TwitterBackUp.Services.Services
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 var json = this.jsonProvider.ParseToJObject(await response.Content.ReadAsStringAsync());
-                return this.jsonProvider.DeserializeObject<ExtendedTwitterDto>(json.ToString());
+                return this.jsonProvider.DeserializeObject<TwitterDto>(json.ToString());
             }
 
             return null;
@@ -159,7 +166,7 @@ namespace TwitterBackUp.Services.Services
             return string.Empty;
         }
 
-        public async Task<ExtendedTweetDto> GetTweetByIdAsync(string id)
+        public async Task<TweetDto> GetTweetByIdAsync(string id)
         {
             var bearer = this.appCredentials.BearerToken;
 
@@ -179,7 +186,7 @@ namespace TwitterBackUp.Services.Services
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 var json = this.jsonProvider.ParseToJObject(await response.Content.ReadAsStringAsync());
-                return this.jsonProvider.DeserializeObject<ExtendedTweetDto>(json.ToString());
+                return this.jsonProvider.DeserializeObject<TweetDto>(json.ToString());
             }
 
             return null;

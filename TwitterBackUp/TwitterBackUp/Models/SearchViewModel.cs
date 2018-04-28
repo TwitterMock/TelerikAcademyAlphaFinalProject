@@ -1,6 +1,6 @@
 ﻿namespace TwitterBackUp.Models
 {
-    public class TwitterViewModel
+    public class SearchViewModel
     {
         public string TwitterId { get; set; }
 

@@ -1,8 +1,11 @@
 ﻿using Newtonsoft.Json;
+using System.Collections;
+using System.Collections.Generic;
+using TwitterBackUp.DomainModels;
 
 namespace TwitterBackUp.DTO
 {
-    public class ExtendedTwitterDto
+    public class TwitterDto
     {
         [JsonProperty("id_str")]
         public string TwitterId { get; set; }

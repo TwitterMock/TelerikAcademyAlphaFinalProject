@@ -1,33 +1,17 @@
-﻿//$(document).on('click', '.tweet-details', function () {
-//    var tweetId = '980573232804884480';
-//    var screenName = 'Trump';
-//    var queryString = `twitterScreenName=${screenName}&tweetId=${tweetId}`;
-
-//    $.ajax({
-//        dataType: "json",
-//        url: '/Tweet/GetTweetHtml?' + queryString,
-//        type: 'GET',
-//        success: function (data) {
-//            var html = data.html;
-//            $("#details-modal-body").html(html);
-//            $('#details-modal').modal();
-//        }
-//    });
-
-//});
-
-var tweetDetails = function (screenName, tweetId) {
+﻿$(document).on('click', '.tweet-details-btn', function () {
+    var screenName = $(this).attr('data-name');
+    var tweetId = $(this).attr('data-id');
     var queryString = `twitterScreenName=${screenName}&tweetId=${tweetId}`;
 
     $.ajax({
         dataType: "json",
-        url: '/Tweet/GetTweetHtml?' + queryString,
+        url: '/Tweet/Html?' + queryString,
         type: 'GET',
-        success: function (data) {
+        success: function(data) {
             var html = data.html;
             $("#details-modal-body").html(html);
             $('#details-modal').modal();
+            $('.save-tweet-btn').attr('data-id', tweetId);
         }
     });
-
-}
+});

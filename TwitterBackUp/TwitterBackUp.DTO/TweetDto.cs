@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace TwitterBackUp.DTO.TimelineDtos
+namespace TwitterBackUp.DTO
 {
     public class TweetDto
     {
@@ -13,7 +13,10 @@ namespace TwitterBackUp.DTO.TimelineDtos
         [JsonProperty("text")]
         public string Content { get; set; }
 
+        [JsonProperty("user")]
+        public TwitterDto Twitter { get; set; }
+        
         [JsonProperty("retweet_count")]
-        public int RetweetCount { get; set; }
+        public int RetweetsCount { get; set; }
     }
 }
