@@ -47,4 +47,8 @@
     <None Include="wwwroot\lib\bootstrap-select\dist\js\bootstrap-select.min.js" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Areas\Admin\Models\" />
+  </ItemGroup>
+
 </Project>
