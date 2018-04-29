@@ -8,5 +8,6 @@ namespace TwitterBackUp.Services.Services.Contracts
    public  interface IUserServices
     {
         List <ApplicationUser> getAllUsers();
+         void PromoteUser(string Id);
     }
 }

@@ -17,19 +17,19 @@ namespace TwitterBackUp.Areas.Admin.Controllers
         private readonly IUserServices userServices;
         private readonly IMapper mapper;
 
-        public HomeController(IUserServices userServices,IMapper mapper)
+        public HomeController(IUserServices userServices, IMapper mapper)
         {
             this.userServices = userServices;
             this.mapper = mapper;
         }
-        [Authorize(Roles ="Administrator")]
+        [Authorize(Roles = "Administrator")]
         public IActionResult Index()
         {
             return View("Index");
         }
-           public IActionResult Users()
+        public IActionResult Users()
         {
-            var users=this.userServices.getAllUsers();
+            var users = this.userServices.getAllUsers();
             var allUsersAsViewModels = new List<UserViewModel>();
             foreach (var item in users)
             {
@@ -38,6 +38,11 @@ namespace TwitterBackUp.Areas.Admin.Controllers
             }
 
             return View(allUsersAsViewModels);
+        }
+        public IActionResult PromoteUser(string Id)
+        {
+            this.userServices.PromoteUser(Id);
+            return OkResult;
         }
     }
 }
