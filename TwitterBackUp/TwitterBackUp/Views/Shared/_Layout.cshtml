@@ -56,9 +56,9 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="Index" class="[ animate ]">Home</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="About" class="[ animate ]">About</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact" class="[ animate ]">Contact</a></li>
-              
 
-                 
+
+
                     @await Html.PartialAsync("_SmSearchPartial")
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
@@ -85,7 +85,6 @@
         <script src="~/js/suggestions.js" asp-append-version="true"></script>
         <script src="~/js/save-twitter.js" asp-append-version="true"></script>
         <script src="~/js/save-tweet.js" asp-append-version="true"></script>
-        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
     </environment>
 
     <environment exclude="Development">
@@ -112,10 +111,10 @@
         <script src="~/js/navbar.js" asp-append-version="true"></script>
         <script src="~/js/suggestions.js" asp-append-version="true"></script>
         <script src="~/js/tweet-details.js" asp-append-version="true"></script>
-        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
     </environment>
 
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
     @RenderSection("Scripts", required: false)
 </body>
