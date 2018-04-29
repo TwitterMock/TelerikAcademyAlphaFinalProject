@@ -2,9 +2,36 @@
 @model List<UserViewModel>
 
 
-@foreach (var item in Model)
-{
-    <p>@item.Id</p>
-    <p>@item.UserName</p>
 
-}
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">TweetId</th>
+                <th scope="col">UserName/Email</th>
+                <th scope="col">Make Admin</th>
+                <th scope="col">Delete User</th>
+                <th scope="col">View Save Tweets</th>
+
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>#@user.Id</td>
+                    <td>@user.UserName</td>
+
+                    <td><button class="btn btn-link tweet-details" onclick="tweetDetails('@user.UserName', '@user.Id')">Promote</button></td>
+                    <td><button class="btn btn-link tweet-details" onclick="tweetDetails('@user.UserName', '@user.Id')">Delete</button></td>
+                    <td><button class="btn btn-link tweet-details" onclick="tweetDetails('@user.UserName', '@user.Id')">Tweets</button></td>
+
+
+
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
