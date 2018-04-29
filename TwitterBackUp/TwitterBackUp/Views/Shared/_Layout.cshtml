@@ -56,9 +56,14 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="Index" class="[ animate ]">Home</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="About" class="[ animate ]">About</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact" class="[ animate ]">Contact</a></li>
-              
+                    @if (User.IsInRole("Administrator"))
+                    {
+                        <li><a asp-area="Admin" asp-controller="Home" asp-action="Users" class="[ animate ]">Users</a></li>
 
-                 
+                    }
+
+
+
                     @await Html.PartialAsync("_SmSearchPartial")
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")

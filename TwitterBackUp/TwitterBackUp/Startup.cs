@@ -53,6 +53,8 @@ namespace TwitterBackUp
             services.AddSingleton<IHttpClientWrapper, HttpClientWrapper>();
             services.AddTransient<IUserTwittersServices, UserTwittersServices>();
             services.AddTransient<IUserTweetsServices, UserTweetsServices>();
+            services.AddTransient<IUserServices, UserServices>();
+
 
         }
 
