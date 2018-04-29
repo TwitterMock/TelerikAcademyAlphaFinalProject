@@ -10,11 +10,10 @@
         url: "/Tweet/Save?id=" + tweetId,
         type: "POST",
         data: {
-            'key': 'some_data',
             __RequestVerificationToken: token
         },
         success: function () {
-            saveTweetButton.html('Successfully Saved');
+            saveTweetButton.html('Tweet Saved');
             saveTweetButton.removeClass('btn-primary').addClass('btn-success');
         },
 
