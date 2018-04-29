@@ -8,6 +8,7 @@ using TwitterBackUp.Services.Services.Contracts;
 using TwitterBackUp.Areas.Admin.Models;
 using AutoMapper;
 using TwitterBackUp.Data.Identity;
+using Microsoft.AspNetCore.Identity;
 
 namespace TwitterBackUp.Areas.Admin.Controllers
 {
@@ -16,11 +17,13 @@ namespace TwitterBackUp.Areas.Admin.Controllers
     {
         private readonly IUserServices userServices;
         private readonly IMapper mapper;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        public HomeController(IUserServices userServices, IMapper mapper)
+        public HomeController(IUserServices userServices, IMapper mapper,UserManager<ApplicationUser> userManager)
         {
             this.userServices = userServices;
             this.mapper = mapper;
+            this.userManager = userManager;
         }
         [Authorize(Roles = "Administrator")]
         public IActionResult Index()
@@ -39,10 +42,13 @@ namespace TwitterBackUp.Areas.Admin.Controllers
 
             return View(allUsersAsViewModels);
         }
-        public IActionResult PromoteUser(string Id)
+        public async Task<IActionResult> PromoteUser(string Id)
         {
-            this.userServices.PromoteUser(Id);
-            return OkResult;
+          
+
+            await this.userServices.PromoteUser(Id);
+
+            return new OkResult();
         }
     }
 }

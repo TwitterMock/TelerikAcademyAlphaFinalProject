@@ -4,6 +4,7 @@
 
 
 
+
     <table class="table">
         <thead>
             <tr>
@@ -23,7 +24,7 @@
                     <td>#@user.Id</td>
                     <td>@user.UserName</td>
 
-                    <td><button class="btn btn-link tweet-details" onclick="tweetDetails('@user.UserName', '@user.Id')">Promote</button></td>
+                    <td><a  class="btn btn-link promoteUser"data-name="@user.Id">Promote</a></td>
                     <td><button class="btn btn-link tweet-details" onclick="tweetDetails('@user.UserName', '@user.Id')">Delete</button></td>
                     <td><button class="btn btn-link tweet-details" onclick="tweetDetails('@user.UserName', '@user.Id')">Tweets</button></td>
 

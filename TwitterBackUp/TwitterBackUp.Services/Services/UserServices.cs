@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using TwitterBackUp.Data.Identity;
 using TwitterBackUp.DataModels.Models;
 using TwitterBackUp.Services.Services.Contracts;
@@ -24,21 +25,16 @@ namespace TwitterBackUp.Services.Services
 
             return allUsers;
         }
-        public async void PromoteUser(string Id)
+        public async Task<string> PromoteUser(string Id)
         {
-            if (Id == null)
-            {
-                throw new ArgumentNullException();
-            }
-
-            var user = await this.userManager.FindByIdAsync(Id);
-
+            var user =  await this.userManager.FindByIdAsync(Id);
             if (user == null)
             {
                 throw new ArgumentException();
             }
 
-           await this.userManager.AddToRoleAsync(user,"Administrator");
+            await this.userManager.AddToRoleAsync(user,"Administrator");
+            return "success";
         }
     }
 }
