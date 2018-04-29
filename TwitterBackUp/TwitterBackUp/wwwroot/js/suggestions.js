@@ -21,6 +21,9 @@
             });
 
             selector.attr("disabled", false);
+        },
+        error: function () {
+            alert('pesho');
         }
     });
 });

@@ -25,7 +25,7 @@ namespace TwitterBackUp.DataTests
 
             using (this.context = new TwitterContext(this.options))
             {
-                var tweetRepository = new GenericRepository<Tweet>(this.context);
+                var tweetRepository = new GenericRepository<Tweet, string>(this.context);
 
                 tweetRepository.Insert(new Tweet
                 {
@@ -71,43 +71,13 @@ namespace TwitterBackUp.DataTests
 
             using (this.context = new TwitterContext(this.options))
             {
-                var tweetRepository = new GenericRepository<Tweet>(this.context);
+                var tweetRepository = new GenericRepository<Tweet, string>(this.context);
                 var entity = tweetRepository.GetById(tweetId);
 
                 Assert.That(entity, Is.Not.Null);
             }
         }
-
-        [Test]
-        public void GetById_ShouldFindEntityByPrimaryKey_When_PassedCompositePrimaryKey()
-        {
-            this.options = new DbContextOptionsBuilder<TwitterContext>()
-                .UseInMemoryDatabase(databaseName: "GetById_ShouldFindEntityByPrimaryKey_When_PassedCompositePrimaryKey")
-                .Options;
-
-            var tweetId = "12349891273482342";
-            var userId = "89273489728934723";
-
-            using (this.context = new TwitterContext(this.options))
-            {
-                this.context.UsersTweets.Add(new UsersTweets
-                {
-                    TweetId = tweetId,
-                    UserId = userId
-                });
-
-                this.context.SaveChanges();
-            }
-
-            using (this.context = new TwitterContext(this.options))
-            {
-                var usersTweetsRepository = new GenericRepository<UsersTweets>(this.context);
-                var entity = usersTweetsRepository.GetById(userId, tweetId);
-
-                Assert.That(entity, Is.Not.Null);
-            }
-        }
-
+        
         [Test]
         public void Delete_ShouldRemoveEntityFromDb()
         {
@@ -131,7 +101,7 @@ namespace TwitterBackUp.DataTests
                 this.context.Tweets.Add(tweet);
                 this.context.SaveChanges();
 
-                var tweetRepository = new GenericRepository<Tweet>(this.context);
+                var tweetRepository = new GenericRepository<Tweet, string>(this.context);
 
                 tweetRepository.Delete(tweet);
                 this.context.SaveChanges();
@@ -173,7 +143,7 @@ namespace TwitterBackUp.DataTests
 
             using (this.context = new TwitterContext(this.options))
             {
-                var tweetRepository = new GenericRepository<Tweet>(context);
+                var tweetRepository = new GenericRepository<Tweet, string>(context);
                 tweetRepository.Update(tweet);
                 context.SaveChanges();
             }

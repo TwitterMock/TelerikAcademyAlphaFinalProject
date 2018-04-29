@@ -10,30 +10,32 @@ namespace TwitterBackUp.Services.Services
     {
         private readonly IUnitOfWork unitOfWork;
         private readonly ITweetRepository tweetRepository;
-        private readonly IGenericRepository<UsersTweets> usersTweetsRepository;
 
-        public TweetService(IUnitOfWork unitOfWork, ITweetRepository tweetRepository, IGenericRepository<UsersTweets> usersTweetsRepository)
+        public TweetService(IUnitOfWork unitOfWork, ITweetRepository tweetRepository)
         {
             this.unitOfWork = unitOfWork;
             this.tweetRepository = tweetRepository;
-            this.usersTweetsRepository = usersTweetsRepository;
         }
 
-        public void StoreTweetByUserId(string userId, Tweet tweet)
+        public void SaveTweetByUserId(string userId, Tweet tweet)
         {
             if (userId == null) throw new ArgumentNullException(nameof(userId));
             if (userId == string.Empty) throw new ArgumentException(nameof(userId));
             if (tweet == null) throw new ArgumentNullException(nameof(tweet));
 
             var tweetById = this.tweetRepository.GetById(tweet.Id);
-
-            if (tweetById == null)
+            var userTweetRecord = new UsersTweets { UserId = userId, TweetId = tweet.Id };
+            
+            if (tweetById != null)
+            {
+                tweetById.UsersTweets.Add(userTweetRecord);
+            }
+            else
             {
                 this.tweetRepository.Insert(tweet);
+                tweet.UsersTweets.Add(userTweetRecord);
             }
 
-            var tweetUserRecord = new UsersTweets { UserId = userId, TweetId = tweet.Id };
-            this.usersTweetsRepository.Insert(tweetUserRecord);
             this.unitOfWork.SaveChanges();
         }
     }

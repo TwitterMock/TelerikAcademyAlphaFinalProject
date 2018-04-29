@@ -6,12 +6,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Areas\Admin\Models\**" />
     <Compile Remove="Models\TweetsViewModels\**" />
     <Compile Remove="Views\Tweet\**" />
+    <Content Remove="Areas\Admin\Models\**" />
     <Content Remove="Models\TweetsViewModels\**" />
     <Content Remove="Views\Tweet\**" />
+    <EmbeddedResource Remove="Areas\Admin\Models\**" />
     <EmbeddedResource Remove="Models\TweetsViewModels\**" />
     <EmbeddedResource Remove="Views\Tweet\**" />
+    <None Remove="Areas\Admin\Models\**" />
     <None Remove="Models\TweetsViewModels\**" />
     <None Remove="Views\Tweet\**" />
   </ItemGroup>
@@ -45,10 +49,6 @@
     <None Include="wwwroot\lib\bootstrap-select\dist\js\bootstrap-select.js" />
     <None Include="wwwroot\lib\bootstrap-select\dist\js\bootstrap-select.js.map" />
     <None Include="wwwroot\lib\bootstrap-select\dist\js\bootstrap-select.min.js" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Areas\Admin\Models\" />
   </ItemGroup>
 
 </Project>

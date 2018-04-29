@@ -1,23 +1,38 @@
 ﻿@model SearchViewModel
 
-@{
-    var url = $"https://twitter.com/{Model.ScreenName}";
-}
-
 <div class="container">
     <br />
-    <div class="row text-right">
+    @if (Model.IsSuccess)
+    {
+        <div class="row text-right">
 
-        <button id="save-twitter-btn" class="btn btn-primary" data-loading-text="<i class='fa fa-spinner fa-spin '></i> Loading" data-name="@Model.ScreenName">Save Twitter</button>
+            @if (Model.IsSavedTwitter)
+            {
+                <button disabled id="save-twitter-btn" class="btn btn-success">Twitter Saved!</button>
+            }
+            else
+            {
+                <form id="__AjaxAntiForgeryForm" asp-antiforgery="true"></form>
+                <button id="save-twitter-btn" class="btn btn-primary" data-loading-text="<i class='fa fa-spinner fa-spin '></i> Loading" data-twitter-srcname="@Model.SearchedTwitter.ScreenName">
+                    Save Twitter
+                </button>
+            }
 
-        <div class="col-lg-1 pull-right">
-            <a asp-controller="Tweet" asp-action="Timeline" asp-route-twitterId="@Model.TwitterId" class="btn btn-primary">
-                Table View
-            </a>
+            <div class="col-lg-1 pull-right">
+                <a asp-controller="Tweet" asp-action="Timeline" asp-route-twitterId="@Model.SearchedTwitter.TwitterId" class="btn btn-primary">
+                    Table View
+                </a>
+            </div>
+
         </div>
 
-    </div>
+        var url = $"https://twitter.com/{Model.SearchedTwitter.ScreenName}";
 
-    <a class="twitter-timeline" href="@url" data-tweet-limit="20">Tweets by @Model.Username</a>
-    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        <a class="twitter-timeline" href="@url" data-tweet-limit="20">Tweets by @Model.SearchedTwitter.Username</a>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    }
+    else
+    {
+        <h2>Twitter by the name <em>@Model.SearchString</em> not found!</h2>
+    }
 </div>

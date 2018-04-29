@@ -7,6 +7,6 @@ namespace TwitterBackUp.Services.Services.Contracts
 {
     public interface ITwittersService
     {
-        void StoreTwitterByUserId(string userId, Twitter twitter);
+        void SaveTwitterByUserId(string userId, Twitter twitter);
     }
 }

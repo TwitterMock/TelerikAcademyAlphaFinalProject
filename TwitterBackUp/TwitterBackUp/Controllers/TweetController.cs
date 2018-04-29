@@ -51,15 +51,16 @@ namespace TwitterBackUp.Controllers
         }
 
         [HttpPost]
-        //[AutoValidateAntiforgeryToken]
-        public async Task<IActionResult> SaveAsync(string id)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Save(string id)
         {
             var userId = this.userManager.GetUserId(this.User);
 
             var tweetDto = await this.twitterApiProvider.GetTweetByIdAsync(id);
  
             var tweet = this.mapper.Map<TweetDto, Tweet>(tweetDto);
-            this.tweetServices.StoreTweetByUserId(userId, tweet);
+
+            this.tweetServices.SaveTweetByUserId(userId, tweet);
 
             return new OkResult();
         }

@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Security.Principal;
 using Microsoft.EntityFrameworkCore;
 using TwitterBackUp.DataModels.Models;
 using TwitterBackUp.DataModels.Repositories.Contracts;
@@ -10,16 +9,21 @@ using TwitterBackUp.DomainModels;
 
 namespace TwitterBackUp.DataModels.Repositories
 {
-    public class TwitterRepository : GenericRepository<Twitter>, ITwitterRepository
+    public class TwitterRepository : GenericRepository<Twitter, string>, ITwitterRepository
     {
         public TwitterRepository(TwitterContext context) : base(context)
         {
         }
 
-        public IEnumerable<Twitter> GetTwittersByUserId(string id)
+        public ICollection<Twitter> GetManyByUserId(string id)
         {
             var param = new SqlParameter("@UserId", id);
             return this.DbSet.FromSql("GetTwittersByUserId @UserId", param).ToList();
+        }
+
+        public Twitter GetSingle(string screenName, string userId)
+        {
+            return this.DbSet.FirstOrDefault(t => t.ScreenName == screenName && t.UsersTwitters.Any(u => u.UserId == userId));
         }
     }
 }

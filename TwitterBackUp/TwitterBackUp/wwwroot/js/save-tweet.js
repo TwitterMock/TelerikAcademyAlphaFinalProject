@@ -1,22 +1,24 @@
-﻿$(document).ready(function() {
-    $('.save-tweet-btn').on('click',
-        function () {
-            var saveTweetButton = $(this);
-            saveTweetButton.button('loading');
-            var tweetId = saveTweetButton.attr('data-id');
-            
-            $.ajax({
-                url: "/Tweet/SaveAsync?id=" + tweetId,
-                type: "POST",
+﻿$(document).on('click', '#save-tweet-btn', function () {
+    var saveTweetButton = $(this);
+    saveTweetButton.button('loading');
+    var tweetId = saveTweetButton.attr('data-tweet-id');
 
-                success: function () {
-                    saveTweetButton.html('Successfully Saved');
-                    saveTweetButton.removeClass('btn-primary').addClass('btn-success');
-                },
+    var form = $('#__AjaxAntiForgeryForm');
+    var token = $('input[name="__RequestVerificationToken"]', form).val();
+    
+    $.ajax({
+        url: "/Tweet/Save?id=" + tweetId,
+        type: "POST",
+        data: {
+            __RequestVerificationToken: token
+        },
+        success: function () {
+            saveTweetButton.html('Tweet Saved');
+            saveTweetButton.removeClass('btn-primary').addClass('btn-success');
+        },
 
-                error: function () {
-                    saveTweetButton.button('reset');
-                }
-            });
-        });
+        error: function () {
+            saveTweetButton.button('reset');
+        }
+    });
 });

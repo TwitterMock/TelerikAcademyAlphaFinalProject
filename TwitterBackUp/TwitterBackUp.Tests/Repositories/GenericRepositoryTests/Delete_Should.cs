@@ -19,7 +19,7 @@ namespace TwitterBackUp.Tests.Repositories.GenericRepositoryTests
             contextMock.Setup(x => x.Set<Tweet>())
                 .Returns(tweetsDbSetMock.Object);
 
-            var tweetRepository = new GenericRepository<Tweet>(contextMock.Object);
+            var tweetRepository = new GenericRepository<Tweet, string>(contextMock.Object);
 
             Assert.That(() => tweetRepository.Delete(null), Throws.ArgumentNullException);
         }
@@ -37,7 +37,7 @@ namespace TwitterBackUp.Tests.Repositories.GenericRepositoryTests
             tweetsDbSetMock.Setup(x => x.Remove(It.IsAny<Tweet>()))
                 .Verifiable();
 
-            var tweetRepository = new GenericRepository<Tweet>(contextMock.Object);
+            var tweetRepository = new GenericRepository<Tweet, string>(contextMock.Object);
             tweetRepository.Delete(tweet);
 
             tweetsDbSetMock.Verify(s => s.Remove(It.IsAny<Tweet>()), Times.Once);
