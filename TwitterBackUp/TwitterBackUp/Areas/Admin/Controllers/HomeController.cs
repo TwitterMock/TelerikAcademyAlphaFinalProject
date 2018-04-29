@@ -10,12 +10,12 @@ namespace TwitterBackUp.Areas.Admin.Controllers
     [Area("Admin")]
     public class HomeController : Controller
     {
-        [Authorize(Roles ="Administrator")]
+        [Authorize(Roles = "Administrator")]
         public IActionResult Index()
         {
             return View("Index");
         }
-           public IActionResult Users()
+        public IActionResult Users()
         {
             return View();
         }

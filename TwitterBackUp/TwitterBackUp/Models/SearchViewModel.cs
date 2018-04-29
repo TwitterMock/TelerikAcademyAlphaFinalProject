@@ -2,10 +2,12 @@
 {
     public class SearchViewModel
     {
-        public string TwitterId { get; set; }
+        public bool IsSavedTwitter { get; set; }
 
-        public string Username { get; set; }
+        public bool IsSuccess { get; set; }
 
-        public string ScreenName { get; set; }
+        public string SearchString { get; set; }
+        
+        public TwitterViewModel SearchedTwitter { get; set; }
     }
 }

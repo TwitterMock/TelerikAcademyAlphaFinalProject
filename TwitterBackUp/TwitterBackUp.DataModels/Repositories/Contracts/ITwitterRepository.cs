@@ -6,6 +6,6 @@ namespace TwitterBackUp.DataModels.Repositories.Contracts
     public interface ITwitterRepository : IGenericRepository<Twitter, string>
     {
         ICollection<Twitter> GetManyByUserId(string id);
-        Twitter GetSingle(string twitterId, string userId);
+        Twitter GetSingle(string screenName, string userId);
     }
 }

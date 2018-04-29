@@ -9,13 +9,13 @@
 
 <table class="table">
     <thead>
-        <tr>
-            <th scope="col">TweetId</th>
-            <th scope="col">CreatedOn</th>
-            <th scope="col">RetweetsCount</th>
-            <th scope="col">TweetUrl</th>
-            <th scope="col">Options</th>
-        </tr>
+    <tr>
+        <th scope="col">TweetId</th>
+        <th scope="col">CreatedOn</th>
+        <th scope="col">RetweetsCount</th>
+        <th scope="col">TweetUrl</th>
+        <th scope="col">Options</th>
+    </tr>
     </thead>
     <tbody>
     @foreach (var tweet in Model.Tweets)
@@ -30,27 +30,29 @@
                 }
                 <a target="_blank" href="@tweetUrl">link</a>
             </td>
-            <td><button class="btn btn-link tweet-details-btn" data-name="@twitterScreenName" data-id="@tweet.TweetId">Details</button></td>        
+            <td><button class="btn btn-link tweet-details-btn" data-twitter-srcname="@twitterScreenName" data-tweet-id="@tweet.TweetId">Details</button></td>        
         </tr>
     }
     </tbody>
 </table>
 
-<div class="modal fade" id="details-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body" id="details-modal-body"></div>
-            <div class="modal-footer">
-                <button type="button" class="save-tweet-btn btn btn-primary" data-id="" data-loading-text="<i class='fa fa-spinner fa-spin '></i> Loading">Save Tweet</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+<div id="modal-holder">
+    <div class="modal fade" id="details-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="tweet-modal-body"></div>
+                <div class="modal-footer">
+                    <form id="__AjaxAntiForgeryForm" asp-antiforgery="true"></form>
+                    <button id="save-tweet-btn" type="button" class="btn btn-primary" data-tweet-id="" data-loading-text="<i class='fa fa-spinner fa-spin '></i> Loading">Save Tweet</button>
+                    <button type="button" class="btn" data-dismiss="modal">Close</button>
+                </div>
             </div>
         </div>
     </div>
 </div>
-
-

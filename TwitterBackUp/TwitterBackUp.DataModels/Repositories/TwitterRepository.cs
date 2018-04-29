@@ -21,9 +21,9 @@ namespace TwitterBackUp.DataModels.Repositories
             return this.DbSet.FromSql("GetTwittersByUserId @UserId", param).ToList();
         }
 
-        public Twitter GetSingle(string twitterId, string userId)
+        public Twitter GetSingle(string screenName, string userId)
         {
-            return this.DbSet.FirstOrDefault(t => t.Id == twitterId && t.UsersTwitters.Any(u => u.UserId == userId));
+            return this.DbSet.FirstOrDefault(t => t.ScreenName == screenName && t.UsersTwitters.Any(u => u.UserId == userId));
         }
     }
 }

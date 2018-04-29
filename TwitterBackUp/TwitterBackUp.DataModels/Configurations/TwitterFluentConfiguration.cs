@@ -14,6 +14,10 @@ namespace TwitterBackUp.DataModels.Configurations
             modelBuilder.Entity<Twitter>()
                 .Property(x => x.Id)
                 .ValueGeneratedNever();
+
+            modelBuilder.Entity<Twitter>()
+                .HasAlternateKey(c => c.ScreenName)
+                .HasName("AlternateKey_ScreenName");
         }
     }
 }
