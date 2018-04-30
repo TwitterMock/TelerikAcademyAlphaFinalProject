@@ -15,6 +15,7 @@
         success: function () {
             saveTweetButton.html('Tweet Saved');
             saveTweetButton.removeClass('btn-primary').addClass('btn-success');
+            saveTweetButton.attr("disabled", true);
         },
 
         error: function () {

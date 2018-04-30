@@ -63,7 +63,7 @@ namespace TwitterBackUp
 
             services.AddTransient<ITwitterRepository, TwitterRepository>();
             services.AddTransient<ITweetRepository, TweetRepository>();
-            services.AddTransient<IUnitOfWork,UnitOfWork>();
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
         }
 
         private void RegisterInfrastructure(IServiceCollection services)
@@ -71,7 +71,6 @@ namespace TwitterBackUp
             services.AddAutoMapper();
             services.AddMemoryCache();
             services.AddMvc();
-       
         }
 
         private void RegisterAuthentication(IServiceCollection services)
@@ -101,7 +100,7 @@ namespace TwitterBackUp
             }
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env,IServiceProvider provider)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider provider)
         {
             if (env.IsDevelopment())
             {
@@ -121,8 +120,8 @@ namespace TwitterBackUp
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
-            name: "areaRoute",
-            template: "{area:exists}/{controller=Home}/{action=Index}");
+                    name: "areaRoute",
+                    template: "{area:exists}/{controller=Home}/{action=Index}");
 
                 routes.MapRoute(
                     name: "default",

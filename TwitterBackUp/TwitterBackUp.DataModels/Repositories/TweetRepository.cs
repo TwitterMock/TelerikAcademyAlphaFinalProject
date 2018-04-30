@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Threading;
 using Microsoft.EntityFrameworkCore;
 using TwitterBackUp.DataModels.Models;
 using TwitterBackUp.DataModels.Repositories.Contracts;
@@ -20,8 +21,8 @@ namespace TwitterBackUp.DataModels.Repositories
         {
             if (id == null) throw new ArgumentNullException(nameof(id));
 
-            var param = new SqlParameter("@UserId", id);
-            return this.DbSet.FromSql("GetTweetsByUserId @UserId", param).ToList();
+            var param = new SqlParameter("@userId", id);
+            return this.DbSet.FromSql("GetTweetsByUserId @userId", param).ToList();
         }
 
         public Tweet GetSingle(string tweetId, string userId)
@@ -30,6 +31,18 @@ namespace TwitterBackUp.DataModels.Repositories
             if (userId == null) throw new ArgumentNullException(nameof(userId));
 
             return this.DbSet.FirstOrDefault(t => t.Id == tweetId && t.UsersTweets.Any(u => u.UserId == userId));
+        }
+
+        public int DeleteSingle(string tweetId, string userId)
+        {
+            if (tweetId == null) throw new ArgumentNullException(nameof(tweetId));
+            if (userId == null) throw new ArgumentNullException(nameof(userId));
+
+            var userIdParam = new SqlParameter("@UserId", userId);
+            var tweetIdParam = new SqlParameter("@TweetId", tweetId);
+
+            return this.Context.Database.ExecuteSqlCommand("DeleteTweetByUser @TweetId, @UserId", userIdParam,
+                tweetIdParam);
         }
     }
 }
