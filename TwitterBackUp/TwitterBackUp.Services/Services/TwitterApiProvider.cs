@@ -147,8 +147,10 @@ namespace TwitterBackUp.Services.Services
 
         public async Task<string> GetTweetHtmlAsync(string userScreenName, string tweetId)
         {
+            var queryUrl = $"https://twitter.com/{userScreenName}/status/{tweetId}";
+
             var uriString =
-                $"https://publish.twitter.com/oembed?url=https://twitter.com/{userScreenName}/status/{tweetId}";
+                $"https://publish.twitter.com/oembed?url={queryUrl}&align=center";
 
             var httpMessage = new HttpRequestMessage
             {
@@ -160,7 +162,8 @@ namespace TwitterBackUp.Services.Services
 
             if (response.IsSuccessStatusCode)
             {
-                return await response.Content.ReadAsStringAsync();
+                var json = this.jsonProvider.ParseToJObject(await response.Content.ReadAsStringAsync());
+                return json["html"].ToString();
             }
 
             return string.Empty;
