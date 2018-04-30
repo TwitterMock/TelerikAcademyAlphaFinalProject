@@ -17,7 +17,7 @@ namespace TwitterBackUp.DataModels.Migrations
                     SELECT t.Id, t.Content, t.CreatedOn, t.RetweetsCount, t.TwitterScreenName, t.TwitterId
 					FROM Tweets t 
 						INNER JOIN UsersTweets ut ON t.Id = ut.TweetId
-					WHERE UserId = ut.UserId
+					WHERE @UserId = ut.UserId
                 END";
 
             migrationBuilder.Sql(sp);

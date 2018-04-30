@@ -10,6 +10,8 @@ using AutoMapper;
 using TwitterBackUp.Data.Identity;
 using Microsoft.AspNetCore.Identity;
 using TwitterBackUp.DomainModels;
+using TwitterBackUp.Models;
+using TwitterBackUp.DataModels.Repositories.Contracts;
 
 namespace TwitterBackUp.Areas.Admin.Controllers
 {
@@ -19,12 +21,14 @@ namespace TwitterBackUp.Areas.Admin.Controllers
         private readonly IUserServices userServices;
         private readonly IMapper mapper;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly ITweetRepository tweetRepo;
 
-        public HomeController(IUserServices userServices, IMapper mapper, UserManager<ApplicationUser> userManager)
+        public HomeController(IUserServices userServices, IMapper mapper, UserManager<ApplicationUser> userManager,ITweetRepository tweetRepo)
         {
             this.userServices = userServices;
             this.mapper = mapper;
             this.userManager = userManager;
+            this.tweetRepo = tweetRepo;
         }
         [Authorize(Roles = "Administrator")]
         public IActionResult Index()
@@ -53,14 +57,30 @@ namespace TwitterBackUp.Areas.Admin.Controllers
         }
         public async Task<IActionResult> DeleteUser(string Id)
         {
-            await this.userServices.DeleteUserAsync(Id);
-            return new OkResult();
-        }
-        //public IActionResult UserTweets(string Id)
-        //{
-           
-          
 
-        //}
+            try
+            {
+                await this.userServices.DeleteUserAsync(Id);
+                return this.Ok();
+            }
+            catch (Exception ex)
+            {
+                return this.BadRequest(ex);
+            }
+            
+        }
+        [HttpGet]
+        public IActionResult SavedForAdmin(string userId)
+        {        
+
+            var tweets = this.tweetRepo.GetManyByUserId(userId);
+
+            var model = new SavedTweetsViewModal
+            {
+                Tweets = tweets.Select(t => this.mapper.Map<Tweet, TweetViewModel>(t)).ToList()
+            };
+
+            return View(model);
+        }
     }
 }

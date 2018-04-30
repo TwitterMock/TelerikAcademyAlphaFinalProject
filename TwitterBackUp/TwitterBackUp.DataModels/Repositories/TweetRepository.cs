@@ -44,5 +44,15 @@ namespace TwitterBackUp.DataModels.Repositories
             return this.Context.Database.ExecuteSqlCommand("DeleteTweetByUser @TweetId, @UserId", userIdParam,
                 tweetIdParam);
         }
+        public int DeleteTweetsByUserId(string userId)
+        {
+            if (userId==null)
+            {
+                throw new ArgumentNullException(nameof(userId));
+            }
+            var userIdParam = new SqlParameter("@UserId",userId);
+          var something = this.Context.Database.ExecuteSqlCommand("DeleteTweetByUserId @UserId",userIdParam);
+            return something;
+        }
     }
 }

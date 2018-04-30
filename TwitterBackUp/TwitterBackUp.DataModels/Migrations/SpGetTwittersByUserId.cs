@@ -17,7 +17,7 @@ namespace TwitterBackUp.DataModels.Migrations
                     SELECT t.Id, t.Description, t.FollowersCount, t.FriendsCount, t.ProfileBackgroundImageUrl, t.ProfileImageUrl, t.ScreenName, t.Username, t.Url
 					FROM Twitters t 
 						INNER JOIN UsersTwitters ut ON t.Id = ut.TwitterId
-					WHERE UserId = ut.UserId
+					WHERE @UserId = ut.UserId
                 END";
 
             migrationBuilder.Sql(sp);

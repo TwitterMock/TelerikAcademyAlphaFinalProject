@@ -79,12 +79,11 @@ namespace TwitterBackUp.Controllers
         }
 
         [HttpGet]
-        public IActionResult Saved(string userId)
+        public IActionResult Saved()
         {
-            if (userId == null)
-            {
-                userId = this.userManager.GetUserId(this.User);
-            }
+           
+              var  userId = this.userManager.GetUserId(this.User);
+            
 
             var tweets = this.tweetRepository.GetManyByUserId(userId);
 

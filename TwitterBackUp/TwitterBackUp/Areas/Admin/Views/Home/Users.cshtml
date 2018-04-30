@@ -19,6 +19,7 @@
         </thead>
         <tbody>
             @foreach (var user in Model)
+
             {
                 <tr>
                     <td>#@user.Id</td>
@@ -26,7 +27,10 @@
              
                     <td><a id="@user.Id"class="btn btn-success promoteUser"data-name="@user.Id">Promote</a></td>
                     <td><a class="btn btn-danger deleteUser @user.Id" data-name="@user.Id">Delete</a></td>
-                    <td><button class="btn btn-link tweet-details" onclick="tweetDetails('@user.UserName', '@user.Id')">Tweets</button></td>
+                    <td><form asp-area="Admin" asp-controller="Home" asp-action="SavedForAdmin" method="get">
+                        <input  name="userId" value="@user.Id"/>
+                        <button type="submit" class="btn btn-default">Tweets</button>
+                        </form></td>
 
 
 

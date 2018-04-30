@@ -6,6 +6,7 @@ using TwitterBackUp.DataModels.Models;
 using TwitterBackUp.DataModels.Repositories.Contracts;
 using TwitterBackUp.DataModels.Repositories.GetHired.DataModels.Repositories.Models;
 using TwitterBackUp.DomainModels;
+using System;
 
 namespace TwitterBackUp.DataModels.Repositories
 {
@@ -24,6 +25,16 @@ namespace TwitterBackUp.DataModels.Repositories
         public Twitter GetSingle(string screenName, string userId)
         {
             return this.DbSet.FirstOrDefault(t => t.ScreenName == screenName && t.UsersTwitters.Any(u => u.UserId == userId));
+        }
+        public int DeleteTwittersByUserId(string userId)
+        {
+            if (userId == null)
+            {
+                throw new ArgumentNullException(nameof(userId));
+            }
+            var userIdParam = new SqlParameter("@UserId", userId);
+            var something = this.Context.Database.ExecuteSqlCommand("DeleteTweetByUserId @UserId", userIdParam);
+            return something;
         }
     }
 }
