@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Threading;
 using Microsoft.EntityFrameworkCore;
 using TwitterBackUp.DataModels.Models;
 using TwitterBackUp.DataModels.Repositories.Contracts;
@@ -40,7 +41,7 @@ namespace TwitterBackUp.DataModels.Repositories
             var userIdParam = new SqlParameter("@UserId", userId);
             var tweetIdParam = new SqlParameter("@TweetId", tweetId);
 
-            return this.Context.Database.ExecuteSqlCommand("DeleteTweetByUser @TweetId @UserId", userIdParam,
+            return this.Context.Database.ExecuteSqlCommand("DeleteTweetByUser @TweetId, @UserId", userIdParam,
                 tweetIdParam);
         }
     }

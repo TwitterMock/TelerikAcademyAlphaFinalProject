@@ -52,4 +52,10 @@ $(document).on('click', '.saved-tweet-details-btn', function () {
             $('#saved-tweet-details-modal').modal();
         }
     });
+}); 
+
+$('#saved-tweet-details-modal').on('hidden.bs.modal', function () {
+    var deleteTweetBtn = $('#delete-tweet-btn');
+    deleteTweetBtn.button('reset');
+    deleteTweetBtn.attr("disabled", false);
 });

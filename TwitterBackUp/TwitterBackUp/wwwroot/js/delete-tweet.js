@@ -15,6 +15,7 @@
         success: function () {
             removeTweetBtn.html('Tweet Removed');
             removeTweetBtn.attr("disabled", true);
+            $(`#${tweetId}`).remove();
         }
     });
 });
