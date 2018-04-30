@@ -5,8 +5,8 @@ using TwitterBackUp.DomainModels;
 
 namespace TwitterBackUp.Services.Services.Contracts
 {
-    public interface IUserTwittersServices
+    public interface ITwittersService
     {
-        void StoreTwitterByUserId(string userId, Twitter twitter);
+        void SaveTwitterByUserId(string userId, Twitter twitter);
     }
 }

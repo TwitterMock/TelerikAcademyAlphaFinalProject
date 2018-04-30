@@ -1,21 +1,29 @@
 ﻿$(document).on('change', '#categories-options', function () {
-   
-    var selectedCategory = $(this).find(":selected").text();
+    var selector = $(this);
+    var selectedCategory = selector.find(":selected").val();
+    selector.attr("disabled", true);
 
     $.ajax({
         dataType: 'json',
-        url: "/Twitter/GetSuggestions?category=" + selectedCategory,
+        url: "/Twitter/Suggestions?category=" + selectedCategory,
         type: "GET",
-        success: function (response) {
-            console.log(response);
+        success: function (data) {
             var suggestions = [];
-            response.forEach(r => suggestions.push(r.screen_name));
+
+            if (data) {
+                data.forEach(r => suggestions.push(r.screen_name));
+            } else {
+                alert(data);
+            }
 
             $("#search-input").autocomplete({
                 source: suggestions
             });
 
-         
+            selector.attr("disabled", false);
+        },
+        error: function () {
+            alert('pesho');
         }
     });
 });

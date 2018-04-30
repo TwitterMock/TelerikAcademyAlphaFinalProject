@@ -1,16 +1,16 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using TwitterBackUp.DTO;
-using TwitterBackUp.DTO.TwitterTimelineDtos;
 
 namespace TwitterBackUp.Services.Services.Contracts
 {
     public interface ITwitterApiProvider
     {
-        Task<TwitterSearchDto> SearchUser(string searchString);
-        Task<TwitterTimelineDto> GetUserTimeLine(string userId, int count);
-        Task<string> GetSearchSuggestionsByCategory(string category);
+        Task<TwitterDto> GetTwitterByScreenNameAsync(string searchString);
+        Task<ICollection<TweetDto>> GetTwitterTimelineAsync(string userId, int count);
+        Task<string> GetSearchSuggestionsByCategoryAsync(string category);
         Task<string> GetBearerTokenAsync(string consumerKey, string consumerSecret);
-        Task<string> GetTweetHtml(string userScreenName, string tweetId);
-        Task<TweetDto> SearchTweetById(string tweetId);
+        Task<string> GetTweetHtmlAsync(string userScreenName, string tweetId);
+        Task<TweetDto> GetTweetByIdAsync(string id);
     }
 }

@@ -5,7 +5,7 @@ using TwitterBackUp.DomainModels.Contracts;
 
 namespace TwitterBackUp.DomainModels
 {
-    public class Tweet : IDomainModel
+    public class Tweet : IIdentifiable<string>
     {
         public Tweet()
         {
@@ -15,17 +15,17 @@ namespace TwitterBackUp.DomainModels
         [Key, Required]
         public string Id { get; set; }
 
-        public string CreatedOn { get; set; }
+        public DateTime CreatedOn { get; set; }
 
         [Required, MinLength(5), MaxLength(512)]
         public string Content { get; set; }
 
-        //public int TwitterAccountId { get; set; }
+        public string TwitterId { get; set; }
 
-        //public int RetweetCount { get; set; }
+        public string TwitterScreenName { get; set; }
 
-        //public string Url { get; set; }
-        
+        public int? RetweetsCount { get; set; }
+
         public ICollection<UsersTweets> UsersTweets { get; set; }
     }
 }

@@ -11,8 +11,8 @@ namespace TwitterBackUp.DataModels.Repositories
 {
     namespace GetHired.DataModels.Repositories.Models
     {
-        public class GenericRepository<TEntity> : IGenericRepository<TEntity>
-            where TEntity : class, IDomainModel
+        public class GenericRepository<TEntity, TKey> : IGenericRepository<TEntity, TKey>
+            where TEntity : class, IIdentifiable<TKey>
         {
             public GenericRepository(TwitterContext context)
             {
@@ -22,56 +22,48 @@ namespace TwitterBackUp.DataModels.Repositories
 
             public void Delete(TEntity entity)
             {
-                this.Context.Entry(entity).State = EntityState.Deleted;
+                if (entity == null) throw new ArgumentNullException(nameof(entity));
+                
+                this.DbSet.Remove(entity);
             }
 
             public void Attach(TEntity entity)
             {
-                this.Context.Entry(entity).State = EntityState.Unchanged;
+                if (entity == null) throw new ArgumentNullException(nameof(entity));
+                
+                this.DbSet.Attach(entity);
             }
 
-            public TEntity GetById(params object[] keyValues)
+            public TEntity GetById(TKey key)
             {
-                return this.DbSet.Find(keyValues);
+                return this.DbSet.Find(key);
             }
 
-            public IEnumerable<TEntity> All
-            {
-                get
-                {
-                    return this.DbSet
-                        .AsEnumerable();
-                }
-            }
+            public ICollection<TEntity> All => this.DbSet.ToList();
 
             protected TwitterContext Context { get; }
 
             protected DbSet<TEntity> DbSet { get; }
 
-            public IEnumerable<TEntity> GetMany(Expression<Func<TEntity, bool>> predicate)
+            public ICollection<TEntity> Find(Expression<Func<TEntity, bool>> predicate)
             {
                 return this.DbSet
-                    .Where(predicate)
-                    .AsEnumerable();
+                    .Where(predicate).ToList();
             }
 
             public void Insert(TEntity entity)
             {
-                this.Context.Entry(entity).State = EntityState.Added;
+                if (entity == null) throw new ArgumentNullException(nameof(entity));
+                
+                this.DbSet.Add(entity);
             }
 
             public void Update(TEntity entity)
             {
-                this.Context.Entry(entity).State = EntityState.Modified;
+                if (entity == null) throw new ArgumentNullException(nameof(entity));
+                
+                this.DbSet.Update(entity);
             }
-
-            public IEnumerable<TEntity> SearchFor(Expression<Func<TEntity, bool>> predicate)
-            {
-                return this.DbSet
-                    .Where(predicate)
-                    .AsEnumerable();
-            }
-
         }
     }
 }

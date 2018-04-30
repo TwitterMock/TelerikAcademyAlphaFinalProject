@@ -6,12 +6,12 @@
     <title>@ViewData["Title"] - TwitterBackUp</title>
 
     <environment include="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
         <link rel="stylesheet" href="~/css/navabar.css" />
         <link rel="stylesheet" href="~/css/profile.css" />
+        <link rel="stylesheet" href="~/lib/jquery-ui-1.12.1/jquery-ui.css" />
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/lib/bootstrap-select/dist/css/bootstrap-select.css" />
-        <link href="~/lib/jquery-ui-1.12.1/jquery-ui.css" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz" rel="stylesheet">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" />
     </environment>
@@ -56,14 +56,9 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="Index" class="[ animate ]">Home</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="About" class="[ animate ]">About</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact" class="[ animate ]">Contact</a></li>
-                    @if (User.IsInRole("Administrator"))
-                    {
-                        <li><a asp-area="Admin" asp-controller="Home" asp-action="Users" class="[ animate ]">Users</a></li>
+              
 
-                    }
-
-
-
+                 
                     @await Html.PartialAsync("_SmSearchPartial")
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
@@ -82,13 +77,15 @@
 
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/js/tweet-details.js"></script>
+        <script src="~/lib/jquery-ui-1.12.1/jquery-ui.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="~/lib/bootstrap-select/dist/js/bootstrap-select.js"></script>
         <script src="~/js/navbar.js" asp-append-version="true"></script>
+        <script src="~/js/tweet-details.js" asp-append-version="true"></script>
         <script src="~/js/suggestions.js" asp-append-version="true"></script>
+        <script src="~/js/save-twitter.js" asp-append-version="true"></script>
+        <script src="~/js/save-tweet.js" asp-append-version="true"></script>
         <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-        <script src="~/lib/jquery-ui-1.12.1/jquery-ui.js"></script>
     </environment>
 
     <environment exclude="Development">
@@ -99,6 +96,10 @@
                 crossorigin="anonymous"
                 integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
         </script>
+        <script src="http://code.jquery.com/ui/1.12.0/jquery-ui.js"
+                integrity="sha256-0YPKAwZP7Mp3ALMRVB2i8GXeEndvCq3eSl/WsAl1Ryk="
+                crossorigin="anonymous">
+        </script>
         <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
                 asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
                 asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
@@ -106,24 +107,14 @@
                 integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
         </script>
 
-        <script src="http://code.jquery.com/ui/1.12.0/jquery-ui.js"
-                integrity="sha256-0YPKAwZP7Mp3ALMRVB2i8GXeEndvCq3eSl/WsAl1Ryk="
-                crossorigin="anonymous">
-        </script>
-
+        <script src="~/js/save-twitter.js" asp-append-version="true"></script>
+        <script src="~/js/save-tweet.js" asp-append-version="true"></script>
         <script src="~/js/navbar.js" asp-append-version="true"></script>
         <script src="~/js/suggestions.js" asp-append-version="true"></script>
         <script src="~/js/tweet-details.js" asp-append-version="true"></script>
         <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
     </environment>
-
-    <script src="~js/twitter-widgets.js"></script>
-    <script src="~/js/save-account.js"></script>
-    <script src="~/js/save-tweet.js"></script>
-    <script src="~/js/promote-user.js"></script>
-
-
 
 
     @RenderSection("Scripts", required: false)

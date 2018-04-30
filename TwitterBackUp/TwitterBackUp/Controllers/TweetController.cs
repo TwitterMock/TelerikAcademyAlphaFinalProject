@@ -9,73 +9,60 @@ using TwitterBackUp.Services.Services.Contracts;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using TwitterBackUp.Data.Identity;
-using TwitterBackUp.DTO.TwitterTimelineDtos;
 using TwitterBackUp.DomainModels;
+using TwitterBackUp.DTO;
 
 namespace TwitterBackUp.Controllers
 {
     [Authorize]
     public class TweetController : Controller
     {
-        private readonly ITwitterApiProvider twitterProvider;
+        private readonly ITwitterApiProvider twitterApiProvider;
         private readonly IMapper mapper;
         private readonly UserManager<ApplicationUser> userManager;
-        private readonly IUserTweetsServices tweetsServices;
+        private readonly ITweetService tweetServices;
 
-        public TweetController(ITwitterApiProvider twitterProvider,UserManager<ApplicationUser> userManager,IUserTweetsServices tweetsServices,IMapper mapper)
+        public TweetController(ITwitterApiProvider twitterApiProvider, UserManager<ApplicationUser> userManager, ITweetService tweetsServices, IMapper mapper)
         {
-            this.twitterProvider = twitterProvider;
+            this.twitterApiProvider = twitterApiProvider;
             this.userManager = userManager;
-            this.tweetsServices = tweetsServices;
+            this.tweetServices = tweetsServices;
             this.mapper = mapper;
         }
 
-        [HttpPost]
-        [AutoValidateAntiforgeryToken]
-        public async Task<IActionResult> GetTwitterTimeline(string id)
+        [HttpGet]
+        public async Task<IActionResult> Timeline(string twitterId)
         {
             int count = 20;
-            var timeline = await this.twitterProvider.GetUserTimeLine(id, count);
+            var tweets = await this.twitterApiProvider.GetTwitterTimelineAsync(twitterId, count);
 
-            var model = new TwitterTimelineViewModel
+            var model = new TimelineViewModel
             {
-                Twitter = timeline.Twitter,
-                Tweets = timeline.Tweets
+                Tweets = tweets.Select(t => this.mapper.Map<TweetDto, TweetViewModel>(t)).ToList()
             };
 
             return View(model);
         }
 
         [HttpGet]
-        public Task<string> GetTweetHtml([FromQuery]string twitterScreenName, [FromQuery]string tweetId)
+        public Task<string> Html(string twitterScreenName, string tweetId)
         {
-            return this.twitterProvider.GetTweetHtml(twitterScreenName, tweetId);
+            return this.twitterApiProvider.GetTweetHtmlAsync(twitterScreenName, tweetId);
         }
-        [HttpPost]
-        public async Task<IActionResult> SaveUserTweet(string userTweetId)
-        {
-            try
-            {
 
-          
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Save(string id)
+        {
             var userId = this.userManager.GetUserId(this.User);
 
-            var tweet = await this.twitterProvider.SearchTweetById(userTweetId);
+            var tweetDto = await this.twitterApiProvider.GetTweetByIdAsync(id);
+ 
+            var tweet = this.mapper.Map<TweetDto, Tweet>(tweetDto);
 
-           
+            this.tweetServices.SaveTweetByUserId(userId, tweet);
 
-                  this.tweetsServices.StoreTweetById(userId, tweet);
-
-                var model = mapper.Map<TweetDto, SaveTweetViewModel>(tweet);
-
-                return PartialView("_SaveTweetPartial",model);
-            }
-            catch (Exception ex)
-            {
-
-                return this.BadRequest(ex.InnerException.Message);
-
-            }
+            return new OkResult();
         }
     }
 }

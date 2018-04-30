@@ -1,24 +1,24 @@
-﻿
-@if (User.Identity.IsAuthenticated)
+﻿@if (this.User.Identity.IsAuthenticated)
 {
     <div class="bootsnipp-search animate">
         <div class="container">
-            <form asp-controller="Twitter" asp-action="SearchTwitter" role="search">
+            <form asp-controller="Twitter" asp-action="Search" role="search" method="get">
                 <div class="input-group">
-                    <input id="search-input" type="text" class="form-control" name="screenName" placeholder="Search Tweets">
+                    <input id="search-input" type="text" class="form-control" name="screenName" placeholder="Search Twitter">
 
                     <select class="selectpicker" id="categories-options">
-                        <option>Sports</option>
-                        <option>Actors</option>
-                        <option>Music</option>
-                        <option>Fashion</option>
-                        <option>Entertainment</option>
-                        <option>Books</option>
-                        <option>Family</option>
-                        <option>Food&Drink</option>
-                        <option>Business</option>
-                        <option>Government</option>
-                        <option>News</option>
+                        <option value="sports">Sports</option>
+                        @*<option value="travel">Travel</option>
+                        <option value="technology">Technology</option>*@
+                        <option value="music">Music</option>
+                        <option value="fashion">Fashion</option>
+                        <option value="entertainment">Entertainment</option>
+                        <option value="books">Books</option>
+                        <option value="family">Family</option>
+                        <option value="food-drink">Food & Drink</option>
+                        <option value="business">Business</option>
+                        <option value="government">Government</option>
+                        <option value="news">News</option>
                     </select>
 
                 </div>

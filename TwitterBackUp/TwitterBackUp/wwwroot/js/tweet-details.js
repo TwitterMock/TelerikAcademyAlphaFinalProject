@@ -1,17 +1,23 @@
-﻿var tweetDetails = function (screenName, tweetId) {
+﻿$(document).on('click', '.tweet-details-btn', function () {
+    var screenName = $(this).attr('data-twitter-srcname');
+    var tweetId = $(this).attr('data-tweet-id');
     var queryString = `twitterScreenName=${screenName}&tweetId=${tweetId}`;
-    $('.currentTweetDetails').attr('data-name', tweetId);
 
     $.ajax({
         dataType: "json",
-        url: '/Tweet/GetTweetHtml?' + queryString,
+        url: '/Tweet/Html?' + queryString,
         type: 'GET',
         success: function (data) {
             var html = data.html;
-            $("#details-modal-body").html(html);
+            $("#tweet-modal-body").html(html);
+            $('#save-tweet-btn').attr('data-tweet-id', tweetId);
             $('#details-modal').modal();
-         
         }
     });
+});
 
-}
+$('#details-modal').on('hidden.bs.modal', function () {
+    var saveTweetBtn = $('#save-tweet-btn');
+    saveTweetBtn.button('reset');
+    saveTweetBtn.removeClass('btn-success').addClass('btn-primary');
+})

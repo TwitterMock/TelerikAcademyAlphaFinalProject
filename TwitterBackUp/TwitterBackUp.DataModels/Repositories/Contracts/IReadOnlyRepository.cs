@@ -1,11 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using TwitterBackUp.DomainModels.Contracts;
 
 namespace TwitterBackUp.DataModels.Repositories.Contracts
 {
-    public interface IReadonlyRepository<out TEntity> where TEntity : class, IDomainModel
+    public interface IReadonlyRepository<TEntity, TKey> where TEntity : class, IIdentifiable<TKey>
     {
-        IEnumerable<TEntity> All { get; }
-        TEntity GetById(params object[] keyValues);
+        TEntity GetById(TKey key);
+        ICollection<TEntity> All { get; }
+        ICollection<TEntity> Find(Expression<Func<TEntity, bool>> predicate);
     }
 }

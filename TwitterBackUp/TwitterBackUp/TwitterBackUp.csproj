@@ -6,12 +6,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Areas\Admin\Models\**" />
     <Compile Remove="Models\TweetsViewModels\**" />
     <Compile Remove="Views\Tweet\**" />
+    <Content Remove="Areas\Admin\Models\**" />
     <Content Remove="Models\TweetsViewModels\**" />
     <Content Remove="Views\Tweet\**" />
+    <EmbeddedResource Remove="Areas\Admin\Models\**" />
     <EmbeddedResource Remove="Models\TweetsViewModels\**" />
     <EmbeddedResource Remove="Views\Tweet\**" />
+    <None Remove="Areas\Admin\Models\**" />
     <None Remove="Models\TweetsViewModels\**" />
     <None Remove="Views\Tweet\**" />
   </ItemGroup>
@@ -23,6 +27,7 @@
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.1" PrivateAssets="All" />
+    <PackageReference Include="NUnit" Version="3.10.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -39,8 +44,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Views\Tweet\GetTwitterTimeline.cshtml" />
-    <None Include="Views\Tweet\_SaveTweetPartial.cshtml" />
+	<None Include="Views\Tweet\Timeline.cshtml" />
     <None Include="wwwroot\lib\bootstrap-select\dist\css\bootstrap-select.css.map" />
     <None Include="wwwroot\lib\bootstrap-select\dist\js\bootstrap-select.js" />
     <None Include="wwwroot\lib\bootstrap-select\dist\js\bootstrap-select.js.map" />

@@ -7,6 +7,7 @@ using TwitterBackUp.Models;
 using TwitterBackUp.Services.Services.Contracts;
 using Microsoft.AspNetCore.Identity;
 using TwitterBackUp.Data.Identity;
+using TwitterBackUp.DataModels.Repositories.Contracts;
 using TwitterBackUp.DomainModels;
 using TwitterBackUp.Services.Utils.Contracts;
 
@@ -15,56 +16,58 @@ namespace TwitterBackUp.Controllers
     [Authorize]
     public class TwitterController : Controller
     {
-        private readonly ITwitterApiProvider twitterProvider;
-        private readonly IMapper mapper;
         private readonly UserManager<ApplicationUser> userManager;
-        private readonly IUserTwittersServices userTwittersServices;
-   
+        private readonly ITwitterApiProvider twitterApiProvider;
+        private readonly ITwitterRepository twitterRepository;
+        private readonly ITwittersService twittersService;
+        private readonly IMapper mapper;
 
-        public TwitterController(ITwitterApiProvider twitterProvider, IMapper mapper, UserManager<ApplicationUser> userManager, IUserTwittersServices userTwittersServices)
+        public TwitterController(UserManager<ApplicationUser> userManager, ITwitterApiProvider twitterApiProvider, ITwitterRepository twitterRepository, ITwittersService twittersService, IMapper mapper)
         {
-            this.twitterProvider = twitterProvider;
-            this.mapper = mapper;
             this.userManager = userManager;
-            this.userTwittersServices = userTwittersServices;
+            this.twitterApiProvider = twitterApiProvider;
+            this.twitterRepository = twitterRepository;
+            this.twittersService = twittersService;
+            this.mapper = mapper;
         }
 
-        public async Task<IActionResult> SearchTwitter(string screenName)
+        [HttpGet]
+        public async Task<IActionResult> Search(string screenName)
         {
-            var userResult = await twitterProvider.SearchUser(screenName);
-            var model = mapper.Map<TwitterSearchDto, TwitterSearchViewModel>(userResult);
+            var task = Task.Run(() => this.twitterApiProvider.GetTwitterByScreenNameAsync(screenName));
+
+            var userId = this.userManager.GetUserId(this.User);
+            var twitter = this.twitterRepository.GetSingle(screenName, userId);
+            
+            var searchedTwitter = mapper.Map<TwitterDto, TwitterViewModel>(await task);
+
+            var model = new SearchViewModel
+            {
+                IsSavedTwitter = twitter != null,
+                IsSuccess = searchedTwitter != null,
+                SearchedTwitter = searchedTwitter,
+                SearchString = screenName
+            };
             
             return View(model);
         }
 
         [HttpGet]
-        public Task<string> GetSuggestions(string category)
+        public Task<string> Suggestions(string category)
         {
-            return this.twitterProvider.GetSearchSuggestionsByCategory(category);
+            return this.twitterApiProvider.GetSearchSuggestionsByCategoryAsync(category);
         }
 
-
         [HttpPost]
-        public async Task<IActionResult> SaveTwitterAccount([FromQuery][FromForm] string userScreenName)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Save(string screenName)
         {
-            try
-            {
-                var userId = this.userManager.GetUserId(this.User);
-                var twitterUser = await this.twitterProvider.SearchUser(userScreenName);
+            var twitterDto = await this.twitterApiProvider.GetTwitterByScreenNameAsync(screenName);
+            var userId = this.userManager.GetUserId(this.User);
+            var twitter = this.mapper.Map<TwitterDto, Twitter>(twitterDto);
+            this.twittersService.SaveTwitterByUserId(userId, twitter);
 
-                var current = mapper.Map<TwitterSearchDto, Twitter>(twitterUser);
-                
-
-                this.userTwittersServices.StoreTwitterByUserId(userId, current);
-                var model = mapper.Map<Twitter, SaveTwitterAccountViewModel>(current);
-
-               
-                return PartialView("_SaveTwitterAccountPartial", model);
-            }
-            catch (System.Exception ex)
-            {
-                return this.BadRequest(ex.InnerException.Message);
-            }
+            return new OkResult();
         }
     }
 }
