@@ -4,12 +4,14 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using TwitterBackUp.Data.Identity;
+using TwitterBackUp.DomainModels;
 
 namespace TwitterBackUp.Services.Services.Contracts
 {
    public  interface IUserServices
     {
-        List <ApplicationUser> getAllUsers();
-        Task<string> PromoteUser(string Id);
+        Task<List <ApplicationUser>> getAllUsers();
+        Task<string> PromoteUserAsync(string Id);
+        Task<string> DeleteUserAsync(string Id);
     }
 }

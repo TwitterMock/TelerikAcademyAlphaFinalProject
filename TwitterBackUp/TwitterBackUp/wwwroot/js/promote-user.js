@@ -10,7 +10,9 @@
 
         success: function () {
 
-            $('.promoteUser').html('Promoted');
+            $('#' + data).html('Admin');
+            $('#' + data).removeClass('btn btn-success');
+            $('#' + data).addClass('btn btn-danger');
 
         }
 

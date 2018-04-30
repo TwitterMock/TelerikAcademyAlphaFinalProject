@@ -23,9 +23,9 @@
                 <tr>
                     <td>#@user.Id</td>
                     <td>@user.UserName</td>
-
-                    <td><a  class="btn btn-link promoteUser"data-name="@user.Id">Promote</a></td>
-                    <td><button class="btn btn-link tweet-details" onclick="tweetDetails('@user.UserName', '@user.Id')">Delete</button></td>
+             
+                    <td><a id="@user.Id"class="btn btn-success promoteUser"data-name="@user.Id">Promote</a></td>
+                    <td><a class="btn btn-danger deleteUser @user.Id" data-name="@user.Id">Delete</a></td>
                     <td><button class="btn btn-link tweet-details" onclick="tweetDetails('@user.UserName', '@user.Id')">Tweets</button></td>
 
 

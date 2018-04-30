@@ -9,6 +9,7 @@ using TwitterBackUp.Areas.Admin.Models;
 using AutoMapper;
 using TwitterBackUp.Data.Identity;
 using Microsoft.AspNetCore.Identity;
+using TwitterBackUp.DomainModels;
 
 namespace TwitterBackUp.Areas.Admin.Controllers
 {
@@ -19,7 +20,7 @@ namespace TwitterBackUp.Areas.Admin.Controllers
         private readonly IMapper mapper;
         private readonly UserManager<ApplicationUser> userManager;
 
-        public HomeController(IUserServices userServices, IMapper mapper,UserManager<ApplicationUser> userManager)
+        public HomeController(IUserServices userServices, IMapper mapper, UserManager<ApplicationUser> userManager)
         {
             this.userServices = userServices;
             this.mapper = mapper;
@@ -30,9 +31,9 @@ namespace TwitterBackUp.Areas.Admin.Controllers
         {
             return View("Index");
         }
-        public IActionResult Users()
+        public async Task<IActionResult> Users()
         {
-            var users = this.userServices.getAllUsers();
+            var users = await this.userServices.getAllUsers();
             var allUsersAsViewModels = new List<UserViewModel>();
             foreach (var item in users)
             {
@@ -44,11 +45,22 @@ namespace TwitterBackUp.Areas.Admin.Controllers
         }
         public async Task<IActionResult> PromoteUser(string Id)
         {
-          
 
-            await this.userServices.PromoteUser(Id);
+
+            await this.userServices.PromoteUserAsync(Id);
 
             return new OkResult();
         }
+        public async Task<IActionResult> DeleteUser(string Id)
+        {
+            await this.userServices.DeleteUserAsync(Id);
+            return new OkResult();
+        }
+        //public IActionResult UserTweets(string Id)
+        //{
+           
+          
+
+        //}
     }
 }
