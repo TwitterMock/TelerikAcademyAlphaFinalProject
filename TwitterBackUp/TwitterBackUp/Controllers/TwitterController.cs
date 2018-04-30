@@ -10,6 +10,7 @@ using TwitterBackUp.Data.Identity;
 using TwitterBackUp.DataModels.Repositories.Contracts;
 using TwitterBackUp.DomainModels;
 using TwitterBackUp.Services.Utils.Contracts;
+using System.Linq;
 
 namespace TwitterBackUp.Controllers
 {
@@ -38,7 +39,7 @@ namespace TwitterBackUp.Controllers
 
             var userId = this.userManager.GetUserId(this.User);
             var twitter = this.twitterRepository.GetSingle(screenName, userId);
-            
+
             var searchedTwitter = mapper.Map<TwitterDto, TwitterViewModel>(await task);
 
             var model = new SearchViewModel
@@ -48,7 +49,7 @@ namespace TwitterBackUp.Controllers
                 SearchedTwitter = searchedTwitter,
                 SearchString = screenName
             };
-            
+
             return View(model);
         }
 
@@ -68,6 +69,18 @@ namespace TwitterBackUp.Controllers
             this.twittersService.SaveTwitterByUserId(userId, twitter);
 
             return new OkResult();
+        }
+        public IActionResult SavedTwitters()
+        {
+            var userId = this.userManager.GetUserId(this.User);
+            var twitters = this.twitterRepository.GetManyByUserId(userId);
+
+            var model = new SavedTwittersViewModel
+            {
+                Twitters = twitters.Select(t => this.mapper.Map<Twitter, TwitterViewModel>(t)).ToList()
+            };
+
+            return View(model);
         }
     }
 }

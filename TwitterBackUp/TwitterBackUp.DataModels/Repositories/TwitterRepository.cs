@@ -33,8 +33,8 @@ namespace TwitterBackUp.DataModels.Repositories
                 throw new ArgumentNullException(nameof(userId));
             }
             var userIdParam = new SqlParameter("@UserId", userId);
-            var something = this.Context.Database.ExecuteSqlCommand("DeleteTweetByUserId @UserId", userIdParam);
-            return something;
+            return this.Context.Database.ExecuteSqlCommand("DeleteTweetByUserId @UserId", userIdParam);
+           
         }
     }
 }
