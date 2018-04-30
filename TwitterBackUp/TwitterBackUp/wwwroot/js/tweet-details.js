@@ -31,4 +31,25 @@ $('#details-modal').on('hidden.bs.modal', function () {
     saveTweetBtn.button('reset');
     saveTweetBtn.attr("disabled", false);
     saveTweetBtn.removeClass('btn-success').addClass('btn-primary');
-})
+});
+
+$(document).on('click', '.saved-tweet-details-btn', function () {
+    var screenName = $(this).attr('data-twitter-srcname');
+    var tweetId = $(this).attr('data-tweet-id');
+    var queryString = `twitterScreenName=${screenName}&tweetId=${tweetId}`;
+
+    $.ajax({
+        dataType: "json",
+        url: '/Tweet/RenderingDetails?' + queryString,
+        type: 'GET',
+        success: function (response) {
+            var html = response.html;
+
+            $("#saved-tweet-modal-body").html(html);
+            var deleteTweetBtn = $('#delete-tweet-btn');
+
+            deleteTweetBtn.attr('data-tweet-id', tweetId);
+            $('#saved-tweet-details-modal').modal();
+        }
+    });
+});

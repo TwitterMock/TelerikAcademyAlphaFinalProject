@@ -34,7 +34,6 @@ namespace TwitterBackUp.Controllers
         }
 
 
-
         [HttpGet]
         public async Task<IActionResult> Timeline(string twitterId)
         {
@@ -75,6 +74,41 @@ namespace TwitterBackUp.Controllers
             var tweet = this.mapper.Map<TweetDto, Tweet>(tweetDto);
 
             this.tweetServices.SaveTweetByUserId(userId, tweet);
+
+            return new OkResult();
+        }
+
+        [HttpGet]
+        public IActionResult Saved(string userId)
+        {
+            if (userId == null)
+            {
+                userId = this.userManager.GetUserId(this.User);
+            }
+
+            var tweets = this.tweetRepository.GetManyByUserId(userId);
+
+            var model = new SavedTweetsViewModal
+            {
+                Tweets = tweets.Select(t => this.mapper.Map<Tweet, TweetViewModel>(t)).ToList()
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(string tweetId, string userId)
+        {
+            if (userId == null)
+            {
+                userId = this.userManager.GetUserId(this.User);
+            }
+
+            if (this.tweetRepository.DeleteSingle(tweetId, userId) > 0)
+            {
+                return new OkResult();
+            }
 
             return new OkResult();
         }

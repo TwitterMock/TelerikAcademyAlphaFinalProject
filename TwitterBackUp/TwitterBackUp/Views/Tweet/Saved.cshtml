@@ -1,0 +1,63 @@
+﻿@model SavedTweetsViewModal
+
+@{
+    var twitterScreenName = Model.Tweets.FirstOrDefault()?.TwitterScreenName;
+    var twitterUrl = $"https://twitter.com/{twitterScreenName}";
+}
+
+<h3>Saved tweets</h3>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">TweetId</th>
+        <th scope="col">Content</th>
+        <th scope="col">CreatedOn</th>
+        <th scope="col">RetweetsCount</th>
+        <th scope="col">TweetUrl</th>
+        <th scope="col">Options</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var tweet in Model.Tweets)
+    {
+        <tr id="@tweet.TweetId">
+            <td>#@tweet.TweetId</td>
+            <td>@tweet.Content</td>
+            <td>@tweet.CreatedOn</td>
+            <td>@tweet.RetweetsCount</td>
+            <td>
+                @{
+                    var tweetUrl = twitterUrl + $"/status/{tweet.TweetId}";
+                }
+                <a target="_blank" href="@tweetUrl">link</a>
+            </td>
+            <td><button class="btn btn-link saved-tweet-details-btn" data-twitter-srcname="@twitterScreenName" data-tweet-id="@tweet.TweetId">Details</button></td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<div id="modal-holder">
+    <div class="modal fade" id="saved-tweet-details-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <br />
+                    <div id="saved-tweet-modal-body"></div>
+                    <div class="row text-right">
+                        <form id="__AjaxAntiForgeryForm" asp-antiforgery="true"></form>
+                        <button id="delete-tweet-btn" type="button" class="btn btn-danger" data-tweet-id="" data-loading-text="<i class='fa fa-spinner fa-spin '></i> Loading">Remove Tweet</button>
+                        <div class="col-lg-2 pull-right">
+                            <button type="button" class="btn" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
