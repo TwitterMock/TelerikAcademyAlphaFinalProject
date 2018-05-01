@@ -15,6 +15,8 @@
             <th scope="col">Description</th>
             <th scope="col">FollowersCount</th>
             <th scope="col">Link</th>
+            <th scope="col">Delete</th>
+
         </tr>
     </thead>
     <tbody>
@@ -30,6 +32,13 @@
      
         
                 <td><a href="@twitter.Url">link</a></td>
+                <td>
+                <form asp-area=""  asp-controller="Twitter" asp-action="DeleteTwitter" method="post">
+                    <input hidden name="twitterId" value="@twitter.TwitterId" />
+                    <button type="submit" id ="deleteSingleTwitterAccount" class="btn btn-danger">Remove</button>
+                </form>
+                    </td>
+
        
                
         </tr>

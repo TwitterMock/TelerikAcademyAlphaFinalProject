@@ -1,0 +1,17 @@
+diff a/TwitterBackUp/TwitterBackUp/Areas/Admin/Views/Home/Users.cshtml b/TwitterBackUp/TwitterBackUp/Areas/Admin/Views/Home/Users.cshtml	(rejected hunks)
+@@ -31,8 +31,14 @@
+                     <td><a class="btn btn-danger deleteUser @user.Id" data-name="@user.Id">Delete</a></td>
+                     <td><form asp-area="Admin" asp-controller="Home" asp-action="SavedForAdmin" method="get">
+                         <input hidden name="userId" value="@user.Id"/>
+-                        <button type="submit" class="btn btn-default">Tweets</button>
++                        <button type="submit" class="btn btn-primary">Tweets</button>
+                         </form></td>
++                    <td>
++                        <form asp-area="Admin" asp-controller="Home" asp-action="SavedForAdmin" method="get">
++                            <input hidden name="userId" value="@user.Id" />
++                            <button type="submit" class="btn btn-warning">Twitters</button>
++                        </form>
++                    </td>
+ 
+ 
+ 
