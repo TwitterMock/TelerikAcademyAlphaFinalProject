@@ -7,5 +7,6 @@ namespace TwitterBackUp.DataModels.Repositories.Contracts
     {
         ICollection<Twitter> GetManyByUserId(string id);
         Twitter GetSingle(string screenName, string userId);
+        int DeleteSingleTwitter(string twitterId, string userId);
     }
 }

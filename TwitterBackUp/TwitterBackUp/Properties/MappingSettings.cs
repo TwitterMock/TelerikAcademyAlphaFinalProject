@@ -21,6 +21,10 @@ namespace TwitterBackUp.Properties
             this.CreateMap<TwitterDto, Twitter>()
                 .ForMember(d => d.Id, opt => opt.MapFrom(s => s.TwitterId));
 
+        
+            this.CreateMap<Twitter, TwitterViewModel>()
+            .ForMember(d => d.TwitterId, opt => opt.MapFrom(s => s.Id));
+
             this.CreateMap<TweetDto, TweetViewModel>()
                 .ForMember(d => d.TwitterId, opt => opt.MapFrom(s => s.Twitter.TwitterId))
                 .ForMember(d => d.TwitterScreenName, opt => opt.MapFrom(s => s.Twitter.ScreenName))

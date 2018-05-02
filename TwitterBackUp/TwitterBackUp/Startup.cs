@@ -17,7 +17,6 @@ using TwitterBackUp.DataModels.Repositories.Contracts;
 using TwitterBackUp.DataModels.Repositories;
 using TwitterBackUp.DomainModels;
 using TwitterBackUp.DataModels.Contracts;
-using TwitterBackUp.DataModels.Repositories.GetHired.DataModels.Repositories.Models;
 
 namespace TwitterBackUp
 {
@@ -52,6 +51,9 @@ namespace TwitterBackUp
             services.AddSingleton<IHttpClientWrapper, HttpClientWrapper>();
             services.AddTransient<ITwittersService, TwitterService>();
             services.AddTransient<ITweetService, TweetService>();
+            services.AddTransient<IUserServices, UserServices>();
+
+
         }
 
         private void RegisterDataModels(IServiceCollection services)
