@@ -1,15 +1,16 @@
 ﻿$(document).ready(function () {
-    $('#deleteSingleTwitterAccount').on('click', function () {
+    $('#deleteTwitterAdmin').on('click', function () {
         var removeTwitterBtn = $(this);
         removeTwitterBtn.button('loading');
-        var twitterId = $('#deleteSingleTwitterAccount').attr('data-name');
+        var twitterId = $('#deleteTwitterAdmin').attr('data-twitter');
+        var userId = $('#deleteTwitterAdmin').attr('data-name');
 
-      
-        console.log(twitterId);
+        var url = "DeleteTwitterAdmin?userId=" + userId + "&twitterId=" + twitterId;
+        console.log(url);
         $.ajax({
-            url: "/Twitter/DeleteTwitter?twitterId=" + twitterId,
+            url: url,
             type: "POST",
-        
+
             success: function () {
                 removeTwitterBtn.html('Twitter Removed');
                 removeTwitterBtn.attr("disabled", true);
@@ -18,3 +19,4 @@
         });
     });
 });
+

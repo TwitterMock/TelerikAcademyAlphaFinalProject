@@ -10,7 +10,7 @@
 <table class="table">
     <thead>
         <tr>
-         
+
             <th scope="col">Username</th>
             <th scope="col">Description</th>
             <th scope="col">FollowersCount</th>
@@ -24,24 +24,23 @@
         {
             <tr id="@twitter.TwitterId">
 
-        <td>#@twitter.Username</td>
-        <td>@twitter.Description</td>
-        <td>@twitter.FollowersCount</td>
-        
-    
-     
-        
+                <td>#@twitter.Username</td>
+                <td>@twitter.Description</td>
+                <td>@twitter.FollowersCount</td>
+
+
+
+
                 <td><a href="@twitter.Url">link</a></td>
                 <td>
-             
-               
-                    <button type="submit" id ="deleteSingleTwitterAccount" data-name="@twitter.TwitterId" class="btn btn-danger">Remove</button>
-              
-                    </td>
+          
+                        <button type="submit" id="deleteTwitterAdmin" data-name="@Model.UserId" data-twitter="@twitter.TwitterId"class="btn btn-danger">Remove</button>
+                 
+                </td>
 
-       
-               
-        </tr>
+
+
+            </tr>
             }
     </tbody>
 </table>

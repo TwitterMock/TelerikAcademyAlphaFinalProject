@@ -22,13 +22,15 @@ namespace TwitterBackUp.Areas.Admin.Controllers
         private readonly IMapper mapper;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly ITweetRepository tweetRepo;
+        private readonly ITwitterRepository twitterRepo;
 
-        public HomeController(IUserServices userServices, IMapper mapper, UserManager<ApplicationUser> userManager,ITweetRepository tweetRepo)
+        public HomeController(IUserServices userServices, IMapper mapper, UserManager<ApplicationUser> userManager,ITweetRepository tweetRepo,ITwitterRepository twitterRepo)
         {
             this.userServices = userServices;
             this.mapper = mapper;
             this.userManager = userManager;
             this.tweetRepo = tweetRepo;
+            this.twitterRepo = twitterRepo;
         }
         [Authorize(Roles = "Administrator")]
         public IActionResult Index()
@@ -81,6 +83,41 @@ namespace TwitterBackUp.Areas.Admin.Controllers
             };
 
             return View(model);
+        }
+        [HttpGet]
+        public IActionResult SavedTwittersForAdmin(string userId)
+        {
+            var twitters = this.twitterRepo.GetManyByUserId(userId);
+
+            var model = new SavedTwittersViewModel
+            {
+                Twitters = twitters.Select(t => this.mapper.Map<Twitter, TwitterViewModel>(t)).ToList()
+            };
+            model.UserId = userId;
+            return View(model);
+        }
+        [HttpPost]
+       
+        public IActionResult DeleteTwitterAdmin([FromQuery]string userId, [FromQuery]string twitterId)
+        {
+            
+          
+            if (userId==null)
+            {
+                throw new ArgumentNullException();
+            }
+            if (twitterId==null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            if (this.twitterRepo.DeleteSingleTwitter(twitterId, userId) > 0)
+            {
+                return new OkResult();
+            }
+
+            return new OkResult();
+          
         }
     }
 }

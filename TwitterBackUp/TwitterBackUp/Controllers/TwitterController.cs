@@ -82,17 +82,23 @@ namespace TwitterBackUp.Controllers
 
             return View(model);
         }
-        public IActionResult DeleteTwitter(string twitterId)
+        [HttpPost]
+   
+        public IActionResult DeleteTwitter( string twitterId)
         {
-            var userId = this.userManager.GetUserId(this.User);
-            
+            string userId = null;
+            if (userId == null)
+            {
+                userId = this.userManager.GetUserId(this.User);
+            }
 
             if (this.twitterRepository.DeleteSingleTwitter(twitterId, userId) > 0)
             {
                 return new OkResult();
             }
 
-            return this.Ok();
+            return new OkResult();
         }
+    
     }
 }
