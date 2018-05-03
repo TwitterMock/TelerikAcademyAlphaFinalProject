@@ -11,19 +11,20 @@ using TwitterBackUp.DataModels.Repositories.Contracts;
 using TwitterBackUp.DomainModels;
 using TwitterBackUp.Services.Utils.Contracts;
 using System.Linq;
+using TwitterBackUp.Services.Utils;
 
 namespace TwitterBackUp.Controllers
 {
     [Authorize]
     public class TwitterController : Controller
     {
-        private readonly UserManager<ApplicationUser> userManager;
+        private readonly IUserManagerProvider userManager;
         private readonly ITwitterApiProvider twitterApiProvider;
         private readonly ITwitterRepository twitterRepository;
         private readonly ITwittersService twittersService;
         private readonly IMapper mapper;
 
-        public TwitterController(UserManager<ApplicationUser> userManager, ITwitterApiProvider twitterApiProvider, ITwitterRepository twitterRepository, ITwittersService twittersService, IMapper mapper)
+        public TwitterController(IUserManagerProvider userManager, ITwitterApiProvider twitterApiProvider, ITwitterRepository twitterRepository, ITwittersService twittersService, IMapper mapper)
         {
             this.userManager = userManager;
             this.twitterApiProvider = twitterApiProvider;

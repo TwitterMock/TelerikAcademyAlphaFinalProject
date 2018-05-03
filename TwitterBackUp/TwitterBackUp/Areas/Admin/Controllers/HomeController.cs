@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Identity;
 using TwitterBackUp.DomainModels;
 using TwitterBackUp.Models;
 using TwitterBackUp.DataModels.Repositories.Contracts;
+using TwitterBackUp.Services.Utils;
 
 namespace TwitterBackUp.Areas.Admin.Controllers
 {
@@ -20,11 +21,11 @@ namespace TwitterBackUp.Areas.Admin.Controllers
     {
         private readonly IUserServices userServices;
         private readonly IMapper mapper;
-        private readonly UserManager<ApplicationUser> userManager;
+        private readonly IUserManagerProvider userManager;
         private readonly ITweetRepository tweetRepo;
         private readonly ITwitterRepository twitterRepo;
 
-        public HomeController(IUserServices userServices, IMapper mapper, UserManager<ApplicationUser> userManager,ITweetRepository tweetRepo,ITwitterRepository twitterRepo)
+        public HomeController(IUserServices userServices, IMapper mapper, IUserManagerProvider userManager,ITweetRepository tweetRepo,ITwitterRepository twitterRepo)
         {
             this.userServices = userServices;
             this.mapper = mapper;

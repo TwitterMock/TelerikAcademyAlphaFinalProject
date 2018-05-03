@@ -10,28 +10,28 @@ using TwitterBackUp.DataModels.Repositories;
 using TwitterBackUp.DataModels.Repositories.Contracts;
 using TwitterBackUp.DomainModels;
 using TwitterBackUp.Services.Services.Contracts;
-
+using TwitterBackUp.Services.Utils;
 
 namespace TwitterBackUp.Services.Services
 {
     public class UserServices : IUserServices
     {
-        private readonly UserManager<ApplicationUser> userManager;
+      
         private readonly ITweetRepository tweetRepo;
- 
+        private readonly IUserManagerProvider userManager;
 
-        public UserServices(UserManager<ApplicationUser> userManager, ITweetRepository tweetRepo)
+        public UserServices(ITweetRepository tweetRepo, IUserManagerProvider userManager)
         {
-            this.userManager = userManager;
+           
             this.tweetRepo = tweetRepo;
-        
+            this.userManager = userManager;
         }
 
         public async Task<List<ApplicationUser>> getAllUsers()
         {
             var admins = await this.userManager.GetUsersInRoleAsync("Administrator");
 
-            var allUsers = this.userManager.Users.ToList();
+          var allUsers = this.userManager.GetAllUsers().ToList();
             foreach (var item in admins)
             {
                 if (allUsers.Contains(item))
@@ -51,7 +51,7 @@ namespace TwitterBackUp.Services.Services
      
             var user = await this.userManager.FindByIdAsync(Id);
             this.tweetRepo.DeleteTweetsByUserId(Id);
-            await this.userManager.DeleteAsync(user);
+            await this.userManager.DeleteUserAsync(user);
 
             return "deleted";
 

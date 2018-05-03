@@ -53,7 +53,9 @@ namespace TwitterBackUp
             services.AddTransient<ITwittersService, TwitterService>();
             services.AddTransient<ITweetService, TweetService>();
             services.AddTransient<IUserServices, UserServices>();
-      
+            services.AddTransient<IUserManagerProvider, UserManagerProvider>();
+
+
 
 
 

@@ -12,6 +12,7 @@ using TwitterBackUp.DataModels.Repositories.GetHired.DataModels.Repositories.Mod
 using TwitterBackUp.DomainModels;
 using TwitterBackUp.Services.Services;
 using TwitterBackUp.Services.Services.Contracts;
+using TwitterBackUp.Services.Utils;
 
 namespace TwitterBackUp.ServicesTests.TweetServicesTests
 {
@@ -77,6 +78,11 @@ namespace TwitterBackUp.ServicesTests.TweetServicesTests
 
             unitMock.Verify(t => t.SaveChanges(), Times.Once);
         }
+        [Test]
+        public void Testasda()
+        {
+            
+        }
     }
-     
+
 }
