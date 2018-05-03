@@ -36,4 +36,10 @@
     .carousel-caption {
         display: none;
     }
+}
+#logoBox {
+    height: 20px !important;
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+}
 
