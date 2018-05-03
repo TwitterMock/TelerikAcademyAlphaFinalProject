@@ -11,8 +11,8 @@ using TwitterBackUp.DataModels.Models;
 namespace TwitterBackUp.DataModels.Migrations
 {
     [DbContext(typeof(TwitterContext))]
-    [Migration("20180430101254_SpDeleteTweetByUser")]
-    partial class SpDeleteTweetByUser
+    [Migration("20180423123611_SpGetAllTwittersByUserId")]
+    partial class SpGetAllTwittersByUserId
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,11 +31,11 @@ namespace TwitterBackUp.DataModels.Migrations
 
                     b.Property<DateTime>("CreatedOn");
 
-                    b.Property<int?>("RetweetsCount");
+                    b.Property<int?>("RetweetCount");
 
-                    b.Property<string>("TwitterId");
+                    b.Property<int>("TwitterAccountId");
 
-                    b.Property<string>("TwitterScreenName");
+                    b.Property<string>("Url");
 
                     b.HasKey("Id");
 
@@ -68,9 +68,6 @@ namespace TwitterBackUp.DataModels.Migrations
                         .HasMaxLength(125);
 
                     b.HasKey("Id");
-
-                    b.HasAlternateKey("ScreenName")
-                        .HasName("AlternateKey_ScreenName");
 
                     b.ToTable("Twitters");
                 });

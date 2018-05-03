@@ -6,6 +6,7 @@ namespace TwitterBackUp.DomainModels
     {
         public string UserId { get; set; }
         public string TwitterId { get; set; }
+        public bool IsFollowed { get; set; }
         public Twitter Twitter { get; set; }
     }
 }

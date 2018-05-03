@@ -17,12 +17,12 @@ namespace TwitterBackUp.DataModels.Repositories
         {
         }
 
-        public ICollection<Tweet> GetManyByUserId(string id)
+        public ICollection<Tweet> GetAllByUserId(string id)
         {
             if (id == null) throw new ArgumentNullException(nameof(id));
 
             var param = new SqlParameter("@userId", id);
-            return this.DbSet.FromSql("GetTweetsByUserId @userId", param).ToList();
+            return this.DbSet.FromSql("GetAllTweetsByUserId @userId", param).ToList();
         }
 
         public Tweet GetSingle(string tweetId, string userId)
@@ -41,18 +41,15 @@ namespace TwitterBackUp.DataModels.Repositories
             var userIdParam = new SqlParameter("@UserId", userId);
             var tweetIdParam = new SqlParameter("@TweetId", tweetId);
 
-            return this.Context.Database.ExecuteSqlCommand("DeleteTweetByUser @TweetId, @UserId", userIdParam,
+            return this.Context.Database.ExecuteSqlCommand("DeleteSingleTweet @TweetId, @UserId", userIdParam,
                 tweetIdParam);
         }
-        public int DeleteTweetsByUserId(string userId)
+        public int DeleteAllTweetsByUserId(string userId)
         {
-            if (userId==null)
-            {
-                throw new ArgumentNullException(nameof(userId));
-            }
-            var userIdParam = new SqlParameter("@UserId",userId);
-          var something = this.Context.Database.ExecuteSqlCommand("DeleteTweetByUserId @UserId",userIdParam);
-            return something;
+            if (userId == null) throw new ArgumentNullException(nameof(userId));
+
+            var userIdParam = new SqlParameter("@UserId", userId);
+            return this.Context.Database.ExecuteSqlCommand("DeleteAllTweetsByUserId @UserId", userIdParam);
         }
     }
 }

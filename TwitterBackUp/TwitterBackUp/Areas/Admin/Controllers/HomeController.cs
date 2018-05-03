@@ -75,7 +75,7 @@ namespace TwitterBackUp.Areas.Admin.Controllers
         public IActionResult SavedForAdmin(string userId)
         {        
 
-            var tweets = this.tweetRepo.GetManyByUserId(userId);
+            var tweets = this.tweetRepo.GetAllByUserId(userId);
 
             var model = new SavedTweetsViewModal
             {
@@ -87,7 +87,7 @@ namespace TwitterBackUp.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult SavedTwittersForAdmin(string userId)
         {
-            var twitters = this.twitterRepo.GetManyByUserId(userId);
+            var twitters = this.twitterRepo.GetAllByUserId(userId);
 
             var model = new SavedTwittersViewModel
             {
@@ -119,5 +119,16 @@ namespace TwitterBackUp.Areas.Admin.Controllers
             return new OkResult();
           
         }
+    }
+
+    public class SavedTwittersViewModel
+    {
+        public List<TwitterViewModel> Twitters { get; set; }
+        public string UserId { get; set; }
+    }
+
+    public class SavedTweetsViewModal
+    {
+        public List<TweetViewModel> Tweets { get; set; }
     }
 }

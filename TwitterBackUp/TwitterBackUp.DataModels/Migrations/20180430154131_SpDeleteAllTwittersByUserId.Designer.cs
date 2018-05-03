@@ -11,9 +11,10 @@ using TwitterBackUp.DataModels.Models;
 namespace TwitterBackUp.DataModels.Migrations
 {
     [DbContext(typeof(TwitterContext))]
-    partial class TwitterContextModelSnapshot : ModelSnapshot
+    [Migration("20180430154131_SpDeleteAllTwittersByUserId")]
+    partial class SpDeleteAllTwittersByUserId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,8 +36,6 @@ namespace TwitterBackUp.DataModels.Migrations
                     b.Property<string>("TwitterId");
 
                     b.Property<string>("TwitterScreenName");
-
-                    b.Property<string>("Url");
 
                     b.HasKey("Id");
 
@@ -82,8 +81,6 @@ namespace TwitterBackUp.DataModels.Migrations
 
                     b.Property<string>("TweetId");
 
-                    b.Property<bool>("IsRetweeted");
-
                     b.HasKey("UserId", "TweetId");
 
                     b.HasIndex("TweetId");
@@ -98,8 +95,6 @@ namespace TwitterBackUp.DataModels.Migrations
                     b.Property<string>("UserId");
 
                     b.Property<string>("TwitterId");
-
-                    b.Property<bool>("IsFollowed");
 
                     b.HasKey("UserId", "TwitterId");
 

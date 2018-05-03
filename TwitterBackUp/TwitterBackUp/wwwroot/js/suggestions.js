@@ -5,16 +5,11 @@
 
     $.ajax({
         dataType: 'json',
-        url: "/Twitter/Suggestions?category=" + selectedCategory,
+        url: "/Twitter/SearchSuggestions?category=" + selectedCategory,
         type: "GET",
-        success: function (data) {
+        success: function (response) {
             var suggestions = [];
-
-            if (data) {
-                data.forEach(r => suggestions.push(r.screen_name));
-            } else {
-                alert(data);
-            }
+            response.forEach(t => suggestions.push(t.screen_name));
 
             $("#search-input").autocomplete({
                 source: suggestions

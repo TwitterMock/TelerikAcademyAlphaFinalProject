@@ -26,6 +26,8 @@ namespace TwitterBackUp.DomainModels
 
         public int? RetweetsCount { get; set; }
 
+        public string Url { get; set; }
+        
         public ICollection<UsersTweets> UsersTweets { get; set; }
     }
 }

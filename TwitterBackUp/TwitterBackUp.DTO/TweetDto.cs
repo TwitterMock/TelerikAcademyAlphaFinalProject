@@ -18,5 +18,8 @@ namespace TwitterBackUp.DTO
         
         [JsonProperty("retweet_count")]
         public int RetweetsCount { get; set; }
+
+        [JsonProperty("truncated")]
+        public bool IsTruncated { get; set; }
     }
 }

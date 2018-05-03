@@ -11,8 +11,8 @@ using TwitterBackUp.DataModels.Models;
 namespace TwitterBackUp.DataModels.Migrations
 {
     [DbContext(typeof(TwitterContext))]
-    [Migration("20180430134723_DeleteTweetsByUserId")]
-    partial class DeleteTweetsByUserId
+    [Migration("20180430134723_DeleteAllTweetsByUserId")]
+    partial class SpDeleteAllTweetsByUserId
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

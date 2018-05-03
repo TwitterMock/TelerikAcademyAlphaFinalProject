@@ -1,0 +1,73 @@
+﻿@model TimelineViewModel
+
+@{
+    var twitterUrl = $"https://twitter.com/{Model.TwitterScreenName}";
+}
+
+<h3>Tweets by <a target="_blank" href="@twitterUrl">@@@Model.TwitterScreenName</a></h3>
+
+<div class="table-responsive">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Content</th>
+                <th scope="col">CreatedOn</th>
+                <th scope="col">RetweetsCount</th>
+                <th scope="col">TweetUrl</th>
+                <th scope="col">Options</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ var counter = 1; }
+
+            @foreach (var tweet in Model.Tweets)
+            {
+                <tr>
+                    <th scope="row">@counter</th>
+                    @if (tweet.IsTruncated)
+                    {
+                        <td>@tweet.Content.Substring(0, tweet.Content.Length - 23)</td>
+                    }
+                    else
+                    {
+                        <td>@tweet.Content</td>
+                    }
+                    <td>@tweet.CreatedOn</td>
+                    <td>@tweet.RetweetsCount</td>
+                    <td><a target="_blank" href="@tweet.Url">@tweet.Url</a></td>
+                    <td>
+                        <button class="btn btn-link" onclick="tweetDetailsModalToggle('@tweet.Url', '@tweet.TweetId')">Details</button>
+                    </td>
+                </tr>
+
+                counter++;
+            }
+        </tbody>
+    </table>
+</div>
+
+<div id="modal-holder">
+    <div class="modal fade" id="details-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <br />
+                    <div id="tweet-modal-body"></div>
+                    <div class="row text-right">
+                        <form id="__AjaxAntiForgeryForm" asp-antiforgery="true"></form>
+                        <button id="save-tweet-btn" type="button" class="btn btn-primary" data-tweet-id="" data-loading-text="<i class='fa fa-spinner fa-spin '></i> Loading">Save Tweet</button>
+                        <div class="col-lg-2 pull-right">
+                            <button type="button" class="btn" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="js/tweet-details.js"></script>

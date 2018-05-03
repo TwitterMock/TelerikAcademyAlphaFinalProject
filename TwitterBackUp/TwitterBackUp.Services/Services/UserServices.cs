@@ -42,7 +42,7 @@ namespace TwitterBackUp.Services.Services
         public async Task<string> DeleteUserAsync(string Id)
         {
             var user = await this.userManager.FindByIdAsync(Id);
-            this.tweetRepo.DeleteTweetsByUserId(Id);
+            this.tweetRepo.DeleteAllTweetsByUserId(Id);
             await this.userManager.DeleteAsync(user);
             
             return "deleted";

@@ -33,17 +33,19 @@ namespace TwitterBackUp.Controllers
             this.tweetRepository = tweetRepository;
         }
 
-
         [HttpGet]
-        public async Task<IActionResult> Timeline(string twitterId)
+        public async Task<IActionResult> TwitterTimeline(string twitterScreenName)
         {
-            if (twitterId == null) return new BadRequestResult();
+            if (twitterScreenName == null) return BadRequest();
 
             int count = 20;
-            var tweets = await this.twitterApiProvider.GetTwitterTimelineAsync(twitterId, count);
+            var tweets = await this.twitterApiProvider.GetTwitterTimelineAsync(twitterScreenName, count);
+
+            if (tweets == null) return NotFound();
 
             var model = new TimelineViewModel
             {
+                TwitterScreenName = twitterScreenName,
                 Tweets = tweets.Select(t => this.mapper.Map<TweetDto, TweetViewModel>(t)).ToList()
             };
 
@@ -51,65 +53,80 @@ namespace TwitterBackUp.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> RenderingDetails(string twitterScreenName, string tweetId)
+        public async Task<IActionResult> RenderingDetails(string url, string id)
         {
-            var task = Task.Run(() => this.twitterApiProvider.GetTweetHtmlAsync(twitterScreenName, tweetId));
+            if (url == null) return BadRequest();
+            if (id == null) return BadRequest();
+
+            var task = Task.Run(() => this.twitterApiProvider.GetTweetHtmlAsync(url));
 
             var userId = this.userManager.GetUserId(this.User);
-            var tweet = this.tweetRepository.GetSingle(tweetId, userId);
+            var tweet = this.tweetRepository.GetSingle(id, userId);
 
             var html = await task;
 
+            if (html == null) return NotFound();
+
             return Json(new { html, isSaved = tweet != null });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Html(string url)
+        {
+            if (url == null) return BadRequest();
+
+            var html = await this.twitterApiProvider.GetTweetHtmlAsync(url);
+
+            if (html == null) return NotFound();
+
+            return Json(new { html });
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Save(string id)
         {
+            if (id == null) return BadRequest();
+
             var userId = this.userManager.GetUserId(this.User);
 
             var tweetDto = await this.twitterApiProvider.GetTweetByIdAsync(id);
+
+            if (tweetDto == null) return NotFound();
 
             var tweet = this.mapper.Map<TweetDto, Tweet>(tweetDto);
 
             this.tweetServices.SaveTweetByUserId(userId, tweet);
 
-            return new OkResult();
+            return Json(new { tweet_id = tweet.Id });
         }
 
         [HttpGet]
         public IActionResult Saved()
         {
-           
-              var  userId = this.userManager.GetUserId(this.User);
-            
+            var userId = this.userManager.GetUserId(this.User);
 
-            var tweets = this.tweetRepository.GetManyByUserId(userId);
+            var tweets = this.tweetRepository.GetAllByUserId(userId);
 
-            var model = new SavedTweetsViewModal
-            {
-                Tweets = tweets.Select(t => this.mapper.Map<Tweet, TweetViewModel>(t)).ToList()
-            };
+            var model = tweets.Select(t => this.mapper.Map<Tweet, TweetViewModel>(t)).ToList();
 
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete(string tweetId, string userId)
+        public IActionResult Delete(string id)
         {
-            if (userId == null)
+            if (id == null) return BadRequest();
+
+            var userId = this.userManager.GetUserId(this.User);
+
+            if (this.tweetRepository.DeleteSingle(id, userId) > 0)
             {
-                userId = this.userManager.GetUserId(this.User);
+                return RedirectToAction(nameof(Saved));
             }
 
-            if (this.tweetRepository.DeleteSingle(tweetId, userId) > 0)
-            {
-                return new OkResult();
-            }
-
-            return new OkResult();
+            return NotFound();
         }
     }
 }

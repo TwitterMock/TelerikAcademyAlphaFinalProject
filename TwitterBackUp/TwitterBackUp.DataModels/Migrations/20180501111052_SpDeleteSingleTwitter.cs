@@ -4,18 +4,20 @@ using System.Collections.Generic;
 
 namespace TwitterBackUp.DataModels.Migrations
 {
-    public partial class DeleteTweetsByUserId : Migration
+    public partial class SpDeleteSingleTwitter : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            var sp = @"CREATE PROCEDURE DeleteTweetByUserId                        
+            var sp = @"CREATE PROCEDURE DeleteSingleTwitter
+                            @TwitterId Varchar(50),
                             @UserId Varchar(50)
                         AS
                         BEGIN
-                            SET NOCOUNT ON;
-                            DELETE FROM UsersTweets
-	                        WHERE UserId = @UserId 
+                            SET NOCOUNT OFF;
+                            DELETE FROM UsersTwitters
+	                        WHERE UserId = @UserId AND TwitterId = @TwitterId
                         END";
+
             migrationBuilder.Sql(sp);
         }
 

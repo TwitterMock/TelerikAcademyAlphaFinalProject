@@ -1,0 +1,60 @@
+﻿@model ICollection<TwitterViewModel>
+
+<h3>Saved Twitter</h3>
+
+<div class="table-responsive">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Description</th>
+                <th scope="col">FollowersCount</th>
+                <th scope="col">FriendsCount</th>
+                <th scope="col">TwitterUrl</th>
+                <th scope="col">ScreenName</th>
+                <th scope="col">Username</th>
+                <th scope="col">ProfileImageUrl</th>
+                <th scope="col">ProfileBackgroundImageUrl</th>
+                <th scope="col">Options</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ var counter = 0; }
+
+
+            @foreach (var twitter in Model)
+            {
+                <tr>
+                    <th scope="row">@counter</th>
+
+                    <td>@twitter.Description</td>
+                    <td>@twitter.FollowersCount</td>
+                    <td>@twitter.FriendsCount</td>
+                    <td><a target="_blank" href="@twitter.Url">@twitter.Url</a></td>
+                    <td>@twitter.ScreenName</td>
+                    <td>@twitter.Username</td>
+                    <td>@twitter.ProfileImageUrl</td>
+                    <td>@twitter.ProfileBackgroundImageUrl</td>
+                    <td>
+                        <form asp-action="Details" asp-controller="Twitter" asp-route-id="@twitter.TwitterId">
+                            <button type="submit" class="btn btn-link">Details</button>
+                        </form>
+                        <button class="btn btn-link" onclick="toggleDeleteTweetModal('@twitter.TwitterId')">Delete</button>
+                    </td>
+                </tr>
+
+                counter++;
+            }
+        </tbody>
+    </table>
+</div>
+
+@await Html.PartialAsync("_DeleteTwitterModal");
+
+<script>
+    var toggleDeleteTweetModal = function (id) {
+        $("#delete-target-twitter-input").val(id);
+        $("#delete-tweet-modal").modal('toggle');
+    };
+</script>
+

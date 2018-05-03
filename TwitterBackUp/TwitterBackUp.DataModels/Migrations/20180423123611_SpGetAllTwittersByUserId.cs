@@ -4,12 +4,12 @@ using System.Collections.Generic;
 
 namespace TwitterBackUp.DataModels.Migrations
 {
-    public partial class SpGetTwittersByUserId : Migration
+    public partial class SpGetAllTwittersByUserId : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             var sp =
-                @"CREATE PROCEDURE GetTwittersByUserId
+                @"CREATE PROCEDURE GetAllTwittersByUserId
                     @UserId varchar(125)
                 AS
                 BEGIN

@@ -1,5 +1,9 @@
 ﻿@model SearchViewModel
 
+@{
+    Layout = "_Layout";
+}
+
 <div class="container">
     <br />
     @if (Model.IsSuccess)
@@ -19,16 +23,14 @@
             }
 
             <div class="col-lg-1 pull-right">
-                <a asp-controller="Tweet" asp-action="Timeline" asp-route-twitterId="@Model.SearchedTwitter.TwitterId" class="btn btn-primary">
+                <a asp-controller="Tweet" asp-action="TwitterTimeline" asp-route-twitterScreenName="@Model.SearchedTwitter.ScreenName" class="btn btn-primary">
                     Table View
                 </a>
             </div>
 
         </div>
 
-        var url = $"https://twitter.com/{Model.SearchedTwitter.ScreenName}";
-
-        <a class="twitter-timeline" href="@url" data-tweet-limit="20">Tweets by @Model.SearchedTwitter.Username</a>
+        <a class="twitter-timeline" href="@Model.SearchedTwitter.Url" data-tweet-limit="20">Tweets by @Model.SearchedTwitter.Username</a>
     }
     else
     {

@@ -5,9 +5,9 @@ namespace TwitterBackUp.DataModels.Repositories.Contracts
 {
     public interface ITweetRepository : IGenericRepository<Tweet, string>
     {
-        ICollection<Tweet> GetManyByUserId(string id);
+        ICollection<Tweet> GetAllByUserId(string id);
         Tweet GetSingle(string tweetId, string userId);
         int DeleteSingle(string tweetId, string userId);
-        int DeleteTweetsByUserId(string userId);
+        int DeleteAllTweetsByUserId(string userId);
     }
 }

@@ -6,6 +6,7 @@ namespace TwitterBackUp.DomainModels
     {
         public string UserId { get; set; }
         public string TweetId { get; set; }
+        public bool IsRetweeted { get; set; }
         public Tweet Tweet { get; set; }
     }
 }

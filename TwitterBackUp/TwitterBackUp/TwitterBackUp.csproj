@@ -42,7 +42,7 @@
   <ItemGroup>
 	<None Include="Areas\Admin\Views\Home\SavedForAdmin.cshtml" />
 	<None Include="Views\Tweet\Saved.cshtml" />
-	<None Include="Views\Tweet\Timeline.cshtml" />
+	<None Include="Views\Tweet\TwitterTimeline.cshtml" />
     <None Include="wwwroot\lib\bootstrap-select\dist\css\bootstrap-select.css.map" />
     <None Include="wwwroot\lib\bootstrap-select\dist\js\bootstrap-select.js.map" />
     <None Include="wwwroot\css\navabar.css" />

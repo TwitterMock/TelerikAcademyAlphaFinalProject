@@ -33,12 +33,14 @@ namespace TwitterBackUp.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Search(string screenName)
+        public async Task<IActionResult> Search(string searchString)
         {
-            var task = Task.Run(() => this.twitterApiProvider.GetTwitterByScreenNameAsync(screenName));
+            if (searchString == null) return BadRequest();
+
+            var task = Task.Run(() => this.twitterApiProvider.GetTwitterByScreenNameAsync(searchString));
 
             var userId = this.userManager.GetUserId(this.User);
-            var twitter = this.twitterRepository.GetSingle(screenName, userId);
+            var twitter = this.twitterRepository.GetSingle(searchString, userId);
 
             var searchedTwitter = mapper.Map<TwitterDto, TwitterViewModel>(await task);
 
@@ -47,58 +49,80 @@ namespace TwitterBackUp.Controllers
                 IsSavedTwitter = twitter != null,
                 IsSuccess = searchedTwitter != null,
                 SearchedTwitter = searchedTwitter,
-                SearchString = screenName
+                SearchString = searchString
             };
 
             return View(model);
         }
 
         [HttpGet]
-        public Task<string> Suggestions(string category)
+        public async Task<IActionResult> SearchSuggestions(string category)
         {
-            return this.twitterApiProvider.GetSearchSuggestionsByCategoryAsync(category);
+            if (category == null) return BadRequest();
+
+            var suggestions = await this.twitterApiProvider.GetSearchSuggestionsByCategoryAsync(category);
+
+            if (suggestions == null) return NotFound();
+
+            return this.Content(suggestions, "application/json");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Save(string screenName)
         {
+            if (screenName == null) return BadRequest();
+
             var twitterDto = await this.twitterApiProvider.GetTwitterByScreenNameAsync(screenName);
+
+            if (twitterDto == null) return NotFound();
+            
             var userId = this.userManager.GetUserId(this.User);
+
             var twitter = this.mapper.Map<TwitterDto, Twitter>(twitterDto);
+
             this.twittersService.SaveTwitterByUserId(userId, twitter);
 
-            return new OkResult();
+            return Json(new { twitter_id = twitter.Id });
         }
-        public IActionResult SavedTwitters()
+
+        public IActionResult Saved()
         {
             var userId = this.userManager.GetUserId(this.User);
-            var twitters = this.twitterRepository.GetManyByUserId(userId);
+            var twitters = this.twitterRepository.GetAllByUserId(userId);
 
-            var model = new SavedTwittersViewModel
-            {
-                Twitters = twitters.Select(t => this.mapper.Map<Twitter, TwitterViewModel>(t)).ToList()
-            };
+            var model = twitters.Select(t => this.mapper.Map<Twitter, TwitterViewModel>(t)).ToList();
 
             return View(model);
         }
+
         [HttpPost]
-   
-        public IActionResult DeleteTwitter( string twitterId)
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(string id)
         {
-            string userId = null;
-            if (userId == null)
+            if (id == null) return BadRequest();
+
+            var userId = this.userManager.GetUserId(this.User);
+
+            if (this.twitterRepository.DeleteSingleTwitter(id, userId) > 0)
             {
-                userId = this.userManager.GetUserId(this.User);
+                return RedirectToAction(nameof(Saved));
             }
 
-            if (this.twitterRepository.DeleteSingleTwitter(twitterId, userId) > 0)
-            {
-                return new OkResult();
-            }
-
-            return new OkResult();
+            return NotFound();
         }
-    
+
+        public IActionResult Details(string id)
+        {
+            if (id == null) return BadRequest();
+
+            var twitter = this.twitterRepository.GetById(id);
+
+            if (twitter == null) return NotFound();
+
+            var model = this.mapper.Map<Twitter, TwitterViewModel>(twitter);
+
+            return View(model);
+        }
     }
 }

@@ -27,12 +27,12 @@ namespace TwitterBackUp.Services.Services
             this.memoryCache = memoryCache;
         }
 
-        public async Task<ICollection<TweetDto>> GetTwitterTimelineAsync(string userId, int tweetsCount)
+        public async Task<ICollection<TweetDto>> GetTwitterTimelineAsync(string screenName, int tweetsCount)
         {
             var bearer = this.appCredentials.BearerToken;
 
             var uriString =
-                $"https://api.twitter.com/1.1/statuses/user_timeline.json?user_id={userId}&count={tweetsCount}";
+                $"https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name={screenName}&count={tweetsCount}";
 
             var httpMessage = new HttpRequestMessage
             {
@@ -50,7 +50,7 @@ namespace TwitterBackUp.Services.Services
                 return this.jsonProvider.DeserializeObject<List<TweetDto>>(json.ToString());
             }
 
-            return new List<TweetDto>();
+            return null;
         }
 
         public async Task<string> GetSearchSuggestionsByCategoryAsync(string category)
@@ -145,12 +145,10 @@ namespace TwitterBackUp.Services.Services
             return null;
         }
 
-        public async Task<string> GetTweetHtmlAsync(string userScreenName, string tweetId)
+        public async Task<string> GetTweetHtmlAsync(string tweetUrl)
         {
-            var queryUrl = $"https://twitter.com/{userScreenName}/status/{tweetId}";
-
             var uriString =
-                $"https://publish.twitter.com/oembed?url={queryUrl}&align=center";
+                $"https://publish.twitter.com/oembed?url={tweetUrl}&align=center";
 
             var httpMessage = new HttpRequestMessage
             {
@@ -166,7 +164,7 @@ namespace TwitterBackUp.Services.Services
                 return json["html"].ToString();
             }
 
-            return string.Empty;
+            return null;
         }
 
         public async Task<TweetDto> GetTweetByIdAsync(string id)

@@ -11,8 +11,8 @@ using TwitterBackUp.DataModels.Models;
 namespace TwitterBackUp.DataModels.Migrations
 {
     [DbContext(typeof(TwitterContext))]
-    [Migration("20180501111052_SP_DeleteSingleTwitter")]
-    partial class SP_DeleteSingleTwitter
+    [Migration("20180502111404_AddRetweetAndFollowColumns")]
+    partial class AddRetweetAndFollowColumns
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -36,6 +36,8 @@ namespace TwitterBackUp.DataModels.Migrations
                     b.Property<string>("TwitterId");
 
                     b.Property<string>("TwitterScreenName");
+
+                    b.Property<string>("Url");
 
                     b.HasKey("Id");
 
@@ -81,6 +83,8 @@ namespace TwitterBackUp.DataModels.Migrations
 
                     b.Property<string>("TweetId");
 
+                    b.Property<bool>("IsRetweeted");
+
                     b.HasKey("UserId", "TweetId");
 
                     b.HasIndex("TweetId");
@@ -95,6 +99,8 @@ namespace TwitterBackUp.DataModels.Migrations
                     b.Property<string>("UserId");
 
                     b.Property<string>("TwitterId");
+
+                    b.Property<bool>("IsFollowed");
 
                     b.HasKey("UserId", "TwitterId");
 

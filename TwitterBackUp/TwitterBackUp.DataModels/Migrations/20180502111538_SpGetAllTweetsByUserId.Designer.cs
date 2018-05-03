@@ -11,8 +11,8 @@ using TwitterBackUp.DataModels.Models;
 namespace TwitterBackUp.DataModels.Migrations
 {
     [DbContext(typeof(TwitterContext))]
-    [Migration("20180423123611_SpGetTwittersByUserId")]
-    partial class SpGetTwittersByUserId
+    [Migration("20180502111538_SpGetAllTweetsByUserId")]
+    partial class SpGetAllTweetsByUserId
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,9 +31,11 @@ namespace TwitterBackUp.DataModels.Migrations
 
                     b.Property<DateTime>("CreatedOn");
 
-                    b.Property<int?>("RetweetCount");
+                    b.Property<int?>("RetweetsCount");
 
-                    b.Property<int>("TwitterAccountId");
+                    b.Property<string>("TwitterId");
+
+                    b.Property<string>("TwitterScreenName");
 
                     b.Property<string>("Url");
 
@@ -69,6 +71,9 @@ namespace TwitterBackUp.DataModels.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasAlternateKey("ScreenName")
+                        .HasName("AlternateKey_ScreenName");
+
                     b.ToTable("Twitters");
                 });
 
@@ -77,6 +82,8 @@ namespace TwitterBackUp.DataModels.Migrations
                     b.Property<string>("UserId");
 
                     b.Property<string>("TweetId");
+
+                    b.Property<bool>("IsRetweeted");
 
                     b.HasKey("UserId", "TweetId");
 
@@ -92,6 +99,8 @@ namespace TwitterBackUp.DataModels.Migrations
                     b.Property<string>("UserId");
 
                     b.Property<string>("TwitterId");
+
+                    b.Property<bool>("IsFollowed");
 
                     b.HasKey("UserId", "TwitterId");
 

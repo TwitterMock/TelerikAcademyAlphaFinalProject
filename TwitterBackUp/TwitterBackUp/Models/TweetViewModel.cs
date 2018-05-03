@@ -15,5 +15,9 @@ namespace TwitterBackUp.Models
         public string TwitterScreenName { get; set; }
 
         public int? RetweetsCount { get; set; }
+
+        public string Url { get; set; }
+
+        public bool IsTruncated { get; set; }
     }
 }

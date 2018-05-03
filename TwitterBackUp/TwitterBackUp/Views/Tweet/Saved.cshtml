@@ -1,63 +1,78 @@
-﻿@model SavedTweetsViewModal
-
-@{
-    var twitterScreenName = Model.Tweets.FirstOrDefault()?.TwitterScreenName;
-    var twitterUrl = $"https://twitter.com/{twitterScreenName}";
-}
+﻿@model ICollection<TweetViewModel>
 
 <h3>Saved tweets</h3>
 
-<table class="table">
-    <thead>
-    <tr>
-        <th scope="col">TweetId</th>
-        <th scope="col">Content</th>
-        <th scope="col">CreatedOn</th>
-        <th scope="col">RetweetsCount</th>
-        <th scope="col">TweetUrl</th>
-        <th scope="col">Options</th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var tweet in Model.Tweets)
-    {
-        <tr id="@tweet.TweetId">
-            <td>#@tweet.TweetId</td>
-            <td>@tweet.Content</td>
-            <td>@tweet.CreatedOn</td>
-            <td>@tweet.RetweetsCount</td>
-            <td>
-                @{
-                    var tweetUrl = twitterUrl + $"/status/{tweet.TweetId}";
-                }
-                <a target="_blank" href="@tweetUrl">link</a>
-            </td>
-            <td><button class="btn btn-link saved-tweet-details-btn" data-twitter-srcname="@twitterScreenName" data-tweet-id="@tweet.TweetId">Details</button></td>
+<div class="table-responsive">
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Content</th>
+            <th scope="col">CreatedOn</th>
+            <th scope="col">RetweetsCount</th>
+            <th scope="col">TweetUrl</th>
+            <th scope="col">Options</th>
         </tr>
-    }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+        @{ var counter = 0; }
 
-<div id="modal-holder">
-    <div class="modal fade" id="saved-tweet-details-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <br />
-                    <div id="saved-tweet-modal-body"></div>
-                    <div class="row text-right">
-                        <form id="__AjaxAntiForgeryForm" asp-antiforgery="true"></form>
-                        <button id="delete-tweet-btn" type="button" class="btn btn-danger" data-tweet-id="" data-loading-text="<i class='fa fa-spinner fa-spin '></i> Loading">Remove Tweet</button>
-                        <div class="col-lg-2 pull-right">
-                            <button type="button" class="btn" data-dismiss="modal">Close</button>
-                        </div>
-                    </div>
-                </div>
+
+        @foreach (var tweet in Model)
+        {
+            <tr>
+                <th scope="row">@counter</th>
+                @if (tweet.IsTruncated)
+                {
+                    <td>@tweet.Content.Substring(0, tweet.Content.Length - 23)</td>
+                }
+                else
+                {
+                    <td>@tweet.Content</td>
+                }
+                <td>@tweet.CreatedOn</td>
+                <td>@tweet.RetweetsCount</td>
+                <td><a target="_blank" href="@tweet.Url">@tweet.Url</a></td>
+                <td>
+                    <button class="btn btn-link" onclick="tweetDetailsModalToggle('@tweet.Url', '@tweet.TweetId')">Details</button>
+                    <button class="btn btn-link" onclick="toggleDeleteTweetModal('@tweet.TweetId')">Delete</button>
+                </td>
+            </tr>
+
+            counter++;
+        }
+        </tbody>
+    </table>
+</div>
+
+@await Html.PartialAsync("_SavedTweetDetails")
+
+<div id="delete-tweet-modal" class="modal fade" style="display: none;">
+    <div class="modal-dialog modal-confirm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Are you sure?</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <p>Do you really want to delete thit tweet? This process cannot be undone.</p>
+            </div>
+            <div class="modal-footer">
+                <form asp-action="Delete" asp-controller="Tweet" method="post">
+                    <input id="delete-target-tweet-input" hidden name="id" value="" />
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                    <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                </form>
             </div>
         </div>
     </div>
 </div>
 
+<script>
+    var toggleDeleteTweetModal = function (id) {
+        $("#delete-target-tweet-input").val(id);
+        $("#delete-tweet-modal").modal('toggle');
+    };
+</script>
+
+<script src="js/tweet-details.js"></script>
