@@ -34,7 +34,7 @@ namespace TwitterBackUp.DataModels.Repositories
                 this.DbSet.Attach(entity);
             }
 
-            public TEntity GetById(TKey key)
+            public virtual TEntity GetById(TKey key)
             {
                 return this.DbSet.Find(key);
             }

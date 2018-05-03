@@ -18,12 +18,15 @@ namespace TwitterBackUp.Services.Services
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly ITweetRepository tweetRepo;
+ 
 
         public UserServices(UserManager<ApplicationUser> userManager, ITweetRepository tweetRepo)
         {
             this.userManager = userManager;
             this.tweetRepo = tweetRepo;
+        
         }
+
         public async Task<List<ApplicationUser>> getAllUsers()
         {
             var admins = await this.userManager.GetUsersInRoleAsync("Administrator");
@@ -41,10 +44,15 @@ namespace TwitterBackUp.Services.Services
         }
         public async Task<string> DeleteUserAsync(string Id)
         {
+            if (Id==null)
+            {
+                throw new ArgumentNullException();
+            }
+     
             var user = await this.userManager.FindByIdAsync(Id);
             this.tweetRepo.DeleteTweetsByUserId(Id);
             await this.userManager.DeleteAsync(user);
-            
+
             return "deleted";
 
         }
