@@ -24,11 +24,13 @@ public static class Seed
         {
             // Add 'admin' role
             var adminRole = await roleMgr.FindByNameAsync("Administrator");
+         
             if (adminRole == null)
             {
                 adminRole = new IdentityRole("Administrator");
                 await roleMgr.CreateAsync(adminRole);
             }
+       
 
             // create admin user
             var adminUser = new ApplicationUser();
@@ -39,6 +41,34 @@ public static class Seed
 
             await userMgr.SetLockoutEnabledAsync(adminUser, false);
             await userMgr.AddToRoleAsync(adminUser, "Administrator");
+        }
+        if (!context.Users
+            .Any(u => u.UserName == "chefaka@abv.bg"))
+        {
+            // Add user role
+       
+            var userRole = await roleMgr.FindByNameAsync("User");
+      
+            if (userRole == null)
+            {
+                userRole = new IdentityRole("User");
+                await roleMgr.CreateAsync(userRole);
+            }
+
+            // create  user
+            var normalUser = new ApplicationUser();
+            normalUser.UserName = "chefaka@abv.bg";
+            normalUser.Email = "chefaka@abv.bg";
+
+            await userMgr.CreateAsync(normalUser, "chefichaBrat");
+
+            await userMgr.SetLockoutEnabledAsync(normalUser, true);
+            await userMgr.AddToRoleAsync(normalUser, "User");
+            var allUsers = userMgr.Users.ToList();
+            foreach (var item in allUsers)
+            {
+                 await userMgr.AddToRoleAsync(item,"User");
+            }
         }
     }
 }

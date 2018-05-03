@@ -78,11 +78,7 @@ namespace TwitterBackUp.ServicesTests.TweetServicesTests
 
             unitMock.Verify(t => t.SaveChanges(), Times.Once);
         }
-        [Test]
-        public void Testasda()
-        {
-            
-        }
+       
     }
 
 }
