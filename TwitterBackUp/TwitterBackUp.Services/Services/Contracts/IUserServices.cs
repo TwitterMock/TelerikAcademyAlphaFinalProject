@@ -10,7 +10,7 @@ namespace TwitterBackUp.Services.Services.Contracts
 {
    public  interface IUserServices
     {
-        Task<List <ApplicationUser>> getAllUsers();
+        Task<List<ApplicationUser>> getAllUsers();
         Task<string> PromoteUserAsync(string Id);
         Task<string> DeleteUserAsync(string Id);
     }

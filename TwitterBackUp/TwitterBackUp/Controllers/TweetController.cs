@@ -12,6 +12,7 @@ using TwitterBackUp.Data.Identity;
 using TwitterBackUp.DataModels.Repositories.Contracts;
 using TwitterBackUp.DomainModels;
 using TwitterBackUp.DTO;
+using TwitterBackUp.Services.Utils;
 
 namespace TwitterBackUp.Controllers
 {
@@ -20,11 +21,11 @@ namespace TwitterBackUp.Controllers
     {
         private readonly ITwitterApiProvider twitterApiProvider;
         private readonly IMapper mapper;
-        private readonly UserManager<ApplicationUser> userManager;
+        private readonly IUserManagerProvider userManager;
         private readonly ITweetService tweetServices;
         private readonly ITweetRepository tweetRepository;
 
-        public TweetController(ITwitterApiProvider twitterApiProvider, IMapper mapper, UserManager<ApplicationUser> userManager, ITweetService tweetServices, ITweetRepository tweetRepository)
+        public TweetController(ITwitterApiProvider twitterApiProvider, IMapper mapper, IUserManagerProvider userManager, ITweetService tweetServices, ITweetRepository tweetRepository)
         {
             this.twitterApiProvider = twitterApiProvider;
             this.mapper = mapper;

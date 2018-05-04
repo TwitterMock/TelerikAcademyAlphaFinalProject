@@ -1,7 +1,7 @@
-﻿model SavedTweetsViewModal
+﻿@model SavedTweetsViewModal
 
 @{
-    var twitterScreenName = Model.Tweets.FirstOrDefault()?.TwitterScreenName;
+    var twitterScreenName = Model.Tweets.FirstOrDefault().TwitterScreenName;
     var twitterUrl = $"https://twitter.com/{twitterScreenName}";
 }
 

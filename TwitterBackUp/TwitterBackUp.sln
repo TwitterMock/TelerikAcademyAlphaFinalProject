@@ -27,6 +27,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwitterBackUp.DataTests", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwitterBackUp", "TwitterBackUp\TwitterBackUp.csproj", "{CEC1D3DF-CBF0-4690-829C-BDA022A6C5D0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitterBackUp.ServicesTests", "TwitterBackUp.UserServicesTests\TwitterBackUp.ServicesTests.csproj", "{77A2A13D-C287-4E54-BC87-8209ADD4DC19}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -65,6 +67,10 @@ Global
 		{CEC1D3DF-CBF0-4690-829C-BDA022A6C5D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CEC1D3DF-CBF0-4690-829C-BDA022A6C5D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CEC1D3DF-CBF0-4690-829C-BDA022A6C5D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77A2A13D-C287-4E54-BC87-8209ADD4DC19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77A2A13D-C287-4E54-BC87-8209ADD4DC19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77A2A13D-C287-4E54-BC87-8209ADD4DC19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77A2A13D-C287-4E54-BC87-8209ADD4DC19}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -78,6 +84,7 @@ Global
 		{0C2DA094-D0FD-41C2-8481-8AB4913435AF} = {5BBABE2F-6049-4555-B99C-D8CBA0A59E30}
 		{F030D023-D894-4E12-AFE3-40FC69AF1A31} = {5BBABE2F-6049-4555-B99C-D8CBA0A59E30}
 		{CEC1D3DF-CBF0-4690-829C-BDA022A6C5D0} = {328D08BC-ACAA-4A2D-B770-3F58F5C27D35}
+		{77A2A13D-C287-4E54-BC87-8209ADD4DC19} = {5BBABE2F-6049-4555-B99C-D8CBA0A59E30}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {98AC65EC-2DC4-477F-BA3F-7C33B14DDC65}

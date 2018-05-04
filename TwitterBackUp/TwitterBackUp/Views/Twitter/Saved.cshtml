@@ -1,5 +1,9 @@
 ﻿@model ICollection<TwitterViewModel>
 
+@{
+    Layout = "_Layout";
+}
+
 <h3>Saved Twitter</h3>
 
 <div class="table-responsive">
@@ -13,8 +17,6 @@
                 <th scope="col">TwitterUrl</th>
                 <th scope="col">ScreenName</th>
                 <th scope="col">Username</th>
-                <th scope="col">ProfileImageUrl</th>
-                <th scope="col">ProfileBackgroundImageUrl</th>
                 <th scope="col">Options</th>
             </tr>
         </thead>
@@ -33,8 +35,6 @@
                     <td><a target="_blank" href="@twitter.Url">@twitter.Url</a></td>
                     <td>@twitter.ScreenName</td>
                     <td>@twitter.Username</td>
-                    <td>@twitter.ProfileImageUrl</td>
-                    <td>@twitter.ProfileBackgroundImageUrl</td>
                     <td>
                         <form asp-action="Details" asp-controller="Twitter" asp-route-id="@twitter.TwitterId">
                             <button type="submit" class="btn btn-link">Details</button>
@@ -52,7 +52,7 @@
 @await Html.PartialAsync("_DeleteTwitterModal");
 
 @section Scripts
-{
+    {
     <script>
         var toggleDeleteTweetModal = function (id) {
             $("#delete-target-twitter-input").val(id);

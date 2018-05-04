@@ -17,6 +17,7 @@ using TwitterBackUp.DataModels.Repositories.Contracts;
 using TwitterBackUp.DataModels.Repositories;
 using TwitterBackUp.DomainModels;
 using TwitterBackUp.DataModels.Contracts;
+using TwitterBackUp.Services;
 
 namespace TwitterBackUp
 {
@@ -52,6 +53,10 @@ namespace TwitterBackUp
             services.AddTransient<ITwittersService, TwitterService>();
             services.AddTransient<ITweetService, TweetService>();
             services.AddTransient<IUserServices, UserServices>();
+            services.AddTransient<IUserManagerProvider, UserManagerProvider>();
+
+
+
 
 
         }

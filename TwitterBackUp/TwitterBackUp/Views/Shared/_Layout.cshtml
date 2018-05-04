@@ -46,7 +46,9 @@
                     <span class="[ icon-bar ]"></span>
                 </button>
                 <div class="[ animbrand ]">
-                    <a asp-controller="Home" asp-action="Index" class="[ navbar-brand ][ animate ]">TwitterBackup</a>
+
+                    <a asp-controller="Home" asp-action="Index" class="[ navbar-brand ][ animate ]"><img id="logoBox" class="navbar-brand" src="~/images/images.png" />TwitterBackup</a>
+
                 </div>
             </div>
 
@@ -59,15 +61,12 @@
                     @if (User.IsInRole("Administrator"))
                     {
                         <li><a asp-area="Admin" asp-controller="Home" asp-action="Users" class="[ animate ]">Manager</a></li>
-
                     }
-                    <li><a asp-area="" asp-controller="Tweet" asp-action="Saved" class="[ animate ]">Saved Tweets</a></li>
-                    <li><a asp-area="" asp-controller="Twitter" asp-action="Saved" class="[ animate ]">Saved Twitters</a></li>
-
-
-
-
-
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li><a asp-area="" asp-controller="Tweet" asp-action="Saved" class="[ animate ]">Saved Tweets</a></li>
+                        <li><a asp-area="" asp-controller="Twitter" asp-action="Saved" class="[ animate ]">Saved Twitters</a></li>
+                    }
                     @await Html.PartialAsync("_SmSearchPartial")
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
@@ -103,7 +102,7 @@
         <script src="~/js/delete-twitter-admin.js" asp-append-version="true"></script>
 
 
-      
+
     </environment>
 
     <environment exclude="Development">
@@ -137,9 +136,9 @@
         <script src="~/js/navbar.js" asp-append-version="true"></script>
         <script src="~/js/suggestions.js" asp-append-version="true"></script>
         <script src="~/js/tweet-details.js" asp-append-version="true"></script>
-        <script src= "~/js/view-another-user-timeline.js" asp-append-version="true"></script>
+        <script src="~/js/view-another-user-timeline.js" asp-append-version="true"></script>
 
-       
+
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
     </environment>
 

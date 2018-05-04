@@ -1,5 +1,9 @@
 ﻿@model TwitterViewModel
 
+@{
+    Layout = "_Layout";
+}
+
 <h2>Details</h2>
 
 <div>
@@ -56,7 +60,7 @@
     <a asp-action="Saved">Back to List</a>
 </div>
 
-@await Html.PartialAsync("_DeleteTwitterModal");
+@await Html.PartialAsync("_DeleteTwitterModal")
 
 @section Scripts{
     <script>

@@ -6,5 +6,6 @@ namespace TwitterBackUp.Models
     {
         public ICollection<TweetViewModel> Tweets { get; set; }
         public string TwitterScreenName { get; set; }
+        public string Url { get; set; }
     }
 }

@@ -1,10 +1,10 @@
 ﻿@model TimelineViewModel
 
 @{
-    var twitterUrl = $"https://twitter.com/{Model.TwitterScreenName}";
+    Layout = "_Layout";
 }
 
-<h3>Tweets by <a target="_blank" href="@twitterUrl">@@@Model.TwitterScreenName</a></h3>
+<h3>Tweets by <a target="_blank" href="@Model.Url">@@@Model.TwitterScreenName</a></h3>
 
 <div class="table-responsive">
     <table class="table table-bordered">

@@ -1,46 +1,50 @@
 ﻿@model ICollection<TweetViewModel>
 
+@{
+    Layout = "_Layout";
+}
+
 <h3>Saved tweets</h3>
 
 <div class="table-responsive">
     <table class="table table-bordered">
         <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Content</th>
-            <th scope="col">CreatedOn</th>
-            <th scope="col">RetweetsCount</th>
-            <th scope="col">TweetUrl</th>
-            <th scope="col">Options</th>
-        </tr>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Content</th>
+                <th scope="col">CreatedOn</th>
+                <th scope="col">RetweetsCount</th>
+                <th scope="col">TweetUrl</th>
+                <th scope="col">Options</th>
+            </tr>
         </thead>
         <tbody>
-        @{ var counter = 1; }
+            @{ var counter = 1; }
 
 
-        @foreach (var tweet in Model)
-        {
-            <tr>
-                <th scope="row">@counter</th>
-                @if (tweet.IsTruncated)
-                {
-                    <td>@tweet.Content.Substring(0, tweet.Content.Length - 23)</td>
-                }
-                else
-                {
-                    <td>@tweet.Content</td>
-                }
-                <td>@tweet.CreatedOn</td>
-                <td>@tweet.RetweetsCount</td>
-                <td><a target="_blank" href="@tweet.Url">@tweet.Url</a></td>
-                <td>
-                    <button class="btn btn-link" onclick="tweetDetailsModalToggle('@tweet.Url', '@tweet.TweetId')">Details</button>
-                    <button class="btn btn-link" onclick="toggleDeleteTweetModal('@tweet.TweetId')">Delete</button>
-                </td>
-            </tr>
+            @foreach (var tweet in Model)
+            {
+                <tr>
+                    <th scope="row">@counter</th>
+                    @if (tweet.IsTruncated)
+                    {
+                        <td>@tweet.Content.Substring(0, tweet.Content.Length - 23)</td>
+                    }
+                    else
+                    {
+                        <td>@tweet.Content</td>
+                    }
+                    <td>@tweet.CreatedOn</td>
+                    <td>@tweet.RetweetsCount</td>
+                    <td><a target="_blank" href="@tweet.Url">@tweet.Url</a></td>
+                    <td>
+                        <button class="btn btn-link" onclick="tweetDetailsModalToggle('@tweet.Url', '@tweet.TweetId')">Details</button>
+                        <button class="btn btn-link" onclick="toggleDeleteTweetModal('@tweet.TweetId')">Delete</button>
+                    </td>
+                </tr>
 
-            counter++;
-        }
+                counter++;
+            }
         </tbody>
     </table>
 </div>
@@ -68,7 +72,7 @@
     </div>
 </div>
 
-@section scripts { 
+@section scripts {
     <script>
         var toggleDeleteTweetModal = function (id) {
             $("#delete-target-tweet-input").val(id);
