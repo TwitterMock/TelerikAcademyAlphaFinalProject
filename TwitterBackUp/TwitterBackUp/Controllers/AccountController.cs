@@ -49,7 +49,7 @@ namespace TwitterBackUp.Controllers
         {
             // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
-
+            
             ViewData["ReturnUrl"] = returnUrl;
             return View();
         }
@@ -235,6 +235,7 @@ namespace TwitterBackUp.Controllers
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation("User created a new account with password.");
+                  await  this._userManager.AddToRoleAsync(user,"User");
                     return RedirectToLocal(returnUrl);
                 }
                 AddErrors(result);

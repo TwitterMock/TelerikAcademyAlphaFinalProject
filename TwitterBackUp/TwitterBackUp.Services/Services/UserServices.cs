@@ -27,20 +27,12 @@ namespace TwitterBackUp.Services.Services
             this.userManager = userManager;
         }
 
-        public async Task<List<ApplicationUser>> getAllUsers()
+        public async Task<ICollection<ApplicationUser>> getAllUsers()
         {
-            var admins = await this.userManager.GetUsersInRoleAsync("Administrator");
+            var users = await this.userManager.GetUsersInRoleAsync("User");
 
-          var allUsers = this.userManager.GetAllUsers().ToList();
-            foreach (var item in admins)
-            {
-                if (allUsers.Contains(item))
-                {
-                    allUsers.Remove(item);
-                }
-            }
-
-            return allUsers;
+            return users;
+           
         }
         public async Task<string> DeleteUserAsync(string Id)
         {
@@ -58,6 +50,10 @@ namespace TwitterBackUp.Services.Services
         }
         public async Task<string> PromoteUserAsync(string Id)
         {
+            if (Id==null)
+            {
+                throw new ArgumentException();
+            }
             var user = await this.userManager.FindByIdAsync(Id);
             if (user == null)
             {
