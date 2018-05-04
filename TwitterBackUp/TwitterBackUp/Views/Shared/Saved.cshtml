@@ -51,10 +51,13 @@
 
 @await Html.PartialAsync("_DeleteTwitterModal");
 
-<script>
-    var toggleDeleteTweetModal = function (id) {
-        $("#delete-target-twitter-input").val(id);
-        $("#delete-tweet-modal").modal('toggle');
-    };
-</script>
+@section Scripts
+{
+    <script>
+        var toggleDeleteTweetModal = function (id) {
+            $("#delete-target-twitter-input").val(id);
+            $("#delete-tweet-modal").modal('toggle');
+        };
+    </script>
+}
 
