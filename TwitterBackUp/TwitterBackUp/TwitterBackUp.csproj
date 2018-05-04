@@ -40,7 +40,7 @@
   </ItemGroup>
 
   <ItemGroup>
-	<None Include="Areas\Admin\Views\Home\SavedForAdmin.cshtml" />
+	<None Include="Areas\Admin\Views\Home\SavedTweets.cshtml" />
 	<None Include="Views\Tweet\Saved.cshtml" />
 	<None Include="Views\Tweet\TwitterTimeline.cshtml" />
     <None Include="wwwroot\lib\bootstrap-select\dist\css\bootstrap-select.css.map" />

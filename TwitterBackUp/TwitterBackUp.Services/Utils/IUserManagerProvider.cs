@@ -15,5 +15,6 @@ namespace TwitterBackUp.Services.Utils
         Task<IdentityResult> AddToRoleAsync(ApplicationUser user, string role);
         Task<ICollection<ApplicationUser>> GetUsersInRoleAsync(string role);
         string GetUserId(ClaimsPrincipal user);
+        ApplicationUser GetById(string id);
     }
 }

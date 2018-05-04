@@ -8,7 +8,7 @@ using TwitterBackUp.Services.Services.Contracts;
 using TwitterBackUp.Areas.Admin.Models;
 using AutoMapper;
 using TwitterBackUp.Data.Identity;
-using Microsoft.AspNetCore.Identity;
+using TwitterBackUp.DataModels.Contracts;
 using TwitterBackUp.DomainModels;
 using TwitterBackUp.Models;
 using TwitterBackUp.DataModels.Repositories.Contracts;
@@ -17,6 +17,7 @@ using TwitterBackUp.Services.Utils;
 namespace TwitterBackUp.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Administrator")]
     public class HomeController : Controller
     {
         private readonly IUserServices userServices;
@@ -24,40 +25,39 @@ namespace TwitterBackUp.Areas.Admin.Controllers
         private readonly IUserManagerProvider userManager;
         private readonly ITweetRepository tweetRepo;
         private readonly ITwitterRepository twitterRepo;
+        private readonly IUnitOfWork unitOfWork;
 
-        public HomeController(IUserServices userServices, IMapper mapper, IUserManagerProvider userManager,ITweetRepository tweetRepo,ITwitterRepository twitterRepo)
+        public HomeController(IUserServices userServices, IMapper mapper, IUserManagerProvider userManager, ITweetRepository tweetRepo, ITwitterRepository twitterRepo, IUnitOfWork unitOfWork)
         {
             this.userServices = userServices;
             this.mapper = mapper;
             this.userManager = userManager;
             this.tweetRepo = tweetRepo;
             this.twitterRepo = twitterRepo;
+            this.unitOfWork = unitOfWork;
         }
-        [Authorize(Roles = "Administrator")]
-        public IActionResult Index()
-        {
-            return View("Index");
-        }
+
+        [HttpGet]
         public async Task<IActionResult> Users()
         {
             var users = await this.userServices.getAllUsers();
-            var allUsersAsViewModels = new List<UserViewModel>();
-            foreach (var item in users)
-            {
-                var user = this.mapper.Map<ApplicationUser, UserViewModel>(item);
-                allUsersAsViewModels.Add(user);
-            }
 
-            return View(allUsersAsViewModels);
+            var model = users.Select(u => this.mapper.Map<ApplicationUser, UserViewModel>(u)).ToList();
+
+            return View(model);
         }
-        public async Task<IActionResult> PromoteUser(string Id)
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> PromoteUser(string id)
         {
+            if (id == null) return this.BadRequest();
 
+            await this.userServices.PromoteUserAsync(id);
 
-            await this.userServices.PromoteUserAsync(Id);
-
-            return new OkResult();
+            return this.RedirectToAction("Users");
         }
+
         public async Task<IActionResult> DeleteUser(string Id)
         {
 
@@ -70,66 +70,85 @@ namespace TwitterBackUp.Areas.Admin.Controllers
             {
                 return this.BadRequest(ex);
             }
-            
+
         }
+
         [HttpGet]
-        public IActionResult SavedForAdmin(string userId)
-        {        
+        public IActionResult SavedTweets(string userId)
+        {
+            if (userId == null) return this.BadRequest();
+
+            var user = this.userManager.GetById(userId);
+
+            if (user == null) return this.NotFound();
 
             var tweets = this.tweetRepo.GetAllByUserId(userId);
 
-            var model = new SavedTweetsViewModal
+            var model = new SavedTweetsViewModel
             {
+                UserId = user.Id,
+                Username = user.UserName,
                 Tweets = tweets.Select(t => this.mapper.Map<Tweet, TweetViewModel>(t)).ToList()
             };
 
             return View(model);
         }
+
         [HttpGet]
-        public IActionResult SavedTwittersForAdmin(string userId)
+        public IActionResult SavedTwitters(string userId)
         {
+            if (userId == null) return this.BadRequest();
+
+            var user = this.userManager.GetById(userId);
+
+            if (user == null) return this.NotFound();
+
             var twitters = this.twitterRepo.GetAllByUserId(userId);
 
-            var model = new SavedTwittersViewModel
+            var model = new SavedTwittersViewModel()
             {
+                UserId = user.Id,
+                Username = user.UserName,
                 Twitters = twitters.Select(t => this.mapper.Map<Twitter, TwitterViewModel>(t)).ToList()
             };
-            model.UserId = userId;
+
             return View(model);
         }
+
         [HttpPost]
-       
-        public IActionResult DeleteTwitterAdmin([FromQuery]string userId, [FromQuery]string twitterId)
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteTwitter(string userId, string twitterId)
         {
-            
-          
-            if (userId==null)
-            {
-                throw new ArgumentNullException();
-            }
-            if (twitterId==null)
-            {
-                throw new ArgumentNullException();
-            }
+            if (userId == null) return this.BadRequest();
+            if (twitterId == null) return this.BadRequest();
 
-            if (this.twitterRepo.DeleteSingleTwitter(twitterId, userId) > 0)
-            {
-                return new OkResult();
-            }
+            var twitter = this.twitterRepo.GetById(twitterId);
 
-            return new OkResult();
-          
+            if (twitter == null) return this.NotFound();
+
+            this.twitterRepo.Delete(twitter);
+
+            this.unitOfWork.SaveChanges();
+
+            return this.RedirectToAction("SavedTwitters", new { userId });
         }
-    }
 
-    public class SavedTwittersViewModel
-    {
-        public List<TwitterViewModel> Twitters { get; set; }
-        public string UserId { get; set; }
-    }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteTweet(string userId, string tweetId)
+        {
+            if (userId == null) return this.BadRequest();
+            if (tweetId == null) return this.BadRequest();
 
-    public class SavedTweetsViewModal
-    {
-        public List<TweetViewModel> Tweets { get; set; }
+            var tweet = this.tweetRepo.GetById(tweetId);
+
+            if (tweet == null) return this.NotFound();
+
+            this.tweetRepo.Delete(tweet);
+
+            this.unitOfWork.SaveChanges();
+
+            return this.RedirectToAction("SavedTweets", new { userId });
+        }
     }
 }

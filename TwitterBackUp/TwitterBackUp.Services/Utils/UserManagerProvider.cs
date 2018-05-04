@@ -42,5 +42,10 @@ namespace TwitterBackUp.Services.Utils
         {
           return this.userManager.GetUserId(user);
         }
+
+        public ApplicationUser GetById(string id)
+        {
+            return this.userManager.Users.FirstOrDefault(u => u.Id == id);
+        }
     }
 }

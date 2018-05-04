@@ -1,0 +1,83 @@
+﻿@model TwitterBackUp.Areas.Admin.Models.SavedTwittersViewModel
+
+@{
+    Layout = "_Layout";
+}
+
+<h3>Saved Twitters by @Model.Username</h3>
+
+<div class="table-responsive">
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Description</th>
+            <th scope="col">FollowersCount</th>
+            <th scope="col">FriendsCount</th>
+            <th scope="col">TwitterUrl</th>
+            <th scope="col">ScreenName</th>
+            <th scope="col">Username</th>
+            <th scope="col">Options</th>
+        </tr>
+        </thead>
+        <tbody>
+        @{ var counter = 1; }
+
+
+        @foreach (var twitter in Model.Twitters)
+        {
+            <tr>
+                <th scope="row">@counter</th>
+
+                <td>@twitter.Description</td>
+                <td>@twitter.FollowersCount</td>
+                <td>@twitter.FriendsCount</td>
+                <td><a target="_blank" href="@twitter.Url">@twitter.Url</a></td>
+                <td>@twitter.ScreenName</td>
+                <td>@twitter.Username</td>
+                <td>
+                    @*<form asp-action="Details" asp-controller="Twitter" asp-route-id="@twitter.TwitterId">
+                        <button type="submit" class="btn btn-link">Details</button>
+                    </form>*@
+                    <button class="btn btn-link" onclick="toggleDeleteTweetModal('@Model.UserId', '@twitter.TwitterId')">Delete</button>
+                </td>
+            </tr>
+
+            counter++;
+        }
+        </tbody>
+    </table>
+</div>
+
+<div id="delete-tweet-modal" class="modal fade" style="display: none;">
+    <div class="modal-dialog modal-confirm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Are you sure?</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <p>Do you really want to delete thit tweet? This process cannot be undone.</p>
+            </div>
+            <div class="modal-footer">
+                <form asp-area="Admin" asp-action="DeleteTwitter" asp-controller="Home" method="post">
+                    <input id="delete-target-twitter-input" hidden name="twitterId" value="" />
+                    <input id="delete-target-user-twitter-input" hidden name="userId" value="" />
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                    <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        var toggleDeleteTweetModal = function (userId, twitterId) {
+            $("#delete-target-twitter-input").val(twitterId);
+            $("#delete-target-user-twitter-input").val(userId);
+            $("#delete-tweet-modal").modal('toggle');
+        };
+    </script>
+}

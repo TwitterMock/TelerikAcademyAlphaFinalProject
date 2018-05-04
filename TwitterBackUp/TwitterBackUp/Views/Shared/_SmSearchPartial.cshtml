@@ -1,7 +1,7 @@
 ﻿@if (User.Identity.IsAuthenticated)
 {
     <li class="[ visible-xs ]">
-        <form asp-controller="Twitter" asp-action="Search" role="search" method="get">
+        <form asp-area="" asp-controller="Twitter" asp-action="Search" role="search" method="get">
             <div class="[ input-group ]">
                 <input type="text" class="[ form-control ]" name="screenName" placeholder="Search Twitter">
                 <span class="[ input-group-btn ]">
