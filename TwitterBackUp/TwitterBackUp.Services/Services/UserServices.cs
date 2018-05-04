@@ -54,12 +54,14 @@ namespace TwitterBackUp.Services.Services
             {
                 throw new ArgumentException();
             }
+
             var user = await this.userManager.FindByIdAsync(Id);
+
             if (user == null)
             {
                 throw new ArgumentException();
             }
-
+            await this.userManager.DeleteFromRoleAsync(user,"User");
             await this.userManager.AddToRoleAsync(user, "Administrator");
             return "success";
         }
