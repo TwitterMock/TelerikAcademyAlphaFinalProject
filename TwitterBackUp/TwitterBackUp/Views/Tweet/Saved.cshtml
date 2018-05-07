@@ -4,6 +4,14 @@
     Layout = "_Layout";
 }
 
+@if (ViewData.ContainsKey("RetweetMessage"))
+{
+    <br/>
+    <div class="alert alert-info">
+        <strong>Info!</strong> @ViewData["RetweetMessage"]
+    </div>
+}
+
 <h3>Saved tweets</h3>
 
 <div class="table-responsive">

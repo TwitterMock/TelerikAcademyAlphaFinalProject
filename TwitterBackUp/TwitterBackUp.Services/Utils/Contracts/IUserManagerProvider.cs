@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using TwitterBackUp.Data.Identity;
 
-namespace TwitterBackUp.Services.Utils
+namespace TwitterBackUp.Services.Utils.Contracts
 {
     public interface IUserManagerProvider
     {

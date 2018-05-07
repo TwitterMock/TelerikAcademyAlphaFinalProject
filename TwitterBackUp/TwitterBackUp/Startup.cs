@@ -45,26 +45,23 @@ namespace TwitterBackUp
         private void RegisterServices(IServiceCollection services)
         {
             services.AddTransient<IEmailSender, EmailSender>();
+            services.AddTransient<IDbInitializer, DbInitializer>();
 
             services.AddTransient<IAppCredentials, AppCredentials>();
-            services.AddScoped<ITwitterApiProvider, TwitterApiProvider>();
+            services.AddScoped<ITwitterRequestHandler, TwitterRequestHandler>();
             services.AddScoped<IJsonProvider, JsonProvider>();
             services.AddSingleton<IHttpClientWrapper, HttpClientWrapper>();
             services.AddTransient<ITwittersService, TwitterService>();
             services.AddTransient<ITweetService, TweetService>();
             services.AddTransient<IUserServices, UserServices>();
             services.AddTransient<IUserManagerProvider, UserManagerProvider>();
-
-
-
-
-
+            services.AddTransient<ITwitterAuthStringProvider, TwitterAuthStringProvider>();
         }
 
         private void RegisterDataModels(IServiceCollection services)
         {
             services.AddDbContext<TwitterContext>(options =>
-                            options.UseSqlServer(Configuration.GetConnectionString("TwitterBackUp")));
+                options.UseSqlServer(Configuration.GetConnectionString("TwitterBackUp")));
 
             services.AddTransient<ITwitterRepository, TwitterRepository>();
             services.AddTransient<ITweetRepository, TweetRepository>();
@@ -87,6 +84,13 @@ namespace TwitterBackUp
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("Identity")));
 
+            services.AddAuthentication().AddTwitter(twitterOptions =>
+            {
+                twitterOptions.ConsumerKey = Configuration.GetSection("AppCredentials")["ConsumerKey"];
+                twitterOptions.ConsumerSecret = Configuration.GetSection("AppCredentials")["ConsumerSecret"];
+                twitterOptions.SaveTokens = true;
+            });
+
             if (this.Environment.IsDevelopment())
             {
                 services.Configure<IdentityOptions>(options =>
@@ -104,8 +108,10 @@ namespace TwitterBackUp
                 });
             }
         }
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider provider)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider provider,
+            IDbInitializer dbInitializer)
         {
             if (env.IsDevelopment())
             {
@@ -133,7 +139,7 @@ namespace TwitterBackUp
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            Seed.Initialize(provider).Wait();
+            //dbInitializer.Initialize().Wait();
         }
     }
 }

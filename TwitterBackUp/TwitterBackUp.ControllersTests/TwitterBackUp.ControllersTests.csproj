@@ -28,4 +28,8 @@
     <ProjectReference Include="..\TwitterBackUp\TwitterBackUp.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="TwitterControllerTests\" />
+  </ItemGroup>
+
 </Project>

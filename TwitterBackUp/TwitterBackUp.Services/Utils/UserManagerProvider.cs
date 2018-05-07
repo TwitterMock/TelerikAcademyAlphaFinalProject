@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using TwitterBackUp.Data.Identity;
+using TwitterBackUp.Services.Utils.Contracts;
 
 namespace TwitterBackUp.Services.Utils
 {

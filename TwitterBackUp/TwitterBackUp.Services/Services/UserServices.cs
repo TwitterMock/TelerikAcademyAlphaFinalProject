@@ -11,6 +11,7 @@ using TwitterBackUp.DataModels.Repositories.Contracts;
 using TwitterBackUp.DomainModels;
 using TwitterBackUp.Services.Services.Contracts;
 using TwitterBackUp.Services.Utils;
+using TwitterBackUp.Services.Utils.Contracts;
 
 namespace TwitterBackUp.Services.Services
 {
@@ -27,12 +28,9 @@ namespace TwitterBackUp.Services.Services
             this.userManager = userManager;
         }
 
-        public async Task<ICollection<ApplicationUser>> getAllUsers()
+        public ICollection<ApplicationUser> GetAllUsers()
         {
-            var users = await this.userManager.GetUsersInRoleAsync("User");
-
-            return users;
-           
+            return this.userManager.GetAllUsers().ToList();
         }
         public async Task<string> DeleteUserAsync(string Id)
         {

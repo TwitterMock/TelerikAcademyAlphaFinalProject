@@ -13,25 +13,61 @@ using TwitterBackUp.DataModels.Repositories.Contracts;
 using TwitterBackUp.DomainModels;
 using TwitterBackUp.DTO;
 using TwitterBackUp.Services.Utils;
+using TwitterBackUp.Services.Utils.Contracts;
 
 namespace TwitterBackUp.Controllers
 {
     [Authorize]
     public class TweetController : Controller
     {
-        private readonly ITwitterApiProvider twitterApiProvider;
+        private readonly ITwitterRequestHandler twitterRequestHandler;
         private readonly IMapper mapper;
-        private readonly IUserManagerProvider userManager;
+        private readonly UserManager<ApplicationUser> userManager;
         private readonly ITweetService tweetServices;
         private readonly ITweetRepository tweetRepository;
 
-        public TweetController(ITwitterApiProvider twitterApiProvider, IMapper mapper, IUserManagerProvider userManager, ITweetService tweetServices, ITweetRepository tweetRepository)
+        public TweetController(ITwitterRequestHandler twitterRequestHandler, IMapper mapper, UserManager<ApplicationUser> userManager, ITweetService tweetServices, ITweetRepository tweetRepository)
         {
-            this.twitterApiProvider = twitterApiProvider;
+            this.twitterRequestHandler = twitterRequestHandler;
             this.mapper = mapper;
             this.userManager = userManager;
             this.tweetServices = tweetServices;
             this.tweetRepository = tweetRepository;
+        }        
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Retweet(string id)
+        {
+            if (id == null) return this.BadRequest();
+
+            var tweetToRetweet = this.tweetRepository.GetById(id);
+
+            if (tweetToRetweet == null) return NotFound();
+
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            var accessToken = await this.userManager.GetAuthenticationTokenAsync(user, "Twitter", "access_token");
+            var accessTokenSecret = await this.userManager.GetAuthenticationTokenAsync(user, "Twitter", "access_token_secret");
+
+            if (accessToken == null || accessTokenSecret == null)
+            {
+                ViewData["RetweetMessage"] = "Retweet is is only available through twitter account!";
+                return RedirectToAction("Saved");
+            }
+
+            var tweet = await this.twitterRequestHandler.Retweet(id, accessToken, accessTokenSecret);
+
+            if (tweet == null)
+            {
+                ViewData["RetweetMessage"] = "Retweet failed!";
+            }
+            else
+            {
+                ViewData["RetweetMessage"] = "Retweet was successful!";
+            }
+
+            return RedirectToAction("Saved");
         }
 
         [HttpGet]
@@ -40,7 +76,7 @@ namespace TwitterBackUp.Controllers
             if (twitterScreenName == null) return BadRequest();
 
             int count = 20;
-            var tweets = await this.twitterApiProvider.GetTwitterTimelineAsync(twitterScreenName, count);
+            var tweets = await this.twitterRequestHandler.GetTwitterTimelineAsync(twitterScreenName, count);
 
             if (tweets == null) return NotFound();
 
@@ -59,7 +95,7 @@ namespace TwitterBackUp.Controllers
             if (url == null) return BadRequest();
             if (id == null) return BadRequest();
 
-            var task = Task.Run(() => this.twitterApiProvider.GetTweetHtmlAsync(url));
+            var task = this.twitterRequestHandler.GetTweetHtmlAsync(url);
 
             var userId = this.userManager.GetUserId(this.User);
             var tweet = this.tweetRepository.GetSingle(id, userId);
@@ -76,7 +112,7 @@ namespace TwitterBackUp.Controllers
         {
             if (url == null) return BadRequest();
 
-            var html = await this.twitterApiProvider.GetTweetHtmlAsync(url);
+            var html = await this.twitterRequestHandler.GetTweetHtmlAsync(url);
 
             if (html == null) return NotFound();
 
@@ -91,7 +127,7 @@ namespace TwitterBackUp.Controllers
 
             var userId = this.userManager.GetUserId(this.User);
 
-            var tweetDto = await this.twitterApiProvider.GetTweetByIdAsync(id);
+            var tweetDto = await this.twitterRequestHandler.GetTweetByIdAsync(id);
 
             if (tweetDto == null) return NotFound();
 

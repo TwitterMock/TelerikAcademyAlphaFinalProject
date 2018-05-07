@@ -18,27 +18,29 @@ namespace TwitterBackUp.Controllers
     [Authorize]
     public class TwitterController : Controller
     {
-        private readonly IUserManagerProvider userManager;
-        private readonly ITwitterApiProvider twitterApiProvider;
+        private readonly UserManager<ApplicationUser> userManager;
+        private readonly ITwitterRequestHandler twitterRequestHandler;
         private readonly ITwitterRepository twitterRepository;
         private readonly ITwittersService twittersService;
         private readonly IMapper mapper;
 
-        public TwitterController(IUserManagerProvider userManager, ITwitterApiProvider twitterApiProvider, ITwitterRepository twitterRepository, ITwittersService twittersService, IMapper mapper)
+        public TwitterController(UserManager<ApplicationUser> userManager, ITwitterRequestHandler twitterRequestHandler, ITwitterRepository twitterRepository, ITwittersService twittersService, IMapper mapper)
         {
             this.userManager = userManager;
-            this.twitterApiProvider = twitterApiProvider;
+            this.twitterRequestHandler = twitterRequestHandler;
             this.twitterRepository = twitterRepository;
             this.twittersService = twittersService;
             this.mapper = mapper;
         }
+
+        
 
         [HttpGet]
         public async Task<IActionResult> Search(string searchString)
         {
             if (searchString == null) return BadRequest();
 
-            var task = Task.Run(() => this.twitterApiProvider.GetTwitterByScreenNameAsync(searchString));
+            var task = this.twitterRequestHandler.GetTwitterByScreenNameAsync(searchString);
 
             var userId = this.userManager.GetUserId(this.User);
             var twitter = this.twitterRepository.GetSingle(searchString, userId);
@@ -61,7 +63,7 @@ namespace TwitterBackUp.Controllers
         {
             if (category == null) return BadRequest();
 
-            var suggestions = await this.twitterApiProvider.GetSearchSuggestionsByCategoryAsync(category);
+            var suggestions = await this.twitterRequestHandler.GetSearchSuggestionsByCategoryAsync(category);
 
             if (suggestions == null) return NotFound();
 
@@ -74,7 +76,7 @@ namespace TwitterBackUp.Controllers
         {
             if (screenName == null) return BadRequest();
 
-            var twitterDto = await this.twitterApiProvider.GetTwitterByScreenNameAsync(screenName);
+            var twitterDto = await this.twitterRequestHandler.GetTwitterByScreenNameAsync(screenName);
 
             if (twitterDto == null) return NotFound();
             

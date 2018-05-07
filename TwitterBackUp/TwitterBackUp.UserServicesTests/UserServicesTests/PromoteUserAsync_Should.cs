@@ -9,6 +9,7 @@ using TwitterBackUp.Data.Identity;
 using TwitterBackUp.DataModels.Repositories.Contracts;
 using TwitterBackUp.Services.Services;
 using TwitterBackUp.Services.Utils;
+using TwitterBackUp.Services.Utils.Contracts;
 
 namespace TwitterBackUp.ServicesTests.UserServicesTests
 {

@@ -13,6 +13,7 @@ using TwitterBackUp.DomainModels;
 using TwitterBackUp.Models;
 using TwitterBackUp.DataModels.Repositories.Contracts;
 using TwitterBackUp.Services.Utils;
+using TwitterBackUp.Services.Utils.Contracts;
 
 namespace TwitterBackUp.Areas.Admin.Controllers
 {
@@ -40,7 +41,7 @@ namespace TwitterBackUp.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Users()
         {
-            var users = await this.userServices.getAllUsers();
+            var users = this.userServices.GetAllUsers();
 
             var model = users.Select(u => this.mapper.Map<ApplicationUser, UserViewModel>(u)).ToList();
 

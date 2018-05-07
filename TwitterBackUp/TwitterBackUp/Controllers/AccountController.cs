@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -49,7 +50,7 @@ namespace TwitterBackUp.Controllers
         {
             // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
-            
+
             ViewData["ReturnUrl"] = returnUrl;
             return View();
         }
@@ -235,7 +236,6 @@ namespace TwitterBackUp.Controllers
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation("User created a new account with password.");
-                  await  this._userManager.AddToRoleAsync(user,"User");
                     return RedirectToLocal(returnUrl);
                 }
                 AddErrors(result);
@@ -274,14 +274,17 @@ namespace TwitterBackUp.Controllers
                 ErrorMessage = $"Error from external provider: {remoteError}";
                 return RedirectToAction(nameof(Login));
             }
+
             var info = await _signInManager.GetExternalLoginInfoAsync();
+
             if (info == null)
             {
                 return RedirectToAction(nameof(Login));
             }
-
+            
             // Sign in the user with this external login provider if the user already has a login.
             var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
+
             if (result.Succeeded)
             {
                 _logger.LogInformation("User logged in with {Name} provider.", info.LoginProvider);
@@ -316,10 +319,19 @@ namespace TwitterBackUp.Controllers
                 }
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await _userManager.CreateAsync(user);
+
                 if (result.Succeeded)
                 {
-                    result = await _userManager.AddLoginAsync(user, info);
-                    if (result.Succeeded)
+                    var addLoginResult = await _userManager.AddLoginAsync(user, info);
+
+                    var accessToken = info.AuthenticationTokens.Single(t => t.Name == "access_token").Value;
+                    var accessTokenSecret = info.AuthenticationTokens.Single(t => t.Name == "access_token_secret")
+                        .Value;
+
+                    var setAuthTokenResult = await _userManager.SetAuthenticationTokenAsync(user, info.LoginProvider, "access_token", accessToken);
+                    var setAuthTokenSecretResult = await _userManager.SetAuthenticationTokenAsync(user, info.LoginProvider, "access_token_secret", accessTokenSecret);
+
+                    if (addLoginResult.Succeeded && setAuthTokenResult.Succeeded && setAuthTokenSecretResult.Succeeded)
                     {
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);

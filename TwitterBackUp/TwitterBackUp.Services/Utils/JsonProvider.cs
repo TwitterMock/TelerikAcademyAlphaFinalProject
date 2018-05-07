@@ -22,8 +22,10 @@ namespace TwitterBackUp.Services.Utils
         {
             return JArray.Parse(jsonAsString);
         }
-        public string SerializeObject(object someClass) {
-            return JsonConvert.SerializeObject(someClass);
+
+        public string SerializeObject(object obj)
+        {
+            return JsonConvert.SerializeObject(obj);
         }
     }
 }

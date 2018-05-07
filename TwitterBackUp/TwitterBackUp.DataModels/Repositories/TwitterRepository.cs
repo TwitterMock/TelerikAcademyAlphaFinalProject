@@ -39,7 +39,7 @@ namespace TwitterBackUp.DataModels.Repositories
                 twitterIdParam);
         }
 
-        public int DeleteTwittersByUserId(string userId)
+        public int DeleteAllTwittersByUserId(string userId)
         {
             if (userId == null) throw new ArgumentNullException(nameof(userId));
 
