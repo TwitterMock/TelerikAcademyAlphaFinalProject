@@ -139,7 +139,7 @@ namespace TwitterBackUp
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            //dbInitializer.Initialize().Wait();
+            dbInitializer.Initialize().Wait();
         }
     }
 }
