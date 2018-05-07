@@ -54,13 +54,7 @@
     <None Include="wwwroot\images\banner2.svg" />
     <None Include="wwwroot\images\banner3.svg" />
     <None Include="wwwroot\images\banner4.svg" />
-    <None Include="wwwroot\js\delet-user.js" />
-    <None Include="wwwroot\js\delete-single-twitter.js" />
-    <None Include="wwwroot\js\delete-tweet.js" />
     <None Include="wwwroot\js\navbar.js" />
-    <None Include="wwwroot\js\promote-user.js" />
-    <None Include="wwwroot\js\save-tweet.js" />
-    <None Include="wwwroot\js\save-twitter.js" />
     <None Include="wwwroot\js\suggestions.js" />
     <None Include="wwwroot\js\tweet-details.js" />
     <None Include="wwwroot\lib\bootstrap-select\dist\css\bootstrap-select.css" />

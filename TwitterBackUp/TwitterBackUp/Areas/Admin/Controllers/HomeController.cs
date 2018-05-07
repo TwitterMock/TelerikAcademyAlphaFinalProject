@@ -54,23 +54,22 @@ namespace TwitterBackUp.Areas.Admin.Controllers
         {
             if (id == null) return this.BadRequest();
 
+            
             await this.userServices.PromoteUserAsync(id);
 
             return this.RedirectToAction("Users");
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
 
         public async Task<IActionResult> DeleteUser(string Id)
         {
 
-            try
-            {
+           
                 await this.userServices.DeleteUserAsync(Id);
-                return this.Ok();
-            }
-            catch (Exception ex)
-            {
-                return this.BadRequest(ex);
-            }
+
+            return this.RedirectToAction("Users");
+
 
         }
 

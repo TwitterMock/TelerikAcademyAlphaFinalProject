@@ -41,12 +41,17 @@ namespace TwitterBackUp.Services.Utils
         }
         public string GetUserId(ClaimsPrincipal user)
         {
-          return this.userManager.GetUserId(user);
+            return this.userManager.GetUserId(user);
         }
 
         public ApplicationUser GetById(string id)
         {
             return this.userManager.Users.FirstOrDefault(u => u.Id == id);
+
+        }
+        public async Task<IdentityResult> DeleteFromRoleAsync(ApplicationUser user , string role)
+        {
+            return await this.userManager.RemoveFromRoleAsync(user,role);
         }
     }
 }

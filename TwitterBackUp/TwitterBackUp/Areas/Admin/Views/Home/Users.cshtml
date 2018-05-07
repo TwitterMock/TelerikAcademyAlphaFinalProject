@@ -5,45 +5,109 @@
 
 
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">TweetId</th>
-                <th scope="col">UserName/Email</th>
-                <th scope="col">Make Admin</th>
-                <th scope="col">Delete User</th>
-                <th scope="col">View Saved Tweets</th>
-                <th scope="col">View Saved Twitters</th>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">TweetId</th>
+            <th scope="col">UserName/Email</th>
+            <th scope="col">Make Admin</th>
+            <th scope="col">Delete User</th>
+            <th scope="col">View Saved Tweets</th>
+            <th scope="col">View Saved Twitters</th>
 
+
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+
+            {
+            <tr>
+                <td>#@user.Id</td>
+                <td>@user.UserName</td>
+
+
+                <td><a id="@user.Id" class="btn btn-success promoteUser" onclick="togglePromoteTweetModal('@user.Id')" data-name="@user.Id">Promote</a></td>
+
+                <td><a class="btn btn-danger deleteUser @user.Id" onclick="toggleDeleteUserModal('@user.Id')" data-name="@user.Id">Delete</a></td>
+
+                <td>
+                    <form asp-area="Admin" asp-controller="Home" asp-action="SavedTweets" method="get">
+                        <input hidden name="userId" value="@user.Id" />
+                        <button type="submit" class="btn btn-primary">Tweets</button>
+                    </form>
+                </td>
+                <td>
+                    <form asp-area="Admin" asp-controller="Home" asp-action="SavedTwitters" method="get">
+                        <input hidden name="userId" value="@user.Id" />
+                        <button type="submit" class="btn btn-warning">Twitters</button>
+                    </form>
+                </td>
 
 
             </tr>
-        </thead>
-        <tbody>
-            @foreach (var user in Model)
-
-            {
-                <tr>
-                    <td>#@user.Id</td>
-                    <td>@user.UserName</td>
-             
-                    <td><a id="@user.Id"class="btn btn-success promoteUser"data-name="@user.Id">Promote</a></td>
-                    <td><a class="btn btn-danger deleteUser @user.Id" data-name="@user.Id">Delete</a></td>
-                    <td><form asp-area="Admin" asp-controller="Home" asp-action="SavedTweets" method="get">
-                        <input hidden name="userId" value="@user.Id"/>
-                        <button type="submit" class="btn btn-primary">Tweets</button>
-                        </form></td>
-                    <td>
-                        <form asp-area="Admin" asp-controller="Home" asp-action="SavedTwitters" method="get">
-                            <input hidden name="userId" value="@user.Id" />
-                            <button type="submit" class="btn btn-warning">Twitters</button>
-                        </form>
-                    </td>
+        }
+    </tbody>
+</table>
 
 
-                </tr>
-            }
-        </tbody>
-    </table>
+<div id="promote-tweet-modal" class="modal fade" style="display: none;">
+    <div class="modal-dialog modal-confirm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Are you sure?</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <p>Do you really want to promote thit User? This process cannot be undone.</p>
+            </div>
+            <div class="modal-footer">
+                <form asp-area="Admin" asp-action="PromoteUser" asp-controller="Home" method="post">
+                    <input hidden id="promote-target-user-input" name="id" value="" />
+                    <button type="submit" class="btn btn-success">Promote</button>
+                    <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="delete-user-modal" class="modal fade" style="display: none;">
+    <div class="modal-dialog modal-confirm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Are you sure?</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <p>Do you really want to delete thit User? This process cannot be undone.</p>
+            </div>
+            <div class="modal-footer">
+                <form asp-area="Admin" asp-action="DeleteUser" asp-controller="Home" method="post">
+                    <input hidden id="delete-target-user-input" name="Id" value="" />
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                    <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        var togglePromoteTweetModal = function (id) {
+            $("#promote-target-user-input").val(id);
+            $("#promote-tweet-modal").modal('toggle');
+        };
+        var toggleDeleteUserModal = function (Id) {
+            $("#delete-target-user-input").val(Id);
+            $("#delete-user-modal").modal('toggle');
+        };
+    </script>
+
+
+}
 
 

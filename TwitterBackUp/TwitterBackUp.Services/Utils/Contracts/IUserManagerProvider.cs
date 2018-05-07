@@ -16,5 +16,6 @@ namespace TwitterBackUp.Services.Utils.Contracts
         Task<ICollection<ApplicationUser>> GetUsersInRoleAsync(string role);
         string GetUserId(ClaimsPrincipal user);
         ApplicationUser GetById(string id);
+        Task<IdentityResult> DeleteFromRoleAsync(ApplicationUser user, string role);
     }
 }
