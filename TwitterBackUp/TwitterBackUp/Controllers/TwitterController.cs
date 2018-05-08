@@ -33,7 +33,45 @@ namespace TwitterBackUp.Controllers
             this.mapper = mapper;
         }
 
-        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Follow(string screenName)
+        {
+            if (screenName == null) return this.BadRequest();
+
+            var userId = this.userManager.GetUserId(this.User);
+
+            var twitterToFollow = this.twitterRepository.GetSingle(screenName, userId);
+
+            if (twitterToFollow == null) return NotFound();
+
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            var accessToken = await this.userManager.GetAuthenticationTokenAsync(user, "Twitter", "access_token");
+            var accessTokenSecret = await this.userManager.GetAuthenticationTokenAsync(user, "Twitter", "access_token_secret");
+
+            if (accessToken == null || accessTokenSecret == null)
+            {
+                TempData["AlertColor"] = "alert-info";
+                TempData["FollowMessage"] = "Follow is only available through twitter account!";
+                return RedirectToAction("Saved");
+            }
+
+            var twitter = await this.twitterRequestHandler.FollowTwitter(screenName, accessToken, accessTokenSecret);
+
+            if (twitter == null)
+            {
+                TempData["AlertColor"] = "alert-danger";
+                TempData["FollowMessage"] = "Following is not permissible for this twitter account or twitter account is already followed!";
+            }
+            else
+            {
+                TempData["AlertColor"] = "alert-success";
+                TempData["FollowMessage"] = $"You followed {screenName}!";
+            }
+
+            return RedirectToAction("Saved");
+        }
 
         [HttpGet]
         public async Task<IActionResult> Search(string searchString)

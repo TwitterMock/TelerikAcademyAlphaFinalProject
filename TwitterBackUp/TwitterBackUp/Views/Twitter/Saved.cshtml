@@ -4,6 +4,14 @@
     Layout = "_Layout";
 }
 
+@if (TempData.ContainsKey("FollowMessage"))
+{
+    <br />
+    <div class="alert @TempData["AlertColor"]">
+        <strong>Info!</strong> @TempData["FollowMessage"]
+    </div>
+}
+
 <h3>Saved Twitter</h3>
 
 <div class="table-responsive">
@@ -40,6 +48,9 @@
                             <button type="submit" class="btn btn-link">Details</button>
                         </form>
                         <button class="btn btn-link" onclick="toggleDeleteTweetModal('@twitter.TwitterId')">Delete</button>
+                        <form asp-action="Follow" asp-controller="Twitter" asp-route-screenName="@twitter.ScreenName" method="post">
+                            <button type="submit">Follow</button>
+                        </form>
                     </td>
                 </tr>
 

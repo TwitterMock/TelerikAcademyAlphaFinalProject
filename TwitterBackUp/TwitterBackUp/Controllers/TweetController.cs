@@ -41,7 +41,9 @@ namespace TwitterBackUp.Controllers
         {
             if (id == null) return this.BadRequest();
 
-            var tweetToRetweet = this.tweetRepository.GetById(id);
+            var userId = this.userManager.GetUserId(this.User);
+
+            var tweetToRetweet = this.tweetRepository.GetSingle(id, userId);
 
             if (tweetToRetweet == null) return NotFound();
 
