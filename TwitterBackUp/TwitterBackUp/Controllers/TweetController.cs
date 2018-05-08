@@ -52,7 +52,8 @@ namespace TwitterBackUp.Controllers
 
             if (accessToken == null || accessTokenSecret == null)
             {
-                ViewData["RetweetMessage"] = "Retweet is is only available through twitter account!";
+                TempData["AlertColor"] = "alert-info";
+                TempData["RetweetMessage"] = "Retweet is is only available through twitter account!";
                 return RedirectToAction("Saved");
             }
 
@@ -60,11 +61,13 @@ namespace TwitterBackUp.Controllers
 
             if (tweet == null)
             {
-                ViewData["RetweetMessage"] = "Retweet failed!";
+                TempData["AlertColor"] = "alert-danger";
+                TempData["RetweetMessage"] = "Sharing is not permissible for this status or status is already shared!";
             }
             else
             {
-                ViewData["RetweetMessage"] = "Retweet was successful!";
+                TempData["AlertColor"] = "alert-success";
+                TempData["RetweetMessage"] = "Retweet was successful!";
             }
 
             return RedirectToAction("Saved");

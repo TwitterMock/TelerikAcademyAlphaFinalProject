@@ -4,11 +4,11 @@
     Layout = "_Layout";
 }
 
-@if (ViewData.ContainsKey("RetweetMessage"))
+@if (TempData.ContainsKey("RetweetMessage"))
 {
     <br/>
-    <div class="alert alert-info">
-        <strong>Info!</strong> @ViewData["RetweetMessage"]
+    <div class="alert @TempData["AlertColor"]">
+        <strong>Info!</strong> @TempData["RetweetMessage"]
     </div>
 }
 
@@ -48,6 +48,9 @@
                     <td>
                         <button class="btn btn-link" onclick="tweetDetailsModalToggle('@tweet.Url', '@tweet.TweetId')">Details</button>
                         <button class="btn btn-link" onclick="toggleDeleteTweetModal('@tweet.TweetId')">Delete</button>
+                        <form asp-action="Retweet" asp-controller="Tweet" asp-route-id="@tweet.TweetId" method="post">
+                            <button type="submit" class="btn btn-link">Retweet</button>
+                        </form>
                     </td>
                 </tr>
 
