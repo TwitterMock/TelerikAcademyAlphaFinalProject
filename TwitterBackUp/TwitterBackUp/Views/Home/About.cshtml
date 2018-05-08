@@ -1,7 +1,23 @@
-﻿@{
-    ViewData["Title"] = "About";
-}
-<h2>@ViewData["Title"]</h2>
-<h3>@ViewData["Message"]</h3>
+﻿
+<div class="container-fluid team">
 
-<p>Use this area to provide additional information.</p>
+    <!-- Introduction Row -->
+    <h1 class="my-10 about-us">About us</h1>
+    <p class="about-us">Team 6, Telerik Academy Alpha, .NET Track</p>
+
+    <!-- Team Members Row -->
+    <div class="row about-row">
+        <div class="col-lg-3 col-sm-6 text-center mb-4 team-member">
+            <img #id="cheficha"class="rounded img-fluid" src="~/images/stelski.jpg" alt="">
+            <h4 class="member-name">
+                Stilyan Mldenov</h4>
+                
+        </div>
+ 
+        <div class="col-lg-3 col-sm-6 text-center mb-4 team-member">
+            <img class="rounded img-fluid" src="~/images/stefan.jpg" alt="">
+            <h4 class="member-name">Stefan Zhekov</h4>
+           
+        </div>
+    </div>
+</div>
