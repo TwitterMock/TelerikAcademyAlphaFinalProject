@@ -26,6 +26,11 @@
 
 - #### Delete Saved Tweets
 
+- #### Retweet Tweets
+
+- #### Follow Twitter Accounts
+
+
 
 
 ### Search Features:
